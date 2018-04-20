@@ -1,0 +1,29 @@
+PF	Population_filter	Value
+PF	ExAC_HIGH	0.01
+PF	1000g2015aug_all	0.01
+PD	Predictors	Type	Low	Value	Mid	Value	High	Value
+PD	SIFT_pred	A	T	0		1	D	2
+PD	Polyphen2_HDIV_pred	A	B	0	P	1	D	2
+PD	Polyphen2_HVAR_pred	A	B	0	P	1	D	2
+PD	LRT_pred	A	N	0	U	1	D	2
+PD	MutationTaster_pred	A	N	0	D	1	A	2	P	2
+PD	MutationAssessor_pred	A	N	0	L	0	M	1	H	2
+PD	FATHMM_pred	A	T	0		1	D	2
+PD	CADD_phred	N	10	0	20	1	999	2
+PD	MetaSVM_pred	A	T	0		1	D	2
+PD	MetaLR_pred	A	T	0		1	D	2
+PD	GERP++_RS	N	4	0	6	1	999	2
+PD	phyloP20way_mammalian	N	0.9	0	1	1	999	2
+PD	SiPhy_29way_logOdds	N	12	0	16	1	999	2
+VT	Variant_annotation	Exception_variant_types	Value
+VT	VARIANT_TYPE	splicing	50
+VT	VARIANT_TYPE	exonic_stoploss_	60
+VT	VARIANT_TYPE	exonic_stopgain_	60
+VT	VARIANT_TYPE	exonic_frameshift_deletion_	55
+VT	VARIANT_TYPE	exonic_frameshift_insertion_	55
+VT	ExonicFunc.refGene	stoploss	60
+VT	ExonicFunc.refGene	stopgain	60
+VT	ExonicFunc.refGene	frameshift_deletion	55
+VT	ExonicFunc.refGene	frameshift_insertion	55
+GN	Gene Symbol
+GN	Gene.refGene
