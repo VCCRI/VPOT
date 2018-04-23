@@ -3,8 +3,10 @@
 # Prioritise your variants (VCF input)                                                                                                                                             
 #                                                                                                                                                                                  
 # command :                                                                                                                                                                        
-# 			python3 ...../pyth3/VPOT.py 1 ..../test_data/testout_ test_sample_list.txt test_variants_parameters.txt                                                                
-#         files FAM_1.vcf, test_sample_list.txt and test_variants_parameters.txt are supplied in the test_data directory of VPOT download                                          
+# 			python3 ...../pyth3/VPOT.py 1 ..../test_data/testout_ test_VCF_sample_list.txt test_variants_parameters.txt                                                            
+# 			python3 ...../pyth3/VPOT.py 1 ..../test_data/testout_ test_TXT_sample_list.txt test_variants_parameters.txt                                                            
+#         files FAM_1.vcf, test_VCF_sample_list.txt and test_variants_parameters.txt are supplied in the test_data directory of VPOT download                                      
+#         files FAM_1.txt and test_TXT_sample_list.txt are supplied in the test_data directory of VPOT download                                                                    
 #                                                                                                                                                                                  
 # result : an output file will be created                                                                                                                                          
 #          testout_final_output_file_XXXXXXXXXX.txt                                                                                                                                
