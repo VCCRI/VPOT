@@ -1,5 +1,5 @@
 # VPOT
-VPOT - Variant Prioritisation Ordering Tool. 
+VPOT - Variant Prioritisation Ordering Tool. (using Python3)
 
 VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR annotated VCF files. VPOT provides three functions for the purpose of speeding up variant discovery.
 * 1 - priority tool
