@@ -108,7 +108,7 @@ def create_annotation_parameter(first_inputfn): #
 	else : # VCF input
 		VPOT_1_2_TXT.setup_default_pred_values(first_inputfn) # now setup data from the 1st sample file
 #		#
-	param_file = open(VPOT_conf.parameter_file,'w') #
+	param_file = open(VPOT_conf.parameter_file,'w',encoding="utf-8") #
 #	
 	param_file.write(annotation_header1) #
 	for MAF in VPOT_conf.pop_array : 
@@ -151,7 +151,7 @@ def read_parameter_file(): #
 	print (info_msg2) # parameter file supplied then use it
 #	print VPOT_conf.parameter_file #
 	#
-	with open(VPOT_conf.parameter_file,'r') as parm_fn : #
+	with open(VPOT_conf.parameter_file,'r',encoding="utf-8") as parm_fn : #
 		for line in parm_fn: #
 			this_line=re.split('\t|\n|\r|=|;',line) #
 #			print line 
@@ -179,7 +179,7 @@ def create_final_output_file(): #
 #
 	print ("final_output_file: ",VPOT_conf.final_output_file) #
 #
-	with open(VPOT_conf.final_output_file,'w') as ffile : # 
+	with open(VPOT_conf.final_output_file,'w',encoding="utf-8") as ffile : # 
 		outline1 = "Ranking"+tab+"Priority_Score"+tab+VPOT_conf.header_ln+nl #
 		ffile.write(outline1) # write new header line with new sample ID to the new combined samples output file
 #
@@ -189,7 +189,7 @@ def create_final_output_file(): #
 	subprocess.call(COMMAND, shell=True) #
 #
 	priority_score=0 # initialise score 
-	with open(tmp_final_output_file,'r') as variants_file, open(VPOT_conf.final_output_file,'a') as score_file : # 
+	with open(tmp_final_output_file,'r',encoding="utf-8") as variants_file, open(VPOT_conf.final_output_file,'a',encoding="utf-8") as score_file : # 
 		for line1 in variants_file: # work each line of new sample vcf file 
 			line_parts=re.split('\t|\n|\r',line1) # split the variant up
 #			print "line part 0 : ",line_parts #
@@ -240,7 +240,7 @@ def main(): #
 	#
 	#
 	print ("Samples input files : ",VPOT_conf.input_file) #
-	with open(VPOT_conf.input_file,'r') as input: # 
+	with open(VPOT_conf.input_file,'r',encoding="utf-8") as input: # 
 		file1=input.readline() #
 		this_file=re.split('\t|\n|\r',file1) # split into file location and sample id
 		filename=this_file[0].split('.') # split the file name to determine if VCF or TXT file 

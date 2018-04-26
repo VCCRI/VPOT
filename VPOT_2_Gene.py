@@ -63,7 +63,7 @@ def filter_the_variants(): #
 #
 #	print "filter_the_variants(): " #
 	#
-	with open(VPOT_conf.input_file,'r') as variants_file, open(VPOT_conf.final_output_file,'w') as filtered_file : # 
+	with open(VPOT_conf.input_file,'r',encoding="utf-8") as variants_file, open(VPOT_conf.final_output_file,'w',encoding="utf-8") as filtered_file : # 
 		for line1 in variants_file: # work each line of new sample vcf file 
 			write_it=False # initialise score 
 			line_parts=re.split('\t|\n|\r',line1) # split the variant up
@@ -92,7 +92,7 @@ def filter_variants_by_GN(INFO_details): #
 #	print "filter_variants_by_GN(INFO_details): " #
 #
 	val=False #
-	with open(VPOT_conf.gene_list,'r') as gene_file : # 
+	with open(VPOT_conf.gene_list,'r',encoding="utf-8") as gene_file : # 
 		for gene_id in gene_file: # work each line of new sample vcf file 
 			gene_id1=gene_id.rstrip() #
 #			print "Gene ID",gene_id1,"in",INFO1[i+1]  # move to pred_array slot

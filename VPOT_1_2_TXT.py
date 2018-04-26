@@ -22,7 +22,7 @@ def parameters(input_file):
 #
 	print ("VPOT_txt.parameters: ") #
 	#
-	with open(input_file,'r') as first_fn : #
+	with open(input_file,'r',encoding="utf-8") as first_fn : #
 		predictors=False #
 		line=first_fn.readline() # for txt file the first line contains all the annotation elements header
 		this_line=re.split('\t',line) #
@@ -54,7 +54,7 @@ def setup_default_pred_values(file1): #
 #
 	print ("VPOT_txt.setup_default_pred_values: ") #
 ##
-	with open(file1,'r') as first_fn : #
+	with open(file1,'r',encoding="utf-8") as first_fn : #
 		for line in first_fn: #
 			this_line=re.split('\t',line) #
 #			print line 
@@ -120,7 +120,7 @@ def read_variant_source_file(): #
 #	print info_msg2 # parameter file supplied then use it
 	print (VPOT_conf.parameter_file) #
 	#
-	with open(VPOT_conf.input_file,'r') as input: # 
+	with open(VPOT_conf.input_file,'r',encoding="utf-8") as input: # 
 		for line in input: # work each input vcf file 
 			this_line=re.split('\t|\n|\r',line) # split into file location and sample id
 #			print this_line #
@@ -168,7 +168,7 @@ def setup_for_this_src_file(file_line): #
 	VPOT_conf.FORMAT_loc=-1 #
 	VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1] # location of VCF format codes for sample 
 	#
-	with open(file_line[0],'r') as source_vcf : # open the sample input file
+	with open(file_line[0],'r',encoding="utf-8") as source_vcf : # open the sample input file
 		for src_line in source_vcf: # work each line of source vcf file 
 			src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 #			print "src_line : ",src_line1 #
@@ -219,8 +219,8 @@ def work_this_src_file(file_line): #
 ##
 #	print "work_this_src_file(file_line): " #
 #	print working_file1 #
-	wrkf1=open(VPOT_conf.working_file1,'w') # 
-	with open(file_line[0],'r') as source_vcf : #
+	wrkf1=open(VPOT_conf.working_file1,'w',encoding="utf-8") # 
+	with open(file_line[0],'r',encoding="utf-8") as source_vcf : #
 		for src_line in source_vcf: # work each line of source vcf file 
 			src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 			if ("#CHROM" not in src_line1[0]): # skip the header lines
@@ -327,7 +327,7 @@ def score_the_variants(): #
 #	print "score_the_variants(): " #
 	#
 	header1=re.split('\t|\n|\r',VPOT_conf.header_ln) # split into file location and sample id
-	with open(VPOT_conf.full_file1,'r') as variants_file, open(VPOT_conf.working_file1,'w') as score_file : # 
+	with open(VPOT_conf.full_file1,'r',encoding="utf-8") as variants_file, open(VPOT_conf.working_file1,'w',encoding="utf-8") as score_file : # 
 		for line1 in variants_file: # work each line of new sample vcf file 
 			priority_score=0 # initialise score 
 			line_parts=re.split('\t|\n|\r',line1) # split the variant up

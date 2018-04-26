@@ -146,7 +146,7 @@ def update_existing_variants(work_file,value): #
 #
 #	print "update_existing_variants(): " #
 ##
-	with open(work_file,'r') as samples_file, open(full_file2,'w') as final_file : # 
+	with open(work_file,'r',encoding="utf-8") as samples_file, open(full_file2,'w',encoding="utf-8") as final_file : # 
 #ed		outline1 = header_ln+nl #
 #		print "header line )",outline1 #
 #		print "test blank new variant line )",outline2 #
@@ -195,7 +195,7 @@ def incorporate_this_src_into_full_file(): #
 	copyfile(sort_file2,full_file1) # copy back
 #
 	#	print working_file1 #
-	with open(working_file1,'r') as new_sample, open(full_file1,'r') as current_sample, open(full_file2,'w') as final_file : # 
+	with open(working_file1,'r',encoding="utf-8") as new_sample, open(full_file1,'r',encoding="utf-8") as current_sample, open(full_file2,'w',encoding="utf-8") as final_file : # 
 #ed		outline1 = header_ln+nl #
 		variant_line=re.split('\t|\n',blank_variant_ln) # split up the blank variant line 
 #ed		final_file.write(outline1) # write new header line with new sample ID to the new combined samples output file

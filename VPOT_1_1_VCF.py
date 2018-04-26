@@ -20,7 +20,7 @@ def parameters(input_file):
 	print ("VPOT_VCF.parameters: ") #
 #
 	#
-	with open(input_file,'r') as first_fn : #
+	with open(input_file,'r',encoding="utf-8") as first_fn : #
 		predictors=False #
 		while True:
 			line=first_fn.readline() # go thru the INFO annotation section of the VCF header
@@ -49,7 +49,7 @@ def setup_default_pred_values(file1): #
 #
 	print ("VPOT_VCF.setup_default_pred_values: ") #
 ##
-	with open(file1,'r') as first_fn : #
+	with open(file1,'r',encoding="utf-8") as first_fn : #
 		for line in first_fn: #
 			this_line=re.split('\t|\n|\r|=|;',line) #
 #			print line 
@@ -112,7 +112,7 @@ def read_variant_source_file(): #
 #	print info_msg2 # parameter file supplied then use it
 	print (VPOT_conf.parameter_file) #
 	#
-	with open(VPOT_conf.input_file,'r') as input: # 
+	with open(VPOT_conf.input_file,'r',encoding="utf-8") as input: # 
 		for line in input: # work each input vcf file 
 			this_line=re.split('\t|\n|\r',line) # split into file location and sample id
 #			print this_line #
@@ -161,7 +161,7 @@ def setup_for_this_src_file(file_line): #
 	VPOT_conf.FORMAT_loc=-1 #
 	VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1] # location of VCF format codes for sample 
 	#
-	with open(file_line[0],'r') as source_vcf : #
+	with open(file_line[0],'r', encoding="utf-8") as source_vcf : #
 		for src_line in source_vcf: # work each line of source vcf file 
 			src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 			if ("##" not in src_line1[0]): #
@@ -190,13 +190,13 @@ def setup_for_this_src_file(file_line): #
 					FORMAT1=re.split(':',src_line1[VPOT_conf.FORMAT_loc]) # split into file location and sample id
 #					print "format : ",FORMAT1 #
 					for i, content in enumerate(FORMAT1): # return the value and index number of each item in the line array 
-#						print "content-",content,"/",i				#
+						print ("content-",content,"/",i)				#
 						for j in range(len(VPOT_conf.sample_coverage)): #
-#							print sample_coverage[j],"/",content #
+							print (VPOT_conf.sample_coverage[j],"/",content) #
 							if (content == VPOT_conf.sample_coverage[j]) : 	# look for FORMAT field 
 								VPOT_conf.sample_coverage_loc[j]=i 			# save sample location	
 								break #
-#					print "coverage : ",VPOT_conf.sample_coverage_loc #
+					print ("coverage : ",VPOT_conf.sample_coverage_loc) #
 					source_vcf.close() # finish with source vcf file 
 					return 0 # have setup all location values - ok to go back
 #							print INFO1 #
@@ -214,8 +214,8 @@ def work_this_src_file(file_line): #
 ##
 #	print "work_this_src_file(file_line): " #
 #	print working_file1 #
-	wrkf1=open(VPOT_conf.working_file1,'w') # 
-	with open(file_line[0],'r') as source_vcf : #
+	wrkf1=open(VPOT_conf.working_file1,'w', encoding="utf-8") # 
+	with open(file_line[0],'r', encoding="utf-8") as source_vcf : #
 		for src_line in source_vcf: # work each line of source vcf file 
 			src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 			if ("#" not in src_line1[0]): # skip the header lines
@@ -226,11 +226,11 @@ def work_this_src_file(file_line): #
 #				print sample_coverage_loc[1],"/", sample_coverage_loc[2] #
 #				print SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]],"/", SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] #
 # have a coverage check on the sample 
-#				print "MaxCOverage : ",VPOT_conf.Maxcoverage #
+#				print ("MaxCOverage : ",VPOT_conf.Maxcoverage) #
 #				print "coverage_loc : ",VPOT_conf.sample_coverage_loc #
 #				print SAMPLE1 
-#				print "NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]],"/","." 
-#				print "DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] 
+				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]],"/","." )
+				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
 				if (((VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] == -1) or 
 					((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) >= int(VPOT_conf.Maxcoverage)))) and  #  NR
 					((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
@@ -240,12 +240,13 @@ def work_this_src_file(file_line): #
 #					((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
 #					((SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] != ".") and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= int(VPOT_conf.Maxcoverage))))) : # DP
 #					print "add" #
-					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[0]]) # get the genotype fields
+#					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[0]]) # get the genotype fields
+					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
 #				print GT_values #
 					for j in range(len(GT_values)) : #
-#					print GT_values[j] #
+#					print (GT_values[j]) #
 						if ( GT_values[j] not in VPOT_conf.Non_alt_GT_types ) : # when filtering for QC value 
-#						print "keep this variant1" #
+#						print ("keep this variant1") #
 							check_this_variant(src_line, wrkf1) #
 							break # get out of for loop (GT_values)
 #				else : #  NR
@@ -332,7 +333,7 @@ def score_the_variants(): #
 ##
 #	print "score_the_variants(): " #
 	#
-	with open(VPOT_conf.full_file1,'r') as variants_file, open(VPOT_conf.working_file1,'w') as score_file : # 
+	with open(VPOT_conf.full_file1,'r',encoding="utf-8") as variants_file, open(VPOT_conf.working_file1,'w',encoding="utf-8") as score_file : # 
 		for line1 in variants_file: # work each line of new sample vcf file 
 			priority_score=0 # initialise score 
 			line_parts=re.split('\t|\n|\r',line1) # split the variant up

@@ -57,7 +57,7 @@ def setup_samples(): #
 #
 #	print "setup_samples(): " #
 #
-	with open(VPOT_conf.selection_list,'r') as select_input: # 
+	with open(VPOT_conf.selection_list,'r',encoding="utf-8") as select_input: # 
 		for line1 in select_input: # work each line of new sample vcf file 
 			this_line=re.split('\t|\n|\r',line1,7) # split into sample id and status (1/0)
 			this_line[6]=0 # 
@@ -83,7 +83,7 @@ def filter_the_variants(): #
 #
 #	print "filter_the_variants(): " #
 	#
-	with open(VPOT_conf.input_file,'r') as variants_file, open(VPOT_conf.final_output_file,'w') as filtered_file : # 
+	with open(VPOT_conf.input_file,'r',encoding="utf-8") as variants_file, open(VPOT_conf.final_output_file,'w',encoding="utf-8") as filtered_file : # 
 		for line1 in variants_file: # work each line of new sample vcf file 
 			write_it=False # initialise score 
 			line_parts=re.split('\t|\n|\r',line1) # split the variant up
