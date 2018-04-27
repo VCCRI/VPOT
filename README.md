@@ -10,13 +10,13 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  
        python3 VPOT.py  -  will return a help screen                                                                                 
        
-       python3 VPOT.py 1 (location for output file+prefix) (file of input VCF files)          - will create a default parameter file
+       python3 VPOT.py priority <location for output file+prefix> <file of input VCF files> - will create a default Prioritisation Parameter File, PPF
        
-       python3 VPOT.py 1 (location for output file+prefix) (file of input VCF files) (parameter file)
+       python3 VPOT.py prioirty <location for output file+prefix> <file of input VCF files> <PPF>
        
-       python3 VPOT.py 2 (location for output file+prefix) (VPOT prioritiy output) (gene list)
+       python3 VPOT.py genef <location for output file+prefix> <VPOT prioritiy output> <gene list>
        
-       python3 VPOT.py 3 (location for output file+prefix) (VPOT prioritiy output) (sample selection file)
+       python3 VPOT.py familyf <location for output file+prefix> <VPOT prioritiy output> <sample selection file>
                                                                                                                                                                                          
        <file of input VCF files> format (one sample per line):                                                                                                                    
           location of VCF file<tab>sample id                                                                                                                                      
@@ -36,9 +36,9 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
                      - for above case, a variant is maintain if it is found in PATIENT1 and not in PATIENT2.                                                                             
                      - Note: if there are more samples than the ones stated, then they do not influence the variant selection.                                                
                                                                                                                                                                                   
-## SETTING UP THE VPOT PARAMETER FILE FOR OPTION 1                                                                                                                                  
+## SETTING UP THE VPOT PARAMETER FILE FOR OPTION PRIORITY                                                                                                                                  
 
-### 1. Setting up PF population filter in parameter file (PF	Population_filter	Value)
+### 1. Setting up PF population filter in parameter file
 
  To provide population frequency threshold for selection of variants.
 
@@ -50,7 +50,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  Multiple PF lines can be provide if you want to filter based on a combination of population frequency datasets. Note it is a AND logical approach, so the return variant would have
  met all the PF criteria. 
 
-### 2. Setting up PD predictors in parameter file (PD	Predictors	Type	Low	Value	Mid	Value	High	Value)
+### 2. Setting up PD predictors in parameter file 
 
  To provide a point value to the various categories a predictor might return for a variant VPOT allow the user to determine the point assigned to a specific score or prediction.
  VPOT allows for as many breakdown/levels of differentiation as the user wants or the predictor needs.
@@ -121,7 +121,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  
         x > Sn+1 then variant is assigned Vn+1 
 
-### 3. Setting up VT annotation in parameter file (VT	Variant_annotation	Exception_variant_types	Value)
+### 3. Setting up VT annotation in parameter file 
 
  To provide a point value to certain variant types that might not be well covered by predictors, eg STOPGAIN/SPLICING. 
  This allow highlighting of vertain variant types.
@@ -134,7 +134,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  Multiple VT lines can be provided to provide different stratification of variants 
 
 
-### 4. Setting up GN gene symbol in parameter file (GN	Gene Symbol)
+### 4. Setting up GN gene symbol in parameter file 
 
 
  To provide the annotation field that contains the gene the variant is located in. 
@@ -145,11 +145,11 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 
  ONLY one field should be provided for this parameter option.
 
-## SETTING UP THE GENE SELECTION FILE FOR OPTION 2                                                                                                                                
+## SETTING UP THE GENE SELECTION FILE FOR OPTION GENEF                                                                                                                                
                                             
  The gene selection is based on a text file with a single gene name each line.
                                                                          
-## SETTING UP THE SAMPLE SELECTION FILE FOR OPTION 3                                                                                                                                
+## SETTING UP THE SAMPLE SELECTION FILE FOR OPTION FAMILYF                                                                                                                                
                                             
  The sample selection is based on the pedigree ped file format, where the affected column is used to determine the selection of a variant.                                        
                                             
