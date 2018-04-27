@@ -16,7 +16,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
        
        python3 VPOT.py genef <location for output file+prefix> <VPOT prioritiy output> <gene list>
        
-       python3 VPOT.py familyf <location for output file+prefix> <VPOT prioritiy output> <sample selection file>
+       python3 VPOT.py samplef <location for output file+prefix> <VPOT prioritiy output> <sample selection file>
                                                                                                                                                                                          
        <file of input VCF files> format (one sample per line):                                                                                                                    
           location of VCF file<tab>sample id                                                                                                                                      
@@ -149,7 +149,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
                                             
  The gene selection is based on a text file with a single gene name each line.
                                                                          
-## SETTING UP THE SAMPLE SELECTION FILE FOR OPTION FAMILYF                                                                                                                                
+## SETTING UP THE SAMPLE SELECTION FILE FOR OPTION SAMPLEF                                                                                                                                
                                             
  The sample selection is based on the pedigree ped file format, where the affected column is used to determine the selection of a variant.                                        
                                             
