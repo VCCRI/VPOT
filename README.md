@@ -33,22 +33,8 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
                                                                                                                                                                                          
        <file of input VCF files> format (one sample per line):                                                                                                                    
           location of VCF file<tab>sample id                                                                                                                                      
-          eg: test_input/data/sample1.vcf	S01                                                                                                                                    
-                                                                                                                                                                                  
-       <gene list> format  (one gene per line):                                                                                                                                   
-          eg: ACTC1                                                                                                                                                               
-                                                                                                                                                                                  
-       <sample selection file > format (based on pedigree ped file format):                                                                                                       
-          eg  FAM_1	PATIENT1  PATIENT2  PATIENT3	1	2
-              FAM_1	PATIENT2  ND1	      ND2     	1	1
-                                                                                                                           
-             file of samples_IDs with corresponding include/exclude setting based on the affected column in the ped file                                                          
-                     -  PATIENT1  2  = affected status (variant IS in sample PATIENT)                                                                                                                  
-                     -  PATIENT2  1  = unaffected status (variant IS NOT in sample PATIENT)                                                                                                              
-                     - combination of these values will determine if a variant is maintained or not                                                                               
-                     - for above case, a variant is maintain if it is found in PATIENT1 and not in PATIENT2.                                                                             
-                     - Note: if there are more samples than the ones stated, then they do not influence the variant selection.                                                
-                                                                                                                                                                                  
+          eg: test_input/data/sample1.vcf	S01                     
+                                                                                                                                                                                                                  
 ## SETTING UP THE VPOT PARAMETER FILE FOR OPTION PRIORITY                                                                                                                                  
 
 ### 1. Setting up PF population filter in parameter file
@@ -149,6 +135,9 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 ## SETTING UP THE GENE SELECTION FILE FOR OPTION GENEF                                                                                                                                
                                             
  The gene selection is based on a text file with a single gene name each line.
+  
+ FORMAT :  (one gene per line):                                                                                                         
+ eg: ACTC1                                                                                                                       
                                                                          
 ## SETTING UP THE SAMPLE SELECTION FILE FOR OPTION SAMPLEF                                                                                                                                
                                             
