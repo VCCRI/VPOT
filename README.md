@@ -114,35 +114,15 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
   10 < x < 20 | 1
   20 < x | 2 
   
- where x < 10 = 0
- 
-       10 < x < 20 = 1
-       
-       x > 20 = 2
-
- so the parameter line will contain
+  so the parameter line can contain
  S1|V1|S2|V2|S3|V3|.......|Sn|Vn|Sn+1|Vn+1
  
  where S = the predictor score
  
        V = VPOT value
        
-      Sn = Sn+1
-      
- and the method is :
+      Sn = Sn+1   
  
-        x < S1 then variant is assigned V1 
-        
-   S1 < x < S2 then variant is assigned V2 
-   
-   S2 < x < S3 then variant is assigned V3 
-   
-  ....... 
-  
- Sn-1 < x < Sn then variant is assigned Vn 
- 
-        x > Sn+1 then variant is assigned Vn+1 
-
 ### 3. Setting up VT annotation in parameter file 
 
  To provide a point value to certain variant types that might not be well covered by predictors, eg STOPGAIN/SPLICING. 
