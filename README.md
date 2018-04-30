@@ -20,9 +20,8 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 * all done!
 
 ### Usage 
- Entry :                                                                                                                               
- 
-       python3 VPOT.py  -  will return a help screen                                                                                 
+                                                                                                                      
+        python3 VPOT.py  -  will return a help screen                                                                                 
        
        python3 VPOT.py priority <location for output file+prefix> <file of input VCF files> - will create a default Prioritisation Parameter File, PPF
        
