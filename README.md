@@ -7,10 +7,17 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 * samplef   - samples filtering
 
 ### Requirements
-
+* Python 3.6.+ and NumPy
+* Linux environment, or access to linux via ssh
 
 ### Installation
+* Navigate to desired install directory and clone this repository.
 
+ `git clone https://github.com/VCCRI/VPOT.git VPOT`
+
+* Ensure that requirements are met. 
+* Test that VPOT is working using the test_data and tutorial provided.
+* all done!
 
 ### Usage 
  Entry :                                                                                                                               
