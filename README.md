@@ -102,10 +102,10 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  Example :
  CADD predicts an alteration with a score range from 0-30+ :
 
- CADD > 20 has been recommend by some papers as a good pathogenicity threshold
- CADD between 10 and 20 - median value for all possible canonical splice site changes and non-synonymous variants, as stated by CADD 
- CADD < 10 - probably harmless 
-
+ * CADD < 10 - probably harmless 
+ * CADD between 10 and 20 - median value for all possible canonical splice site changes and non-synonymous variants, as stated by CADD 
+ * CADD > 20 has been recommend by some papers as a good pathogenicity threshold
+ 
  Example :   PD	CADD_phred	N	10	0	20	1	20	2
  
  | Predictor Value | VPOT Value |
