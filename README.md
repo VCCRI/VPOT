@@ -108,6 +108,12 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 
  Example :   PD	CADD_phred	N	10	0	20	1	20	2
  
+ | Predictor Value | VPOT Value |
+ |:---------------:|:----------:|
+  x < 10 | 0
+  10 < x < 20 | 1
+  20 < x | 2 
+  
  where x < 10 = 0
  
        10 < x < 20 = 1
