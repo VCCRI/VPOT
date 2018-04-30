@@ -37,7 +37,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
                                                                                                                                                                                                                   
 ## SETTING UP THE VPOT PARAMETER FILE FOR OPTION PRIORITY                                                                                                                                  
 
-### 1. Setting up PF population filter in parameter file
+#### 1. Setting up PF population filter in parameter file
 
  To provide population frequency threshold for selection of variants.
 
@@ -49,7 +49,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  Multiple PF lines can be provide if you want to filter based on a combination of population frequency datasets. Note it is a AND logical approach, so the return variant would have
  met all the PF criteria. 
 
-### 2. Setting up PD predictors in parameter file 
+#### 2. Setting up PD predictors in parameter file 
 
  To provide a point value to the various categories a predictor might return for a variant VPOT allow the user to determine the point assigned to a specific score or prediction.
  VPOT allows for as many breakdown/levels of differentiation as the user wants or the predictor needs.
@@ -108,7 +108,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
        
       Sn = Sn+1   
  
-### 3. Setting up VT annotation in parameter file 
+#### 3. Setting up VT annotation in parameter file 
 
  To provide a point value to certain variant types that might not be well covered by predictors, eg STOPGAIN/SPLICING. 
  This allow highlighting of vertain variant types.
@@ -121,7 +121,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  Multiple VT lines can be provided to provide different stratification of variants 
 
 
-### 4. Setting up GN gene symbol in parameter file 
+#### 4. Setting up GN gene symbol in parameter file 
 
 
  To provide the annotation field that contains the gene the variant is located in. 
