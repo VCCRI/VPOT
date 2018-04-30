@@ -2,7 +2,7 @@ PF	Population_filter	Value
 PF	C_AF_TOT	0.01
 PF	ExAC_ALL	0.01
 PF	1000g2015aug_all	0.01
-PD	Predictors	Type	Low	Value	Mid	Value	High	Value
+PD	Predictors	Type	PD_Value	VPOT_Value	PD_Value	VPOT_Value	PD_Value	VPOT_Value
 PD	SIFT_pred	A	T	0	D	2	-999	2	
 PD	Polyphen2_HDIV_pred	A	B	0	P	1	D	2	-999	2
 PD	Polyphen2_HVAR_pred	A	B	0	P	1	D	2	-999	2
