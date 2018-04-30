@@ -190,13 +190,13 @@ def setup_for_this_src_file(file_line): #
 					FORMAT1=re.split(':',src_line1[VPOT_conf.FORMAT_loc]) # split into file location and sample id
 #					print "format : ",FORMAT1 #
 					for i, content in enumerate(FORMAT1): # return the value and index number of each item in the line array 
-						print ("content-",content,"/",i)				#
+#						print ("content-",content,"/",i)				#
 						for j in range(len(VPOT_conf.sample_coverage)): #
-							print (VPOT_conf.sample_coverage[j],"/",content) #
+#							print (VPOT_conf.sample_coverage[j],"/",content) #
 							if (content == VPOT_conf.sample_coverage[j]) : 	# look for FORMAT field 
 								VPOT_conf.sample_coverage_loc[j]=i 			# save sample location	
 								break #
-					print ("coverage : ",VPOT_conf.sample_coverage_loc) #
+#					print ("coverage : ",VPOT_conf.sample_coverage_loc) #
 					source_vcf.close() # finish with source vcf file 
 					return 0 # have setup all location values - ok to go back
 #							print INFO1 #
@@ -229,8 +229,8 @@ def work_this_src_file(file_line): #
 #				print ("MaxCOverage : ",VPOT_conf.Maxcoverage) #
 #				print "coverage_loc : ",VPOT_conf.sample_coverage_loc #
 #				print SAMPLE1 
-				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]],"/","." )
-				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
+#				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]],"/","." )
+#				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
 				if (((VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] == -1) or 
 					((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) >= int(VPOT_conf.Maxcoverage)))) and  #  NR
 					((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 

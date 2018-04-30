@@ -23,9 +23,9 @@ Maxcoverage=0 # read coverage of sample must be equal or greater then this to in
 Non_alt_GT_types = ["0","."] #
 # for main VPOT prioritisation option 1
 info_opt0_msg1=["#tools=$1 # which tool to use -   ",
-"#           1 - priority tool     ",
-"#           2 - gene filter       ",
-"#           3 - variant filtering ",
+"#           1: priority - priority tool     ",
+"#           2: genef - gene filter       ",
+"#           3: samplef - variant filtering ",
 "#inpt1=$2 # for tool ",
 "#           1+2+3 - location for output file+prefix ",
 "#              format -  /short/a32/exi569/WGS_model/variant_prioritisation_tool/output/B1",
@@ -95,13 +95,13 @@ def main(): #
 #		print "no good" #
 		return #
 #
-	if (VPOT_conf.VPOT_option=="1"): #
+	if (VPOT_conf.VPOT_option=="priority"): #
 #		print ("opt1") 
 		VPOT_1_prioritise.main() #
-	elif (VPOT_conf.VPOT_option=="2"): #
+	elif (VPOT_conf.VPOT_option=="genef"): #
 #		print ("opt2") 
 		VPOT_2_Gene.main() #
-	elif (VPOT_conf.VPOT_option=="3"): #
+	elif (VPOT_conf.VPOT_option=="samplef"): #
 #		print ("opt3") 
 		VPOT_3_sample_selection.main() #
 		
