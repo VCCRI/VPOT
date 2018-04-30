@@ -34,8 +34,10 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 ## see TUTORIAL in the test_data directory for test examples of each function and also test files.
 
 ## SETTING UP THE SAMPLES INPUT FILE  
- FORMAT : (one sample per line):                                                                                                                    
- location of VCF file/text file&lt;tab>sample id                                                                                                                                      
+ FORMAT : (one sample per line):         
+ 
+ location of VCF file/text file&lt;tab>sample id                                                                                        
+ 
  eg: test_input/data/sample1.vcf	S01      
 ## SETTING UP THE VPOT PARAMETER FILE FOR OPTION PRIORITY                                                                                                                                  
 
@@ -139,6 +141,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  The gene selection is based on a text file with a single gene name each line.
   
  FORMAT :  (one gene per line):                                                                                                         
+ 
  eg: ACTC1                                                                                                                       
                                                                          
 ## SETTING UP THE SAMPLE SELECTION FILE FOR OPTION SAMPLEF                                                                                                                                
@@ -160,6 +163,5 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
                      
                      -  PATIENT2  1  = unaffected (variant IS NOT in sample PATIENT2)
                      
- so a combination of these values will determine if a variant is maintained or not                                                                              
- for the above case, a variant is maintain if it is found in PATIENT1 and not in PATIENT2.                                                                             
+ so a combination of these values will determine if a variant is maintained or not for the above case, a variant is maintain if it is found in PATIENT1 and not in PATIENT2.                                                                             
  Note: if there are more samples than the ones stated, then they do not influence the variant selection.                                                                          
