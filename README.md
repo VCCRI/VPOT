@@ -82,10 +82,10 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  Example :
  MutationTaster predicts an alteration as one of four possible types:
 
- disease causing - i.e. probably deleterious - D 
- disease causing automatic - i.e. known to be deleterious, see section dbSNP / TGP / ClinVar / HGMD for details- A
- polymorphism - i.e. probably harmless - P 
- polymorphism automatic - i.e. known to be harmless, see section dbSNP / TGP / ClinVar / HGMD for details N
+ * disease causing - i.e. probably deleterious - D 
+ * disease causing automatic - i.e. known to be deleterious, see section dbSNP / TGP / ClinVar / HGMD for details- A
+ * polymorphism - i.e. probably harmless - P 
+ * polymorphism automatic - i.e. known to be harmless, see section dbSNP / TGP / ClinVar / HGMD for details N
 
  PD	MutationTaster_pred	A	N	0	P	0	D	1	A	2	
  
