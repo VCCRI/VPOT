@@ -34,7 +34,8 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
        <file of input VCF files> format (one sample per line):                                                                                                                    
           location of VCF file<tab>sample id                                                                                                                                      
           eg: test_input/data/sample1.vcf	S01                     
-                                                                                                                                                                                                                  
+## see TUTORIAL in the test_data directory for test examples of each function and also test files.
+
 ## SETTING UP THE VPOT PARAMETER FILE FOR OPTION PRIORITY                                                                                                                                  
 
 #### 1. Setting up PF population filter in parameter file
@@ -161,5 +162,3 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  so a combination of these values will determine if a variant is maintained or not                                                                              
  for the above case, a variant is maintain if it is found in PATIENT1 and not in PATIENT2.                                                                             
  Note: if there are more samples than the ones stated, then they do not influence the variant selection.                                                                          
-
-## see TUTORIAL in the test_data directory for test examples of each function and also test files.
