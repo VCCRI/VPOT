@@ -56,7 +56,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 
  To provide population frequency threshold for selection of variants.
 
- FORMAT :    PF	<population frequency annotation name in VCF>	<filter Value>
+ FORMAT :    PF	&lt;population frequency annotation name in VCF>	&lt;filter Value>
 
  Example :   PF	ExAC_ALL	0.01
 
@@ -128,7 +128,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  To provide a point value to certain variant types that might not be well covered by predictors, eg STOPGAIN/SPLICING. 
  This allow highlighting of vertain variant types.
 
- FORMAT :    VT	<annotation field name in VCF that holds the >	<the variant type>	Value
+ FORMAT :    VT	&lt;annotation field name in VCF that holds the variant type>	&lt;VPOT_Value>
 
  Example :   VT	VARIANT_TYPE	exonic_stopgain_	50
 
@@ -141,7 +141,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 
  To provide the annotation field that contains the gene the variant is located in. 
 
- FORMAT :    GN	<annotation field name in VCF that holds the gene name> 
+ FORMAT :    GN	&lt;annotation field name in VCF that holds the gene name>
 
  Example :   GN	Gene Symbol
 
