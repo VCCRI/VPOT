@@ -56,7 +56,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 
  To provide population frequency threshold for selection of variants.
 
- FORMAT :    PF	<population frequency annotation name in VCF>	Value
+ FORMAT :    PF	<population frequency annotation name in VCF>	<filter Value>
 
  Example :   PF	ExAC_ALL	0.01
 
@@ -89,10 +89,12 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 
  PD	MutationTaster_pred	A	N	0	P	0	D	1	A	2	
  
- where N = 0
-       P = 0
-       D = 1
-       A = 2
+ | Predictor Value | VPOT Value |
+ |:---------------:|:----------:|
+  N | 0
+  P | 0
+  D | 1 
+  A | 2
 
  NUMERIC PREDICTORS 
 
