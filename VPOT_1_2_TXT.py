@@ -60,7 +60,8 @@ def setup_default_pred_values(file1): #
 #			print line 
 			len_line=len(this_line) #
 #			print this_line #
-			if (this_line[0] !="Chr") : # skip header line
+#			if (this_line[0] !="Chr") : # skip header line
+			if (this_line[0] !="#CHROM") : # skip header line
 				for j in range(VPOT_conf.txt_start,VPOT_conf.txt_end): # keep values - start with after Alt column and ends with FORMAT
 					pred_array_pos=j-VPOT_conf.txt_start     # current VPOT_conf.pred_array position for value 
 #					print "VPOT_conf.pred_array_pos :",VPOT_conf.pred_array_pos     # current VPOT_conf.pred_array position for value 
@@ -141,7 +142,7 @@ def read_variant_source_file(): #
 					work_this_src_file(this_line)  #
 					if (os.path.isfile(VPOT_conf.full_file2) is False ) or (os.stat(VPOT_conf.full_file2).st_size == 0): # are there any variants in the final file? 
 						VPOT_conf.update_existing_variants(VPOT_conf.working_file1,"1") # No - then create it based on sample file 
-					elif (os.stat(VPOT_conf.working_file1).st_size == 0): # are there any variants for this sample? 
+					elif (os.stat(VPOT_conf.working_file1).st_size == 0): # there any no variants for this sample 
 						copyfile(VPOT_conf.full_file2,VPOT_conf.working_file1) # copy the new full file
 						VPOT_conf.update_existing_variants(VPOT_conf.working_file1,"0") # then for existing variants, just add 0 to the end for this sample 
 					else : # yes, then incorporate them 
@@ -172,7 +173,7 @@ def setup_for_this_src_file(file_line): #
 		for src_line in source_vcf: # work each line of source vcf file 
 			src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 #			print "src_line : ",src_line1 #
-			if ("#CHROM" in src_line1[0]): # find sample location
+			if ("#CHROM" in src_line1[0]): # find sample location - using the header line
 				for i, content in enumerate(src_line1): # return the value and index number of each item in the line array 
 #								print "content-",content,"/",i				#
 					if (content == file_line[1]) : # when filtering for sample ID 
@@ -287,16 +288,16 @@ def population_frequency(info_ln,header1): #
 	#
 	val=0 #
 #	INFO1=re.split('\t',info_ln) # split into file location and sample id
-#	print PF_array #
+#	print (VPOT_conf.PF_array) #
 	for j in range(len(VPOT_conf.PF_array)): #
-#		print PF_array[j][1] # move to pred_array slot
+#		print (VPOT_conf.PF_array[j][1]) # move to pred_array slot
 		for i, content in enumerate(header1): # return the value and index number of each item in the line array 
-#			print "content-",content,"/",i,"/",VPOT_conf.PF_array[j][1] 				#
+#			print ("content-",content,"/",i,"/",VPOT_conf.PF_array[j][1]) 				#
 			if (content == VPOT_conf.PF_array[j][1]) : # the population freq annotation we want? 
 				if ( info_ln[i] != ".") :	 # if numeric check, else ok as most likely "." to state no annotation  
-#					print info_ln[i],"/",VPOT_conf.PF_array[j][2] #
+#					print (info_ln[i],"/",VPOT_conf.PF_array[j][2]) #
 					if ( float(info_ln[i]) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
-#					print INFO1[i],INFO1[i+1],"/",PF_array[j][2] #
+#						print ("do not want : ",info_ln[i],"/",VPOT_conf.PF_array[j][2]) #
 						val=1 # do not want this variant 
 						break #
 #

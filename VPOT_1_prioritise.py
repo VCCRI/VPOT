@@ -85,7 +85,7 @@ def create_annotation_parameter(first_inputfn): #
 #
 #	print "create_annotation_parameter(input_file,parameter_file): " #
 	annotation_header1=VPOT_conf.PF+tab+"Population_filter"+tab+"Value"+nl #
-	annotation_header2=VPOT_conf.PD+tab+"Predictors"+tab+"Type"+tab+"Low"+tab+"Value"+tab+"Mid"+tab+"Value"+tab+"High"+tab+"Value"+nl # 
+	annotation_header2=VPOT_conf.PD+tab+"Predictors"+tab+"Type"+tab+"Pred_val"+tab+"VPOT_Value"+tab+"Pred_val"+tab+"VPOT_Value"+tab+"Pred_val"+tab+"VPOT_Value"+nl # 
 	annotation_header3=VPOT_conf.VT+tab+"Variant_annotation"+tab+"Exception_variant_types"+tab+"Value"+nl # 
 	annotation_header4=VPOT_conf.GN+tab+"Gene Symbol"+nl # 
 	annotation_header4_1=VPOT_conf.GN+tab+"Gene.refGene"+nl # 

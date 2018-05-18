@@ -211,10 +211,10 @@ def incorporate_this_src_into_full_file(): #
 #			print "S1 : ",line1_array[:5] #
 #			print "C1 : ",line2_array[:5] # same variant
 #			if (line1_array[:5] == line2_array[:5]): # same variant
-			if (line1_array[0] == line2_array[0]): #
-				if (int(line1_array[1]) == int(line2_array[1])) :  # same variant
-					if (line1_array[3] == line2_array[3]): #
-						if (line1_array[4] == line2_array[4]): #
+			if (line1_array[0] == line2_array[0]): # same chr
+				if (int(line1_array[1]) == int(line2_array[1])) :  # same POS (left flank)
+					if (line1_array[3] == line2_array[3]): # same REF
+						if (line1_array[4] == line2_array[4]): # same ALT
 							outline3='\t'.join(line2_array[:-1])+tab+"1"+nl # 
 							final_file.write(outline3) # 
 #							print "same -",outline3 #
@@ -244,14 +244,14 @@ def incorporate_this_src_into_full_file(): #
 						final_file.write(outline3) # 
 #						print "current -",outline3 #
 						C1=current_sample.readline() #
-				elif (int(line1_array[1]) < int(line2_array[1])) :  # same variant
+				elif (int(line1_array[1]) < int(line2_array[1])) :  # 
 					new_sample_len=len(line1_array) #
 					variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
 					outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
 					final_file.write(outline3) #
 #					print "new -",outline3 #
 					S1=new_sample.readline() #
-				else: # (int(line1_array[1]) > int(line2_array[1])) :  # same variant
+				else: # (int(line1_array[1]) > int(line2_array[1])) :  # 
 					outline3='\t'.join(line2_array[:-1])+tab+"0"+nl # 
 					final_file.write(outline3) # 
 #					print "current -",outline3 #
