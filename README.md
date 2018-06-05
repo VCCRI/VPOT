@@ -151,13 +151,15 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  If you are selecting variants based on one sample, eg all variants for a sample from a multi-sample VCF, then you can just specify that single sample in the 
  sample slection file, eg only want all sample PATIENT1 variants :
  
-             FAM_1	PATIENT1	PATIENT2	PATIENT3	1	2       
+             FID   SAMPLE_ID PAT      MAT      SEX PHENOTYPE
+             ================================================
+             FAM_1	PATIENT1	 PATIENT2	PATIENT3	1	    2       
                                             
  If you want variants that appear in PATIENT1 but not PATIENT2, a segregation request, then you will need a line for each sample 
  
              FAM_1	PATIENT1	PATIENT2	PATIENT3	1	2
              
-             FAM_1	PATIENT2	ND1	ND2	1	1
+             FAM_1	PATIENT2	ND1	     ND2	     1	1
              
                      -  PATIENT1  2  = affected (variant IS in sample PATIENT1)
                      
