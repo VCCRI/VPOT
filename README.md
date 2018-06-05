@@ -151,19 +151,24 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  If you are selecting variants based on one sample, eg all variants for a sample from a multi-sample VCF, then you can just specify that single sample in the 
  sample slection file, eg only want all sample PATIENT1 variants :
  
-             FID   SAMPLE_ID PAT      MAT      SEX PHENOTYPE
-             ================================================
-             FAM_1	PATIENT1	 PATIENT2	PATIENT3	1	    2       
+ |FID  |SAMPLE_ID |PAT      |MAT      |SEX |PHENOTYPE|
+ |:---:|:--------:|:-------:|:-------:|:--:|:-------:|
+ FAM_1|PATIENT1	|PATIENT2|PATIENT3|1|2       
                                             
  If you want variants that appear in PATIENT1 but not PATIENT2, a segregation request, then you will need a line for each sample 
  
-             FAM_1	PATIENT1	PATIENT2	PATIENT3	1	2
-             
-             FAM_1	PATIENT2	ND1	     ND2	     1	1
+ |FID  |SAMPLE_ID |PAT      |MAT      |SEX |PHENOTYPE|
+ |:---:|:--------:|:-------:|:-------:|:--:|:-------:|
+ FAM_1|PATIENT1	|PATIENT2|PATIENT3|1|2
+ FAM_1|PATIENT2|ND1|ND2|1|1
              
                      -  PATIENT1  2  = affected (variant IS in sample PATIENT1)
                      
                      -  PATIENT2  1  = unaffected (variant IS NOT in sample PATIENT2)
                      
- so a combination of these values will determine if a variant is maintained or not for the above case, a variant is maintain if it is found in PATIENT1 and not in PATIENT2.                                                                             
- Note: if there are more samples than the ones stated, then they do not influence the variant selection.                                                                          
+ so a combination of these values will determine if a variant is maintained or not. 
+ For the above case a variant is maintain if it is found in PATIENT1 and not in PATIENT2. 
+ 
+ This filtering option allows you to work with any number of samples whether they are related or not.
+ 
+ Note: if there are more samples than the ones stated in the initial input file then they do not influence the variant selection.                                                                          
