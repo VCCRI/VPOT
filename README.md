@@ -153,7 +153,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  
              FAM_1	PATIENT1	PATIENT2	PATIENT3	1	2       
                                             
- If you want variants that appear in PATIENT1 but PATIENT2, a segregation request then you will need a line for each sample 
+ If you want variants that appear in PATIENT1 but not PATIENT2, a segregation request, then you will need a line for each sample 
  
              FAM_1	PATIENT1	PATIENT2	PATIENT3	1	2
              
