@@ -55,7 +55,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 
 #### 2. Setting up PD predictors in parameter file 
 
- For each predictor a range of predictor scores are given along with the corresponding VPOT value. This allow the user to determine the VPOT point assigned to a specific score or prediction.
+ For each predictor a range of predictor scores are given along with the corresponding VPOT value. This allows the user to determine the VPOT value to be assigned to a specific score or prediction.
  VPOT allows for as many breakdown/levels of differentiation as the user wants or the predictor needs.
 
  FORMAT :   
