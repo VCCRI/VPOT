@@ -61,6 +61,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  FORMAT :   
  
  PD	&lt;predictor annotation name in VCF>	&lt;(A)lpha/(N)umeric prediction type>	[prediction value/score]	[VPOT value for prediction value/score] .....[repeat as many values as you need] 
+ 
  see example below or in parameter files in the test data folder. 
 
  Multiple PD lines can be provided if you want to use multiple predictors 
@@ -68,6 +69,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  ALPHA PREDICTORS 
 
  For predictors that return alphanumeric prediction categories the PD line will list each category and its assigned VPOT value.
+ 
  Example :
  MutationTaster predicts an alteration as one of four possible types:
 
@@ -88,6 +90,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  NUMERIC PREDICTORS 
 
  For predictors that return a numeric score the PD line will list scoring threshold and its assigned VPOT value.
+ 
  Example :
  CADD predicts an alteration with a score range from 0-30+ :
 
