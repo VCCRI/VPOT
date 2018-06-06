@@ -1,3 +1,3 @@
-/g/data3/a32/Software/VPOT/code/pyth3/test_data/FAM_1.vcf	PATIENT1
-/g/data3/a32/Software/VPOT/code/pyth3/test_data/FAM_1.vcf	PATIENT2
-/g/data3/a32/Software/VPOT/code/pyth3/test_data/FAM_1.vcf	PATIENT3
+FAM_1.vcf	PATIENT1
+FAM_1.vcf	PATIENT2
+FAM_1.vcf	PATIENT3
