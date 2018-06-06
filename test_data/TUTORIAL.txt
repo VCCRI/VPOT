@@ -18,7 +18,8 @@
 # Filter your output by gene list                                                                                                                                                  
 #                                                                                                                                                                                  
 # command :                                                                                                                                                                        
-# 			python3 ...../pyth3/VPOT.py genef ..../test_data/testout_ testout_final_output_file_XXXXXXXXXX.txt test_gene.txt                                                       
+#       change to test_data directory
+# 			python3 ...../pyth3/VPOT.py genef testout_ testout_final_output_file_XXXXXXXXXX.txt test_gene.txt                                                       
 #         file test_gene.txt is supplied in the test_data directory of VPOT download                                                                                               
 #                                                                                                                                                                                  
 # result : an output file will be created                                                                                                                                          
@@ -30,7 +31,8 @@
 # Filter your output by sample pedigree                                                                                                                                            
 #                                                                                                                                                                                  
 # command :                                                                                                                                                                        
-# 			python3 ...../pyth3/VPOT.py samplef ..../test_data/testout_ testout_final_output_file_XXXXXXXXXX.txt test_sample_set.ped                                               
+#       change to test_data directory
+# 			python3 ...../pyth3/VPOT.py samplef testout_ testout_final_output_file_XXXXXXXXXX.txt test_sample_set.ped                                               
 #         file test_sample_set.ped is supplied in the test_data directory of VPOT download                                                                                         
 #                                                                                                                                                                                  
 # result : an output file will be created                                                                                                                                          
