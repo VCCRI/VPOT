@@ -50,7 +50,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  Example :   PF	ExAC_ALL	0.01
 
  This will tell VPOT to use the ExAC_ALL annotation values as a variant filtering criteria. VPOT will return variants that are <= to the value given, in this case 0.01.
- Multiple PF lines can be provide if you want to filter based on a combination of population frequency datasets. Note it is a AND logical approach, so the return variant would have
+ Multiple PF lines can be provided if you want to filter based on a combination of population frequency datasets. Note it is a AND logical approach, so the return variant would have
  met all the PF criteria. 
 
 #### 2. Setting up PD predictors in parameter file 
