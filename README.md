@@ -60,7 +60,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 
  FORMAT :   
  
- PD	<predictor annotation name in VCF>	<(A)lpha/(N)umeric prediction type>	[prediction value/score]	[VPOT value for prediction value/score] .....[repeat as many values as you need] 
+ PD	&lt;predictor annotation name in VCF>	&lt;(A)lpha/(N)umeric prediction type>	[prediction value/score]	[VPOT value for prediction value/score] .....[repeat as many values as you need] 
  see example below or in parameter files in the test data folder. 
 
  Multiple PD lines can be provided if you want to use multiple predictors 
@@ -111,6 +111,14 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
        V = VPOT value
        
       Sn = Sn+1   
+      
+ | Predictor Value | VPOT Value |
+ |:---------------:|:----------:|
+  x < S1 | V1
+  S2 < x < S3 | V2
+  S3 < x < S4 | V3
+  Sn < x < Sn+1 | Vn
+  Sn+1 < x | Vn+1 
  
 #### 3. Setting up VT annotation in parameter file 
 
