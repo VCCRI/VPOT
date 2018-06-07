@@ -6,7 +6,6 @@
 #       python3 VPOT.py genef <location for output file+prefix> <VPOT prioritiy output> <gene list>                                  
 #       python3 VPOT.py samplef <location for output file+prefix> <VPOT prioritiy output> <sample selection file>                   
 #                                                                                                                                
-
 ########################################################################################################################################
 # Prioritise your variants (VCF/TXT input)                                                                                           
 # 
