@@ -1,4 +1,4 @@
-#############################################################################################################################################
+########################################################################################################################################
 #  USAGE :                                                                                                                              
 #       python3 VPOT.py  -  will return a help screen                                                                                   
 #       python3 VPOT.py priority <location for output file+prefix> <file of input VCF files>   will create a default parameter file   
