@@ -343,6 +343,9 @@ def score_the_variants(): #
 #				print "check VT" #
 					priority_score=priority_score+prioritise_variants_by_VT_types(line_parts,header1) # 
 				#
+				if ( float(priority_score) <= 0 ) : # check priority score
+					priority_score=0 #
+#
 				outline=str(priority_score)+tab+line1 #
 #				print outline #
 #				score_file.write(outline) #
