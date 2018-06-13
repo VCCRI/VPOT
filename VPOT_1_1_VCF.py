@@ -297,10 +297,16 @@ def population_frequency(info_ln): #
 		for i, content in enumerate(INFO1): # return the value and index number of each item in the line array 
 #			print "content-",content,"/",i				#
 			if (content == VPOT_conf.PF_array[j][1]) : # the population freq annotation we want? 
-#				if ( INFO1[i+1] != ".") :	 # if numeric check, else ok as most likely "." to state no annotation  
-				if ( VPOT_conf.is_number(INFO1[i+1]) ) : # numeric
+				if ( INFO1[i+1] != ".") :	 # if numeric check, else ok as most likely "." to state no annotation 
+					temp_val=INFO1[i+1]
+				else : # not number, so set a default as no annotation in population_frequency check would mean novel	
+					temp_val=-999
+#				if ( VPOT_conf.is_number(INFO1[i+1]) ) : # numeric
 				#					print INFO1[i],INFO1[i+1],"/",PF_array[j][2] #
-					if ( float(INFO1[i+1]) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
+#					if ( float(INFO1[i+1]) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
+				if ( VPOT_conf.is_number(temp_val) ) : # numeric
+				#					print INFO1[i],INFO1[i+1],"/",PF_array[j][2] #
+					if ( float(temp_val) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
 #					print INFO1[i],INFO1[i+1],"/",PF_array[j][2] #
 						val=1 # do not want this variant 
 						break #

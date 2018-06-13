@@ -295,11 +295,15 @@ def population_frequency(info_ln,header1): #
 #			print ("content-",content,"/",i,"/",VPOT_conf.PF_array[j][1]) 				#
 			if (content == VPOT_conf.PF_array[j][1]) : # the population freq annotation we want? 
 				if ( info_ln[i] != ".") :	 # if numeric check, else ok as most likely "." to state no annotation  
+					temp_val=info_ln[i]
+				else : # not number, so set a default as no annotation in population_frequency check would mean novel	
+					temp_val=-999
 #					print (info_ln[i],"/",VPOT_conf.PF_array[j][2]) #
-					if ( float(info_ln[i]) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
+##				if ( float(info_ln[i]) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
+				if ( float(temp_val) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
 #						print ("do not want : ",info_ln[i],"/",VPOT_conf.PF_array[j][2]) #
-						val=1 # do not want this variant 
-						break #
+					val=1 # do not want this variant 
+					break #
 #
 	return val #
 #	
