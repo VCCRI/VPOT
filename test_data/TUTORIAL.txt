@@ -5,6 +5,7 @@
 #       python3 VPOT.py priority <location for output file+prefix> <file of input VCF files> <parameter file>                          
 #       python3 VPOT.py genef <location for output file+prefix> <VPOT prioritiy output> <gene list>                                  
 #       python3 VPOT.py samplef <location for output file+prefix> <VPOT prioritiy output> <sample selection file>                   
+#       python3 VPOT.py stats <location for output file+prefix> <VPOT prioritiy output> <a percentile value [1-99]>                   
 #                                                                                                                                
 ########################################################################################################################################
 # Prioritise your variants (VCF/TXT input)                                                                                           
@@ -61,5 +62,24 @@
 #                                                                                                                                       
 # result : an output file will be created                                                                                               
 #          testout_variant_filtered_output_file_XXXXXXXX.txt                                                                             
+#                                                                                                                                       
+#######################################################################################################################################
+#
+#######################################################################################################################################
+# Generate a summary statistics output file                                                                                        
+#                                                                                                                                       
+#       	python3 VPOT.py stats <location for output file+prefix> <VPOT prioritiy output> <a percentile value [1-99] >              
+#
+# command :                                                                                                                             
+#       	change to test_data directory
+#
+# 			python3 ../VPOT.py stats testout_ testout_final_output_file_XXXXXXXXXX.txt 99                                           
+#
+#					: for the input percentile value the summary provide a gene breakdown of variants that meet the percentile criteria for each sample
+#							- to find the highest priority variant/gene use a high value eg 90 for 90th percentile             
+#							- if no specific input value is given then all variants by gene is listed                               
+#                               
+# result : a statistics output file is create                                                                                           
+#          testout_variant_statistic_file_XXXXXXXX.txt                                                                             
 #                                                                                                                                       
 #######################################################################################################################################
