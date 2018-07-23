@@ -20,10 +20,10 @@ nl='\n' #
 #
 GENE_loc=-1 #
 #
-info_msg1_1="VarPT_GS: Invalid number of inputs, must have three :" 
-info_msg1_2="VarPT_GS: 1) output destination directory + prefix" #
-info_msg1_3="VarPT_GS: 2) Input file - output from VPOT prioritisation process" 
-info_msg1_4="VarPT_GS: 3) Gene list" #
+info_msg1_1="VPOT genef : Invalid number of inputs, must have three :" 
+info_msg1_2="VPOT genef : 1) output destination directory + prefix" #
+info_msg1_3="VPOT genef : 2) Input file - output from VPOT prioritisation process" 
+info_msg1_4="VPOT genef : 3) Gene list" #
 #
 ############################################################################################################
 #
@@ -40,7 +40,7 @@ def initial_setup():
 	supplied_args=len(sys.argv) #
 #	print supplied_args #
 #
-	if (supplied_args < 5 ):  # arg [0] is the python program
+	if (supplied_args != 5 ):  # arg [0] is the python program
 		print (info_msg1_1+nl+info_msg1_2+nl+info_msg1_3+nl+info_msg1_4) #
 		return 1 #
 	else :

@@ -20,10 +20,10 @@ nl='\n' #
 #
 Sample_loc=-1 #
 #
-info_msg1_1="VarPT_VF: Invalid number of inputs, must have three :" 
-info_msg1_2="VarPT_VF: 1) output destination directory + prefix" #
-info_msg1_3="VarPT_VF: 2) Input file - output from VPOT prioritisation process" 
-info_msg1_4="VarPT_VF: 3) Selection Criteria list (ped format)" #
+info_msg1_1="VPOT samplef : Invalid number of inputs, must have three :" 
+info_msg1_2="VPOT samplef : 1) output destination directory + prefix" #
+info_msg1_3="VPOT samplef : 2) Input file - output from VPOT prioritisation process" 
+info_msg1_4="VPOT samplef : 3) Selection Criteria list (ped format)" #
 #
 ############################################################################################################
 ###########################################################################################################
@@ -39,7 +39,7 @@ def initial_setup():
 	supplied_args=len(sys.argv) #
 #	print supplied_args #
 #
-	if (supplied_args < 5 ):  # arg [0] is the python program
+	if (supplied_args != 5 ):  # arg [0] is the python program
 		print (info_msg1_1+nl+info_msg1_2+nl+info_msg1_3+nl+info_msg1_4) #
 		return 1 #
 	else :
