@@ -75,7 +75,8 @@
 #
 # 			python3 ../VPOT.py stats testout_ testout_final_output_file_XXXXXXXXXX.txt 99                                           
 #
-#					: for the input percentile value the summary provide a gene breakdown of variants that meet the percentile criteria for each sample
+#					: for the input percentile value the summary provide a gene breakdown of variants that meet 
+#					  the percentile criteria for each sample
 #							- to find the highest priority variant/gene use a high value eg 90 for 90th percentile             
 #							- if no specific input value is given then all variants by gene is listed                               
 #                               
