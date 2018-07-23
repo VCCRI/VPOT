@@ -5,6 +5,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 * priority  - priority tool
 * genef     - gene filter
 * samplef   - samples filtering
+* stats     - general statistics on the VPOT priority output file
 
 ### Requirements
 * Python 3.6.+ and NumPy
@@ -30,6 +31,8 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
        python3 VPOT.py genef <location for output file+prefix> <VPOT prioritiy output> <gene list>
        
        python3 VPOT.py samplef <location for output file+prefix> <VPOT prioritiy output> <sample selection file>
+       
+       python3 VPOT.py stats <location for output file+prefix> <VPOT prioritiy output> <a percentile value [1-99]>
                                                                                                                                   
 ## see TUTORIAL in the test_data directory for test examples of each function and also test files.
 
