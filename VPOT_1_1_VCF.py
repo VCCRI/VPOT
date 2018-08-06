@@ -219,7 +219,7 @@ def work_this_src_file(file_line): #
 		for src_line in source_vcf: # work each line of source vcf file 
 			src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 			if ("#" not in src_line1[0]): # skip the header lines
-#				print src_line1 #
+#				print (src_line1) #
 #				print src_line1[VPOT_conf.sample_loc] #
 # variants lines 
 				SAMPLE1=re.split(':',src_line1[VPOT_conf.sample_loc]) # split the sample's FORMAT fields 
@@ -228,27 +228,28 @@ def work_this_src_file(file_line): #
 # have a coverage check on the sample 
 #				print ("MaxCOverage : ",VPOT_conf.Maxcoverage) #
 #				print "coverage_loc : ",VPOT_conf.sample_coverage_loc #
-#				print SAMPLE1 
+#				print (SAMPLE1) 
+#				print ("GT: ",VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val],SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) 
 #				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]],"/","." )
 #				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
-				if (((VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] == -1) or 
-					((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) >= int(VPOT_conf.Maxcoverage)))) and  #  NR
-					((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
-					((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= int(VPOT_conf.Maxcoverage))))) : # DP
-#				if (((VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] == -1) or 
-#					((SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] != ".") and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) >= int(VPOT_conf.Maxcoverage)))) and  #  NR
-#					((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
-#					((SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] != ".") and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= int(VPOT_conf.Maxcoverage))))) : # DP
+#
+				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./.") : # a valid genotype 
+#					print ("pass") #
+					if (((VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] == -1) or 
+						((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) >= int(VPOT_conf.Maxcoverage)))) and  #  NR
+						((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
+						((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= int(VPOT_conf.Maxcoverage))))) : # DP
+#
 #					print "add" #
 #					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[0]]) # get the genotype fields
-					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
+						GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
 #				print GT_values #
-					for j in range(len(GT_values)) : #
+						for j in range(len(GT_values)) : #
 #					print (GT_values[j]) #
-						if ( GT_values[j] not in VPOT_conf.Non_alt_GT_types ) : # when filtering for QC value 
+							if ( GT_values[j] not in VPOT_conf.Non_alt_GT_types ) : # when filtering for QC value 
 #						print ("keep this variant1") #
-							check_this_variant(src_line, wrkf1) #
-							break # get out of for loop (GT_values)
+								check_this_variant(src_line, wrkf1) #
+								break # get out of for loop (GT_values)
 #				else : #  NR
 #					print "not adding" #
 
