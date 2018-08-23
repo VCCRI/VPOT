@@ -229,9 +229,15 @@ def work_this_src_file(file_line): #
 #				print ("MaxCOverage : ",VPOT_conf.Maxcoverage) #
 #				print "coverage_loc : ",VPOT_conf.sample_coverage_loc #
 #				print (SAMPLE1) 
-#				print ("GT: ",VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val],SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) 
-#				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]],"/","." )
-#				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
+#				print ("GT: ",VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val],":",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) 
+#				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] )
+#				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
+				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] == ".") : # no DP_val 
+					SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] = "0"  # set it as zero 
+				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no DP_val 
+					SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
+#				print (SAMPLE1) 
+					
 #
 				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./.") : # a valid genotype 
 #					print ("pass") #

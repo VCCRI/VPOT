@@ -43,13 +43,13 @@ def initial_setup():
 	else :
 		VPOT_conf.output_dir=sys.argv[2] #
 		VPOT_conf.input_file=sys.argv[3] #
-		VPOT_conf.parameter_file=0 # set default
+		VPOT_conf.parameter_file=50 # set default
 #		print (supplied_args)
 		if (supplied_args > 4 ):  # there is a percentile supplied
 			if (VPOT_conf.is_number(sys.argv[4])): # numeric
 				VPOT_conf.parameter_file=sys.argv[4] #
 				if ((int(VPOT_conf.parameter_file) < 1) or (int(VPOT_conf.parameter_file) > 99)): # not a valid percentile
-					VPOT_conf.parameter_file=0 # set default to all
+					VPOT_conf.parameter_file=50 # set default to all
 #		print (VPOT_conf.parameter_file)
 	#
 		VPOT_conf.final_output_file=VPOT_conf.output_dir+"variant_statistic_file_"+suffix+".txt" #
@@ -73,10 +73,10 @@ def Total_variants_stats(Output_file): #
 #
 	Outln=Ast_ln+VPOT_conf.nl+"TOTAL STATS FOR - "+VPOT_conf.input_file+VPOT_conf.nl #
 #
-	j=scorefile.shape #
+	j=scorefile.shape # this is the array dimension for scoring variants
 	num_var=infile_shape[0]-1 # number of variants in input file - assume a header
 	#
-	VPOT_conf.txt_start = 7 # samples id starts here
+	VPOT_conf.txt_start = 3 # samples id starts here
 	VPOT_conf.txt_end = infile_shape[1] # -1 for the blank element 
 	VPOT_conf.Sample_ids = scorefile[0,VPOT_conf.txt_start:VPOT_conf.txt_end] #
 #	print (VPOT_conf.Sample_ids)
@@ -184,13 +184,13 @@ def file_lines_numpy(working_fn): #
 	global scorefile #
 #	print "Place input into array : " #
 #
-	infile = np.genfromtxt(working_fn,comments=None,delimiter="\t",dtype=np.str) #
+	infile = np.genfromtxt(working_fn,comments=None,delimiter="\t",dtype=np.str) # this is the full file
 	i=infile.shape #
 #
 	condition = np.where( infile[:,1] != "0" ) #
 	condition = condition[0] #
 	n1 = condition.tolist() #
-	scorefile = infile[np.ix_(n1,)] #
+	scorefile = infile[np.ix_(n1,)] # create an array with only scoring variants
 #	print (VPOT_conf.Sample_ids) #
 #	print (VPOT_conf.txt_start, VPOT_conf.txt_end)
 #	print (infile[0,])
@@ -204,7 +204,7 @@ def main(): #
 ##
 	global scorefile #
 	global gene_loc #
-	global infile_shape #
+	global infile_shape # contains the array dimension of the input file, so you can get number of variants and number of samples
 #
 	VPOT_conf.init() #
 	#
@@ -214,12 +214,12 @@ def main(): #
 #		print "no good" #
 		return #
 	#
-	COMMAND="cut --complement -f5,8,9,10 "+VPOT_conf.input_file+" > "+VPOT_conf.working_file1 # create a working input file - by reducing to only the cols we need 
+	COMMAND="cut --complement -f3-10 "+VPOT_conf.input_file+" > "+VPOT_conf.working_file1 # create a working input file - by reducing to only the cols we need 
 	subprocess.call(COMMAND, shell=True) # do it in shell
 #
 # Now filter the input file by gene list 
 	infile_shape = file_lines_numpy(VPOT_conf.working_file1) # set up the numpy array
-	gene_loc = 6 # standard col location for gene name
+	gene_loc = 2 # standard col location for gene name
 	with open(VPOT_conf.final_output_file,'w',encoding="utf-8") as Output_file : # 
 		Total_variants_stats(Output_file) #
 		i = VPOT_conf.txt_start # where the samples start

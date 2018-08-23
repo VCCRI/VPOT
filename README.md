@@ -6,6 +6,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 * genef     - gene filter
 * samplef   - samples filtering
 * stats     - general statistics on the VPOT priority output file
+* merge     - merge multiple VPOT priority output files into a single VPOT priority output file
 
 ### Requirements
 * Python 3.6.+ and NumPy
@@ -33,6 +34,8 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
        python3 VPOT.py samplef <location for output file+prefix> <VPOT prioritiy output> <sample selection file>
        
        python3 VPOT.py stats <location for output file+prefix> <VPOT prioritiy output> <a percentile value [1-99]>
+       
+       python3 VPOT.py merge <location for output file+prefix> <file of input VPOT prioritiy output files> 
                                                                                                                                   
 ## see TUTORIAL in the test_data directory for test examples of each function and also test files.
 
@@ -186,3 +189,12 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
  This filtering option allows you to work with any number of samples whether they are related or not.
  
  Note: if there are more samples than the ones stated in the initial input file then they do not influence the variant selection.                                                                          
+
+ ## SETTING UP THE VPOT PRIORITY OUTPUT LISTS INPUT FILE FOR OPTION MERGE                                                                                                                                
+                                            
+ FORMAT : (one VPOL per line): require a minimum of two files         
+ 
+ location of VPOL file                                                   
+ 
+ eg: test_input/data/VPOL1.txt      
+                                                                         

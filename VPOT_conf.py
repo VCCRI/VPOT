@@ -112,12 +112,14 @@ def init(): ##
 	header_ln="" #
 	blank_variant_ln="" #
 #
+	global temp_output_file #
 	global working_file1 #
 	global working_file2 #
 	global full_file1 #
 	global full_file2 #
 	global sort_file1 #
 	global sort_file2 #
+	temp_output_file="" #
 	working_file1="" #
 	working_file2="" #
 	full_file1="" #
