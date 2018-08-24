@@ -114,11 +114,11 @@ def merge_the_input(infile):
 #		print(str(mstl1p[2:6])) #
 #
 		while MEOF : #do while we still have record in master
-			print("comp-",str(inl1p[2:7])) #
-			print("mst-",str(mstl1p[2:7])) #
+#			print("comp-",str(inl1p[2:7])) #
+#			print("mst-",str(mstl1p[2:7])) #
 #
 			if (inl1p[2:7] == mstl1p[2:7]):
-				print("match")
+#				print("match")
 				out_file.write(mstl1+tab+inl1+nl) # write the line to final output file 
 				inl1 = input_file.readline().rstrip()
 				inl1p = inl1.split('\t')
@@ -127,7 +127,7 @@ def merge_the_input(infile):
 				mstl1p = mstl1.split('\t')
 #				print(str(mstl1p[2:10])) #
 			else :	# then input line is not in master so need to pad master
-				print("not match")
+#				print("not match")
 				out_file.write(mstl1+tab+tab.join(emplst)+nl) # write the line to final output file 
 				mstl1 = master_file.readline().rstrip()
 				mstl1p = mstl1.split('\t')

@@ -30,6 +30,9 @@ Ast_ln=VPOT_conf.nl+"***********************************************************
 def initial_setup():
 #
 	global supplied_args 
+	global full_variant_file #
+	global percentile_variant_file #
+	global sample_percentile_variant_file #
 	#
 	print ("initial_setup():") #
 	print (suffix) #
@@ -43,13 +46,13 @@ def initial_setup():
 	else :
 		VPOT_conf.output_dir=sys.argv[2] #
 		VPOT_conf.input_file=sys.argv[3] #
-		VPOT_conf.parameter_file=50 # set default
+		VPOT_conf.parameter_file=75 # set default
 #		print (supplied_args)
 		if (supplied_args > 4 ):  # there is a percentile supplied
 			if (VPOT_conf.is_number(sys.argv[4])): # numeric
 				VPOT_conf.parameter_file=sys.argv[4] #
 				if ((int(VPOT_conf.parameter_file) < 1) or (int(VPOT_conf.parameter_file) > 99)): # not a valid percentile
-					VPOT_conf.parameter_file=50 # set default to all
+					VPOT_conf.parameter_file=75 # set default to all
 #		print (VPOT_conf.parameter_file)
 	#
 		VPOT_conf.final_output_file=VPOT_conf.output_dir+"variant_statistic_file_"+suffix+".txt" #
@@ -59,57 +62,126 @@ def initial_setup():
 		VPOT_conf.full_file2=VPOT_conf.output_dir+"full_file2_"+suffix+"_tmp.txt" #
 		VPOT_conf.sort_file1=VPOT_conf.output_dir+"sort_file1_"+suffix+"_tmp.txt" #
 		VPOT_conf.sort_file2=VPOT_conf.output_dir+"sort_file2_"+suffix+"_tmp.txt" #
+		full_variant_file=VPOT_conf.output_dir+"full_variant_file_"+suffix+"_tmp.txt" #
+		percentile_variant_file=VPOT_conf.output_dir+"percentile_variant_file_"+suffix+"_tmp.txt" #
+		sample_percentile_variant_file=VPOT_conf.output_dir+"Spercentile_variant_file_"+suffix+"_tmp.txt" #
 		print ("output : ",VPOT_conf.final_output_file) #
 	
 	return 0 #
 #
+###########################################################################################################
+#
+###########################################################################################################
+	
+def file_lines_input(working_fn): #
+#
+#	global scorefile #
+	i1=[0,0] #
+#	print "Place input into array : " #
+##
+	lr=0 #
+	for line in open(working_fn): 
+		lr = lr+1 #
+		if ( lr == 1 ):  # first line in file
+			this_line=re.split('\t|\n|\r|=|,',line.rstrip()) #
+			lc = len(this_line) 
+
+	i1[0]=lr #
+	i1[1]=lc
+#	print (lc, i1[1])#
+#
+	COMMAND="awk '($2 !=\"0\") {print $0}' "+working_fn+" > "+full_variant_file # create a scoring variants file 
+	subprocess.call(COMMAND, shell=True) # do it in shell
+#	print("score file finished")
+#	print (VPOT_conf.Sample_ids) #
+#	print (VPOT_conf.txt_start, VPOT_conf.txt_end)
+	return i1 #
+###########################################################################################################
+#
+###########################################################################################################
+	
+def unique_genes(working_fn): #
+#
+	COMMAND="tail -n+2 "+working_fn+" | cut -f3 > "+VPOT_conf.sort_file1 # take only the gene names 
+	subprocess.call(COMMAND, shell=True) # do it in shell
+	COMMAND="sort -u "+VPOT_conf.sort_file1+" > "+VPOT_conf.sort_file2 # sort to find unique gene names 
+	subprocess.call(COMMAND, shell=True) # do it in shell
+	COMMAND="grep -v \",\" "+VPOT_conf.sort_file2+" > "+VPOT_conf.sort_file1 # remove all the multiple gene names entries - leave unique genes 
+	subprocess.call(COMMAND, shell=True) # do it in shell
+	return 0 #
+###########################################################################################################
 #
 ###########################################################################################################
 def Total_variants_stats(Output_file): #
 #
-	global scorefile #
+#	global scorefile #
 	global gene_loc #
 	global infile_shape #
 #
 	Outln=Ast_ln+VPOT_conf.nl+"TOTAL STATS FOR - "+VPOT_conf.input_file+VPOT_conf.nl #
 #
-	j=scorefile.shape # this is the array dimension for scoring variants
+	j=[0,0] #
+#	print "Place input into array : " #
+##
+	lr=0 #
+	for line in open(full_variant_file):  # count how many scoring variants
+		lr = lr+1 #
+		if ( lr == 1 ):  # first line in file
+			header_line=re.split('\t|\n|\r|=|,',line.rstrip()) #
+			lc = len(header_line) 
+
+	j[0]=lr #
+	j[1]=lc
+#	print (lc, i1[1])#
+#
 	num_var=infile_shape[0]-1 # number of variants in input file - assume a header
-	#
 	VPOT_conf.txt_start = 3 # samples id starts here
 	VPOT_conf.txt_end = infile_shape[1] # -1 for the blank element 
-	VPOT_conf.Sample_ids = scorefile[0,VPOT_conf.txt_start:VPOT_conf.txt_end] #
+	VPOT_conf.Sample_ids = header_line[VPOT_conf.txt_start:VPOT_conf.txt_end] #
 #	print (VPOT_conf.Sample_ids)
 	num_samples = k = VPOT_conf.txt_end-VPOT_conf.txt_start #
-#	print (j)
-#
 	Outln=Outln+"Total number of samples : "+str(num_samples)+VPOT_conf.nl #
 #
-#	gene_loc=10 # where gene name filed is located
-	condition = np.unique( scorefile[:,gene_loc] ) #
-	Outln=Outln+"Total number of genes : "+str(len(condition)-1)+VPOT_conf.nl #
-	#	
+# find unique genes that have scoring variants
+	unique_genes(full_variant_file) #
+	lr=0 #
+	for line in open(VPOT_conf.sort_file1): 
+		lr = lr+1 #
+	Outln=Outln+"Total number of genes : "+str(lr)+VPOT_conf.nl #
 	Outln=Outln+"Total number of variants : "+str(num_var)+VPOT_conf.nl #
-#
-	
 	Outln=Outln+"Total number of non-scoring variants : "+str(infile_shape[0]-j[0])+VPOT_conf.nl #
 	Outln=Outln+"Total number of scoring variants : "+str(j[0]-1)+VPOT_conf.nl+VPOT_conf.nl #
 #
 # determine breakdown of percentage of ranking with the scorefile (variants that have scores)
-	rank=scorefile[:,0] # take the ranking column
-	rank[0]=-1 # replace the header element
-	rank=rank.astype(np.float) #
-	#
+#	print("breakdown start "+VPOT_conf.nl)
 	percentage=np.array([0.99,0.95,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0.01]) #
 	for i in range(len(percentage)): #
-		condition=np.where(rank >= percentage[i]) #
-		condition=condition[0]
-		pc=len(condition)#
+		COMMAND="awk '{ if ($1 >= "+str(percentage[i])+") print $0}' "+full_variant_file+" > "+VPOT_conf.sort_file1 # create a working input file 
+#		print (COMMAND) # create a working input file 
+		subprocess.call(COMMAND, shell=True) # do it in shell
+		lr=-1 # start with header line
+		for line in open(VPOT_conf.sort_file1): 
+			lr = lr+1 # count how many lines
 		pc_val=percentage[i]*100 #
-		Outln=Outln+"Variants in the "+str(int(pc_val))+" percentile in ranking - "+str(pc)+VPOT_conf.nl #
+		Outln=Outln+"Variants in the "+str(int(pc_val))+" percentile in ranking - "+str(lr)+VPOT_conf.nl #
+#
+# creat a variants for all samples is at the percentile level - percentile_variant_file 
+	percentile=float(VPOT_conf.parameter_file)/100 # setup the percentile argument given as a floating point value
+#	print(str(percentile)) #
+	COMMAND="awk '{ if ($1 >= "+str(percentile)+") print $0}' "+full_variant_file+" > "+percentile_variant_file # create a working input file for input percentile for all samples 
+#	print (COMMAND) # create a working input file 
+	subprocess.call(COMMAND, shell=True) # do it in shell
 #	
 	print(Outln)
 	Output_file.write(Outln) # write the line to final output file 
+	# Print out the top 10 variants 
+	Outln=VPOT_conf.nl+"Top 10 variants in the VPOL :"+VPOT_conf.nl #
+	with open(VPOT_conf.input_file,'r',encoding="utf-8") as input_file : # 
+		for x in range(11):
+			Outln=Outln+input_file.readline() #
+	#print(Outln)
+	Output_file.write(Outln) # write the line to final output file 
+	
 	#
 ###########################################################################################################
 #
@@ -119,58 +191,52 @@ def Samples_stats(Output_file,sample,pos): #
 #
 # input file for filtering is the output from the VPOT process. This means the variant gene name is in a column named GENE_NAME.
 #
-	global scorefile #
 	global gene_loc #
 #	
 	Outln=Ast_ln+VPOT_conf.nl+"STATS for Sample "+sample+" : "+VPOT_conf.nl+VPOT_conf.nl #
 	#
 #
-#	process to create a subset for sample that only contains variants that occurs in the sample
+#	work gene and variant counts for this sample in the full scoring variant file
 #
-	condition = np.where( scorefile[:,pos] != "0" ) # look for variants that have is not 0 for sample
-	condition = condition[0] #
-	index = [0] # remove the header line
-	con1 = np.delete(condition, index) #
-#	print (con1)
-	Outln=Outln+"Total number of variants : "+str(len(con1))+VPOT_conf.nl #
+	COMMAND="awk '($"+str(pos)+" !=\"0\") {print $0}' "+full_variant_file+" > "+VPOT_conf.full_file2 # create a working input file 
+#	print (COMMAND+"/"+str(pos)+"/"+sample)
+	subprocess.call(COMMAND, shell=True) # do it in shell
+	#
+	lr=-1 # start with header line
+	for line in open(VPOT_conf.full_file2): 
+		lr = lr+1 #
+	Outln=Outln+"Total number of variants : "+str(lr)+VPOT_conf.nl #
 #
-	n1 = con1.tolist() # convert the row numbers for the sample variants (where !="0")
-	sample_all_arr = scorefile[np.ix_(n1,)] # subset based on these rows as index from scorefile
+# VPOT_conf.full_file2 - contains variants for all samples is at the percentile level
+	unique_genes(VPOT_conf.full_file2) #
+	lr=0 #
+	for line in open(VPOT_conf.sort_file1): 
+		lr = lr+1 #
+	Outln=Outln+"Total number of genes : "+str(lr)+VPOT_conf.nl #
 #
-	unique_genes = np.unique( sample_all_arr[:,gene_loc] ) # we want to know the total number of genes for all the variants in the sample
-#	print (unique_genes)
-	Outln=Outln+"Total number of genes : "+str(len(unique_genes))+VPOT_conf.nl #
-#	sample_arr = scorefile[np.ix_(n1,)] #
-#
-#	process to create a subset for sample that only contains variants that have ranking value > than the given parameter
-#
-	rank=sample_all_arr[:,0] # take the ranking column
-	rank=rank.astype(np.float) # convert it into floating point value
-	percentile=float(VPOT_conf.parameter_file)/100 # setup the percentile argument given as a floating point value
-#	print(str(percentile)) #
-#	print(rank)
-	condition=np.where(rank >= percentile) # find the variants that meets the percentile criteria
-	condition = condition[0] #
-#	print(condition)
-	n1 = condition.tolist() #convert the row values into a list
-#	print(n1)
-	sample_arr = sample_all_arr[np.ix_(n1,)] # now subset the sample's variants to one that meet the ranking percentile criteria
-#	print(sample_arr)
-#
-# variants per gene for ones that meet the percentile criteria
+#  now list variants per gene for ones that meet the percentile criteria
 #
 	Outln=Outln+VPOT_conf.nl+"Variants within Gene breakdown based on supplied " #
-	if (VPOT_conf.parameter_file==0 ):  # is this the default percentile
-		Outln=Outln+"1 percentile parameter :"+VPOT_conf.nl # yes
-	else :
-		Outln=Outln+str(VPOT_conf.parameter_file)+" percentile parameter :"+VPOT_conf.nl # a supplied value
+	Outln=Outln+str(VPOT_conf.parameter_file)+" percentile parameter :"+VPOT_conf.nl # a supplied value
 #
-	unique_genes = np.unique( sample_arr[:,gene_loc] ) #
-	for i in range(len(unique_genes)): #
-		sample_gene = np.where( sample_arr[:,gene_loc] == unique_genes[i] ) #
-		sample_gene = sample_gene[0] #
-		Outln=Outln+VPOT_conf.nl+"Number of variants in "+unique_genes[i]+" : "+str(len(sample_gene)) #
-		#		print (sample_gene) #
+#	VPOT_conf.full_file1 - contains variants at the required percentiles for all samples #
+#	process to create a subset of variants that occurs in the sample for the percentile entered VPOT_conf.full_file2 #
+#
+	COMMAND="awk '($"+str(pos)+" !=\"0\") {print $0}' "+percentile_variant_file+" > "+sample_percentile_variant_file # create a working input file 
+	subprocess.call(COMMAND, shell=True) # do it in shell
+	#
+# Gene level count
+	unique_genes(sample_percentile_variant_file) #
+#
+	for line in open(VPOT_conf.sort_file1): 
+		lr = lr+1 #
+		COMMAND="awk '($3 ~ \""+line.rstrip()+"\") {print $0}' "+sample_percentile_variant_file+" > "+VPOT_conf.full_file2 # create a working input file 
+#		print (COMMAND+"/"+str(pos)+"/"+sample)
+		subprocess.call(COMMAND, shell=True) # do it in shell
+		lr = 0 #
+		for vline in open(VPOT_conf.full_file2): 
+			lr = lr+1 #
+		Outln=Outln+VPOT_conf.nl+"Number of variants in "+line.rstrip()+" : "+str(lr) #
 #
 #	print(Outln) #
 	Output_file.write(Outln) # write the line to final output file 
@@ -178,31 +244,11 @@ def Samples_stats(Output_file,sample,pos): #
 ###########################################################################################################
 #
 ###########################################################################################################
-	
-def file_lines_numpy(working_fn): #
-#
-	global scorefile #
-#	print "Place input into array : " #
-#
-	infile = np.genfromtxt(working_fn,comments=None,delimiter="\t",dtype=np.str) # this is the full file
-	i=infile.shape #
-#
-	condition = np.where( infile[:,1] != "0" ) #
-	condition = condition[0] #
-	n1 = condition.tolist() #
-	scorefile = infile[np.ix_(n1,)] # create an array with only scoring variants
-#	print (VPOT_conf.Sample_ids) #
-#	print (VPOT_conf.txt_start, VPOT_conf.txt_end)
-#	print (infile[0,])
-#	print(i)#
-	return i #
-##
-###########################################################################################################
-#
-###########################################################################################################
 def main(): #
 ##
-	global scorefile #
+	global full_variant_file # variants with score
+	global percentile_variant_file # variants that is above the percentile parameter
+	global sample_percentile_variant_file # variants that is above the percentile parameter
 	global gene_loc #
 	global infile_shape # contains the array dimension of the input file, so you can get number of variants and number of samples
 #
@@ -218,13 +264,15 @@ def main(): #
 	subprocess.call(COMMAND, shell=True) # do it in shell
 #
 # Now filter the input file by gene list 
-	infile_shape = file_lines_numpy(VPOT_conf.working_file1) # set up the numpy array
+	infile_shape = file_lines_input(VPOT_conf.working_file1) # set up the numpy array
+#	print (infile_shape)
 	gene_loc = 2 # standard col location for gene name
 	with open(VPOT_conf.final_output_file,'w',encoding="utf-8") as Output_file : # 
+#		print("do total variant "+VPOT_conf.nl)
 		Total_variants_stats(Output_file) #
-		i = VPOT_conf.txt_start # where the samples start
+		i = VPOT_conf.txt_start+1 # where the samples start
 		j = 0 #
-		while (i < VPOT_conf.txt_end): # for number of samples
+		while (i <= VPOT_conf.txt_end): # for number of samples
 #			print (i)
 			Samples_stats(Output_file,VPOT_conf.Sample_ids[j],i) #
 			i = i+1
