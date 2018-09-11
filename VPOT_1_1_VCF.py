@@ -232,15 +232,19 @@ def work_this_src_file(file_line): #
 #				print ("GT: ",VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val],":",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) 
 #				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] )
 #				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
-				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] == ".") : # no DP_val 
-					SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] = "0"  # set it as zero 
-				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no DP_val 
-					SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
+#ed				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] == ".") : # no DP_val 
+#ed					SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] = "0"  # set it as zero 
+#ed				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no DP_val 
+#ed					SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
 #				print (SAMPLE1) 
 					
 #
 				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./.") : # a valid genotype 
 #					print ("pass") #
+					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] == ".") : # no DP_val 
+						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] = "0"  # set it as zero 
+					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no DP_val 
+						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
 					if (((VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] == -1) or 
 						((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) >= int(VPOT_conf.Maxcoverage)))) and  #  NR
 						((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
