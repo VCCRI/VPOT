@@ -93,7 +93,8 @@ def init(): ##
 	Gene_ref="NONE" #
 	Sample_ids=[] #
 # 
-#input_type_VCF=True #
+	global input_type_gVCF #
+	input_type_gVCF=False #
 	global txt_start #
 	global txt_end# 
 	txt_start=-1 #

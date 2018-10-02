@@ -5,6 +5,7 @@
 import sys, re, glob, os, subprocess, time #
 import numpy as np #
 import VPOT_conf #
+import gzip #
 from shutil import copyfile #
 #from __main__ import *
 tab='\t' # 
@@ -12,18 +13,14 @@ nl='\n' #
 ###########################################################################################################
 #
 ###########################################################################################################
-def parameters(input_file):
+def parameters_p1(input_file):
 #
 #	global pop_array 
 #	global pred_array 
 #
-	print ("VPOT_VCF.parameters: ") #
-#
-	#
-	with open(input_file,'r',encoding="utf-8") as first_fn : #
 		predictors=False #
 		while True:
-			line=first_fn.readline() # go thru the INFO annotation section of the VCF header
+			line=input_file.readline() # go thru the INFO annotation section of the VCF header
 #		print line 
 			this_line=re.split('\t|\n|\r|=|,',line) #
 			if (this_line[0] =="#CHROM") : 
@@ -40,20 +37,35 @@ def parameters(input_file):
 					VPOT_conf.pop_array.append([VPOT_conf.PF,this_line[2],VPOT_conf.MAFval]) 
 				else :
 					VPOT_conf.pred_array.append([VPOT_conf.PD,this_line[2],"N","","0","","1","","2"]) 
+#
 ###########################################################################################################
 #
 ###########################################################################################################
-def setup_default_pred_values(file1): #
+def parameters(input_file):
+#
+#	global pop_array 
+#	global pred_array 
+#
+	print ("VPOT_VCF.parameters: ") #
+#
+	#
+	if input_file.endswith('.gz'):
+		with gzip.open(input_file,'rt') as first_fn : #
+			parameters_p1(first_fn) #
+	else:
+		with open(input_file,'r',encoding="utf-8") as first_fn : #
+			parameters_p1(first_fn) #
+###########################################################################################################
+#
+###########################################################################################################
+def setup_default_pred_values_1(first_fn): #
 #
 #	global pred_array 
 #
-	print ("VPOT_VCF.setup_default_pred_values: ") #
-##
-	with open(file1,'r',encoding="utf-8") as first_fn : #
-		for line in first_fn: #
-			this_line=re.split('\t|\n|\r|=|;',line) #
+	for line in first_fn: #
+		this_line=re.split('\t|\n|\r|=|;',line) #
 #			print line 
-			for i, content in enumerate(this_line): # return the value and index number of each item in the line array 
+		for i, content in enumerate(this_line): # return the value and index number of each item in the line array 
 #				print "content-",content,"/",i				#
 				for j in range(len(VPOT_conf.pred_array)): #
 					if (content == VPOT_conf.pred_array[j][1]) : # when filtering for QC value 
@@ -86,6 +98,22 @@ def setup_default_pred_values(file1): #
 												break #
 										k+=1 # move to VPOT_conf.pred_array slot
 #									print VPOT_conf.pred_array[j] #
+#
+###########################################################################################################
+#
+###########################################################################################################
+def setup_default_pred_values(file1): #
+#
+#	global pred_array 
+#
+	print ("VPOT_VCF.setup_default_pred_values: ") #
+##
+	if file1.endswith('.gz'):
+		with gzip.open(file1input_file,'rt') as first_fn : #
+			setup_default_pred_values_1(first_fn) #
+	else:
+		with open(file1,'r',encoding="utf-8") as first_fn : #
+			setup_default_pred_values_1(first_fn) #
 #
 #	print pop_array #
 #	print VPOT_conf.pred_array #
@@ -148,6 +176,56 @@ def read_variant_source_file(): #
 ###########################################################################################################
 #
 ###########################################################################################################
+def setup_for_this_src_file_1(source_vcf,file_line): #
+#
+	for src_line in source_vcf: # work each line of source vcf file 
+#			print (src_line) #
+		src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
+		if ("##" not in src_line1[0]): #
+#				print src_line1 #
+			if ("#CHROM" in src_line1[0]): # find sample location
+				for i, content in enumerate(src_line1): # return the value and index number of each item in the line array 
+#								print "content-",content,"/",i				#
+					if (content == file_line[1]) : # when filtering for sample ID 
+						VPOT_conf.sample_loc=i #save sample location
+						VPOT_conf.sample_ID=file_line[1] # save sample ID
+#							print "SAMPLE: ",sample_loc #
+					elif (content == "INFO") : # 
+						VPOT_conf.INFO_loc=i #save sample location
+#							print "INFO_loc: ",INFO_loc #
+					elif (content == "FORMAT") : # 
+						VPOT_conf.FORMAT_loc=i #save sample location
+#							print "FORMAT_loc: ",FORMAT_loc #
+					#	
+				if ("#CHROM" not in VPOT_conf.header_ln): # is this first time
+#						print "setup header" #
+					VPOT_conf.header_ln='\t'.join(src_line1[:VPOT_conf.INFO_loc+1])+tab+VPOT_conf.GENE_NAME # save heading up to INFO (using INFO_loc +1 to denote the stop field)
+					VPOT_conf.blank_variant_ln=VPOT_conf.header_ln # save heading up to INFO (using INFO_loc +1 to denote the stop field)
+#						VPOT_conf.header_ln='\t'.join(src_line1[:VPOT_conf.INFO_loc+1]) # save heading up to INFO (using INFO_loc +1 to denote the stop field)
+#						VPOT_conf.blank_variant_ln='\t'.join(src_line1[:VPOT_conf.INFO_loc+1]) #
+			else : # variants lines 
+				FORMAT1=re.split(':',src_line1[VPOT_conf.FORMAT_loc]) # split into file location and sample id
+#					print "format : ",FORMAT1 #
+				for i, content in enumerate(FORMAT1): # return the value and index number of each item in the line array 
+#						print ("content-",content,"/",i)				#
+					for j in range(len(VPOT_conf.sample_coverage)): #
+#							print (VPOT_conf.sample_coverage[j],"/",content) #
+						if (content == VPOT_conf.sample_coverage[j]) : 	# look for FORMAT field 
+							VPOT_conf.sample_coverage_loc[j]=i 			# save sample location	
+							break #
+#					print ("coverage : ",VPOT_conf.sample_coverage_loc) #
+				source_vcf.close() # finish with source vcf file 
+				return 0 # have setup all location values - ok to go back
+#							print INFO1 #
+#							print FORMAT1 #
+#							print SAMPLE1 #
+
+#ed	source_vcf.close() # finish with source vcf file 
+	return 1 # not a clean exit
+#
+###########################################################################################################
+#
+###########################################################################################################
 def setup_for_this_src_file(file_line): #
 #
 #	global GT_loc #
@@ -161,61 +239,28 @@ def setup_for_this_src_file(file_line): #
 	VPOT_conf.FORMAT_loc=-1 #
 	VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1] # location of VCF format codes for sample 
 	#
-	with open(file_line[0],'r', encoding="utf-8") as source_vcf : #
-		for src_line in source_vcf: # work each line of source vcf file 
-			src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
-			if ("##" not in src_line1[0]): #
-#				print src_line1 #
-				if ("#CHROM" in src_line1[0]): # find sample location
-					for i, content in enumerate(src_line1): # return the value and index number of each item in the line array 
-#								print "content-",content,"/",i				#
-						if (content == file_line[1]) : # when filtering for sample ID 
-							VPOT_conf.sample_loc=i #save sample location
-							VPOT_conf.sample_ID=file_line[1] # save sample ID
-#							print "SAMPLE: ",sample_loc #
-						elif (content == "INFO") : # 
-							VPOT_conf.INFO_loc=i #save sample location
-#							print "INFO_loc: ",INFO_loc #
-						elif (content == "FORMAT") : # 
-							VPOT_conf.FORMAT_loc=i #save sample location
-#							print "FORMAT_loc: ",FORMAT_loc #
-					#	
-					if ("#CHROM" not in VPOT_conf.header_ln): # is this first time
-#						print "setup header" #
-						VPOT_conf.header_ln='\t'.join(src_line1[:VPOT_conf.INFO_loc+1])+tab+VPOT_conf.GENE_NAME # save heading up to INFO (using INFO_loc +1 to denote the stop field)
-						VPOT_conf.blank_variant_ln=VPOT_conf.header_ln # save heading up to INFO (using INFO_loc +1 to denote the stop field)
-#						VPOT_conf.header_ln='\t'.join(src_line1[:VPOT_conf.INFO_loc+1]) # save heading up to INFO (using INFO_loc +1 to denote the stop field)
-#						VPOT_conf.blank_variant_ln='\t'.join(src_line1[:VPOT_conf.INFO_loc+1]) #
-				else : # variants lines 
-					FORMAT1=re.split(':',src_line1[VPOT_conf.FORMAT_loc]) # split into file location and sample id
-#					print "format : ",FORMAT1 #
-					for i, content in enumerate(FORMAT1): # return the value and index number of each item in the line array 
-#						print ("content-",content,"/",i)				#
-						for j in range(len(VPOT_conf.sample_coverage)): #
-#							print (VPOT_conf.sample_coverage[j],"/",content) #
-							if (content == VPOT_conf.sample_coverage[j]) : 	# look for FORMAT field 
-								VPOT_conf.sample_coverage_loc[j]=i 			# save sample location	
-								break #
-#					print ("coverage : ",VPOT_conf.sample_coverage_loc) #
-					source_vcf.close() # finish with source vcf file 
-					return 0 # have setup all location values - ok to go back
-#							print INFO1 #
-#							print FORMAT1 #
-#							print SAMPLE1 #
-
-#ed	source_vcf.close() # finish with source vcf file 
-	return 1 # not a clean exit
+#	with open(file_line[0],'r', encoding="utf-8") as source_vcf : #
+##
+	return_val=0 #
+	if file_line[0].endswith('.gz'):
+		with gzip.open(file_line[0],'rt') as source_vcf : #
+			if ( setup_for_this_src_file_1(source_vcf,file_line) != 0 ): #
+				return_val=1 #
+	else:
+		with open(file_line[0],'r',encoding="utf-8") as source_vcf : #
+			if ( setup_for_this_src_file_1(source_vcf,file_line) != 0 ): #
+				return_val=1 #
+#
+	return return_val #
 #
 ###########################################################################################################
 #
 ###########################################################################################################
-def work_this_src_file(file_line): #
+def work_this_src_file_1(source_vcf, wrkf1): #
 #
 ##
 #	print "work_this_src_file(file_line): " #
 #	print working_file1 #
-	wrkf1=open(VPOT_conf.working_file1,'w', encoding="utf-8") # 
-	with open(file_line[0],'r', encoding="utf-8") as source_vcf : #
 		for src_line in source_vcf: # work each line of source vcf file 
 			src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 			if ("#" not in src_line1[0]): # skip the header lines
@@ -232,10 +277,6 @@ def work_this_src_file(file_line): #
 #				print ("GT: ",VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val],":",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) 
 #				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] )
 #				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
-#ed				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] == ".") : # no DP_val 
-#ed					SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] = "0"  # set it as zero 
-#ed				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no DP_val 
-#ed					SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
 #				print (SAMPLE1) 
 					
 #
@@ -251,7 +292,6 @@ def work_this_src_file(file_line): #
 						((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= int(VPOT_conf.Maxcoverage))))) : # DP
 #
 #						print ("add") #
-#					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[0]]) # get the genotype fields
 						GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
 #				print GT_values #
 						for j in range(len(GT_values)) : #
@@ -262,7 +302,26 @@ def work_this_src_file(file_line): #
 								break # get out of for loop (GT_values)
 #				else : #  NR
 #					print "not adding" #
-
+#
+#	source_vcf.close() # finish with source vcf file 
+###########################################################################################################
+#
+###########################################################################################################
+#
+def work_this_src_file(file_line): #
+#
+##
+#	print "work_this_src_file(file_line): " #
+#	print working_file1 #
+	wrkf1=open(VPOT_conf.working_file1,'w', encoding="utf-8") # 
+#
+	if file_line[0].endswith('.gz'):
+		with gzip.open(file_line[0],'rt') as source_vcf : #
+			work_this_src_file_1(source_vcf,wrkf1) #
+	else:
+		with open(file_line[0],'r',encoding="utf-8") as source_vcf : #
+			work_this_src_file_1(source_vcf,wrkf1) #
+#
 	wrkf1.close() # finish with the output file 
 #
 #	print "sort unique" #
@@ -294,7 +353,6 @@ def check_this_variant(src_line, wrkf1):  #
 			gtype="1" 
 #		print (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]],"-",gtype)#
 		outline='\t'.join(src_line1[:VPOT_conf.INFO_loc+1])+tab+VPOT_conf.gene_ref+tab+gtype+nl #
-#		outline='\t'.join(src_line1[:VPOT_conf.INFO_loc+1])+tab+VPOT_conf.gene_ref+nl #
 		wrkf1.write(outline) #
 #	else : #
 #		print "did not pass PF" #

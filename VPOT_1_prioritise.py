@@ -92,7 +92,7 @@ def create_annotation_parameter(first_inputfn): #
 ##
 	#
 #	print "1st file of input: ",first_inputfn #
-	if (input_type_VCF) : # VCf input
+	if (input_type_VCF) : # VCF input
 		VPOT_1_1_VCF.parameters(first_inputfn) #
 	else : # txt input
 		VPOT_1_2_TXT.parameters(first_inputfn) #
@@ -258,7 +258,7 @@ def main(): #
 #		print info_msg2 # parameter file supplied then use it 
 		read_parameter_file() #
 		
-		if (input_type_VCF) : # VCf input
+		if (input_type_VCF) : # VCF input
 			error=VPOT_1_1_VCF.read_variant_source_file() #
 		else : # txt input
 			error=VPOT_1_2_TXT.read_variant_source_file() #
@@ -268,7 +268,7 @@ def main(): #
 #		print "error : ",error #
 		if ( error != 1 ): #  no error 
 			if ((len(VPOT_conf.PD_array) > 0 ) or (len(VPOT_conf.VT_array) > 0)) : # there is predictors/variant scoring  
-				if (input_type_VCF) : # VCf input
+				if (input_type_VCF) : # VCF input
 					VPOT_1_1_VCF.score_the_variants() #
 				else : # txt input
 					VPOT_1_2_TXT.score_the_variants() #
