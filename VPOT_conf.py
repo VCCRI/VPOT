@@ -159,7 +159,10 @@ def update_existing_variants(work_file,value): #
 #			print "Line in combined samples file: ",line2 #
 			line2_array=re.split('\t|\n|\r',line2) # split into file location and sample id
 			if (line2_array[0] != "#CHROM"): # not header line
-				outline3='\t'.join(line2_array[:-1])+tab+value+nl #
+				if (value == "1"): # 1st file then no need for any addition
+					outline3='\t'.join(line2_array[:-1])+nl #
+				else : # not first - then just do the zero
+					outline3='\t'.join(line2_array[:-1])+tab+value+nl #
 #				print "new variant : ", outline3 #
 				final_file.write(outline3) #
 			#
@@ -209,35 +212,43 @@ def incorporate_this_src_into_full_file(): #
 		while (new_sample_not_finished and current_sample_not_finished): # while we are working the two files
 			line1_array=re.split('\t|\n|\r',S1) # split the variant line
 			line2_array=re.split('\t|\n|\r',C1) # split the variant line
+			new_sample_len=len(line1_array) #
+			current_sample_len=len(line2_array) #
 #
-#			print "S1 : ",line1_array[:5] #
-#			print "C1 : ",line2_array[:5] # same variant
+#			print ("S1 : ",line1_array) #
+#			print ("C1 : ",line2_array) # same variant
 #			if (line1_array[:5] == line2_array[:5]): # same variant
 			if (line1_array[0] == line2_array[0]): # same chr
 				if (int(line1_array[1]) == int(line2_array[1])) :  # same POS (left flank)
 					if (line1_array[3] == line2_array[3]): # same REF
-						if (line1_array[4] == line2_array[4]): # same ALT
-							outline3='\t'.join(line2_array[:-1])+tab+"1"+nl # 
+						if (line1_array[4] == line2_array[4]): # same ALT - so the same variants
+#							outline3='\t'.join(line2_array[:-1])+tab+"1"+nl # 
+#							print ("this sample genotype : ",line1_array[new_sample_len-2])
+							outline3='\t'.join(line2_array[:-1])+tab+line1_array[new_sample_len-2]+nl # 
 							final_file.write(outline3) # 
-#							print "same -",outline3 #
+#							print ("same -",outline3) #
 							S1=new_sample.readline() #
 							C1=current_sample.readline() #
-						elif (line1_array[4] < line2_array[4]): #
-							new_sample_len=len(line1_array) #
-							variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
-							outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
+						elif (line1_array[4] < line2_array[4]): # not same variant and new variant is before current variant
+#							new_sample_len=len(line1_array) #
+							variant_line[:new_sample_len-2]=line1_array[:new_sample_len-2] # one less to exclude the genotype and \n 
+#							variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the genotype and \n 
+							outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # replace the last 0 with a 1
+#							outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
 							final_file.write(outline3) #
-#							print "new -",outline3 #
+#							print ("new early -",outline3) #
 							S1=new_sample.readline() #
-						else: # (line1_array[4] > line2_array[4]): #
-							outline3='\t'.join(line2_array[:-1])+tab+"0"+nl # 
+						else: # (line1_array[4] > line2_array[4]): # this variant is after current
+							outline3='\t'.join(line2_array[:-1])+tab+"0"+nl # add a 0 for current variant for sample
 							final_file.write(outline3) # 
 #							print "current -",outline3 #
 							C1=current_sample.readline() #
-					elif (line1_array[3] < line2_array[3]): #
-						new_sample_len=len(line1_array) #
-						variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
-						outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
+					elif (line1_array[3] < line2_array[3]): # different ref - earlier
+#						new_sample_len=len(line1_array) #
+						variant_line[:new_sample_len-2]=line1_array[:new_sample_len-2] # one less to exclude the genotype and \n 
+#						variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
+#						outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
+						outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # replace the last 0 with a 1
 						final_file.write(outline3) #
 #						print "new -",outline3 #
 						S1=new_sample.readline() #
@@ -246,10 +257,12 @@ def incorporate_this_src_into_full_file(): #
 						final_file.write(outline3) # 
 #						print "current -",outline3 #
 						C1=current_sample.readline() #
-				elif (int(line1_array[1]) < int(line2_array[1])) :  # 
-					new_sample_len=len(line1_array) #
-					variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
-					outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
+				elif (int(line1_array[1]) < int(line2_array[1])) :  # earlier position 
+#					new_sample_len=len(line1_array) #
+					variant_line[:new_sample_len-2]=line1_array[:new_sample_len-2] # one less to exclude the genotype and \n 
+#					variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
+					outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # add the sample genotype
+#					outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
 					final_file.write(outline3) #
 #					print "new -",outline3 #
 					S1=new_sample.readline() #
@@ -258,10 +271,12 @@ def incorporate_this_src_into_full_file(): #
 					final_file.write(outline3) # 
 #					print "current -",outline3 #
 					C1=current_sample.readline() #
-			elif (line1_array[0] < line2_array[0]): #
-				new_sample_len=len(line1_array) #
-				variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
-				outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
+			elif (line1_array[0] < line2_array[0]): # different chromosome
+#				new_sample_len=len(line1_array) #
+				variant_line[:new_sample_len-2]=line1_array[:new_sample_len-2] # one less to exclude the genotype and \n 
+#				variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
+				outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # add the sample genotype
+#				outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
 				final_file.write(outline3) #
 #				print "new -",outline3 #
 				S1=new_sample.readline() #
@@ -283,8 +298,10 @@ def incorporate_this_src_into_full_file(): #
 			line1_array=re.split('\t|\n|\r',S1) # split the variant line
 #			print "sample file left", line1_array #
 			new_sample_len=len(line1_array) #
-			variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
-			outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
+			variant_line[:new_sample_len-2]=line1_array[:new_sample_len-2] # one less to exclude the genotype and \n 
+#			variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
+			outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # add the sample genotype
+#			outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
 			final_file.write(outline3) #
 			S1=new_sample.readline() #
 			if not S1 : # no more lines in new sample

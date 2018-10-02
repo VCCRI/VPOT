@@ -110,10 +110,6 @@ def setup_default_pred_values(file1): #
 ###########################################################################################################
 #
 ###########################################################################################################
-#
-###########################################################################################################
-#
-###########################################################################################################
 def read_variant_source_file(): #
 #
 ##
@@ -231,17 +227,28 @@ def work_this_src_file(file_line): #
 #				print SAMPLE1 #
 #				print VPOT_conf.sample_coverage_loc #
 # have a coverage check on the sample 
-				if (((VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] == -1) or ((SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] != ".") and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) >= VPOT_conf.Maxcoverage))) and #  NR
-					((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or ((SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] != ".") and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= VPOT_conf.Maxcoverage)))) : # DP
+#				if (((VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] == -1) or ((SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] != ".") and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) >= VPOT_conf.Maxcoverage))) and #  NR
+#					((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or ((SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] != ".") and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= VPOT_conf.Maxcoverage)))) : # DP
+				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./.") : # a valid genotype 
+#					print ("pass") #
+					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] == ".") : # no DP_val 
+						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] = "0"  # set it as zero 
+					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no DP_val 
+						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
+					if (((VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] == -1) or 
+						((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) >= int(VPOT_conf.Maxcoverage)))) and  #  NR
+						((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
+						((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= int(VPOT_conf.Maxcoverage))))) : # DP
+#
 #					print "add" #
-					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
+						GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
 # 	 				print GT_values #
-					for j in range(len(GT_values)) : #
+						for j in range(len(GT_values)) : #
 #					print GT_values[j] #
-						if ( GT_values[j] not in VPOT_conf.Non_alt_GT_types ) : # when filtering for QC value 
+							if ( GT_values[j] not in VPOT_conf.Non_alt_GT_types ) : # when filtering for QC value 
 #						print "keep this variant1" #
-							check_this_variant(src_line, wrkf1) #
-							break # get out of for loop (GT_values)
+								check_this_variant(src_line, wrkf1) #
+								break # get out of for loop (GT_values)
 
 	wrkf1.close() # finish with the output file 
 #
@@ -260,6 +267,7 @@ def check_this_variant(src_line, wrkf1):  #
 #	print "check_this_variant(src_line, wrkf1):  ",src_line #
 #
 	src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
+	SAMPLE1=re.split(':',src_line1[VPOT_conf.sample_loc]) # split the sample's FORMAT fields 
 	header1=re.split('\t|\n|\r',VPOT_conf.header_ln) # split into file location and sample id
 #	print "header : ",VPOT_conf.header_ln #
 #	print src_line1 #
@@ -270,8 +278,13 @@ def check_this_variant(src_line, wrkf1):  #
 #		if ( gene != 0 ):    # check if variant found != means yes 
 #			VPOT_conf.gene_ref=src_line1[gene] # now add in the gene ref 
 #
-		outline='\t'.join(src_line1[:VPOT_conf.FORMAT_loc+1])+tab+VPOT_conf.gene_ref+nl #
-#		outline='\t'.join(src_line1[:VPOT_conf.FORMAT_loc+1])+nl #
+		if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] == "1/1") : # a homozygous alt genotype 
+			gtype="2" #
+		else : #
+			gtype="1" 
+#
+		outline='\t'.join(src_line1[:VPOT_conf.FORMAT_loc+1])+tab+VPOT_conf.gene_ref+tab+gtype+nl #
+#		outline='\t'.join(src_line1[:VPOT_conf.FORMAT_loc+1])+tab+VPOT_conf.gene_ref+nl #
 		wrkf1.write(outline) #
 #	else : #
 #		print "did not pass PF" #
@@ -298,12 +311,22 @@ def population_frequency(info_ln,header1): #
 					temp_val=info_ln[i]
 				else : # not number, so set a default as no annotation in population_frequency check would mean novel	
 					temp_val=-999
+				if ( VPOT_conf.is_number(temp_val) ) : # numeric
+				#					print INFO1[i],INFO1[i+1],"/",PF_array[j][2] #
+#					print ("temp_val yes :",temp_val) #
+#					print (VPOT_conf.PF_array[j][3]) #
+					if ( VPOT_conf.PF_array[j][3] == "LE" ) :	 # lower or each to PF limit 
 #					print (info_ln[i],"/",VPOT_conf.PF_array[j][2]) #
 ##				if ( float(info_ln[i]) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
-				if ( float(temp_val) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
+						if ( float(temp_val) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
 #						print ("do not want : ",info_ln[i],"/",VPOT_conf.PF_array[j][2]) #
-					val=1 # do not want this variant 
-					break #
+							val=1 # do not want this variant 
+							break #
+					else : # GT  look for greater or equal to PF limit	
+						if ( float(temp_val) < float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
+#					print INFO1[i],INFO1[i+1],"/",PF_array[j][2] #
+							val=1 # do not want this variant 
+							break #
 #
 	return val #
 #	

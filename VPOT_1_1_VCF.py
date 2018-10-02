@@ -250,14 +250,14 @@ def work_this_src_file(file_line): #
 						((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
 						((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= int(VPOT_conf.Maxcoverage))))) : # DP
 #
-#					print "add" #
+#						print ("add") #
 #					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[0]]) # get the genotype fields
 						GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
 #				print GT_values #
 						for j in range(len(GT_values)) : #
 #					print (GT_values[j]) #
 							if ( GT_values[j] not in VPOT_conf.Non_alt_GT_types ) : # when filtering for QC value 
-#						print ("keep this variant1") #
+#								print ("keep this variant1") #
 								check_this_variant(src_line, wrkf1) #
 								break # get out of for loop (GT_values)
 #				else : #  NR
@@ -280,13 +280,21 @@ def check_this_variant(src_line, wrkf1):  #
 #	print "check_this_variant(src_line, wrkf1):  ",src_line #
 #
 	src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
-#	print src_line1[VPOT_conf.INFO_loc] #
+	SAMPLE1=re.split(':',src_line1[VPOT_conf.sample_loc]) # split the sample's FORMAT fields 
+#	print (src_line1) #
+#	print (SAMPLE1) #
 	if (population_frequency(src_line1[VPOT_conf.INFO_loc]) == 0 ): # check if variant with in filter
-#		print "saving this variant1" #
+#		print ("saving this variant1") #
 		VPOT_conf.gene_ref="NONE" #
 		find_gene_ref(src_line1[VPOT_conf.INFO_loc])    # check if variant found != means yes 
 #
-		outline='\t'.join(src_line1[:VPOT_conf.INFO_loc+1])+tab+VPOT_conf.gene_ref+nl #
+		if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] == "1/1") : # a homozygous alt genotype 
+			gtype="2" #
+		else : #
+			gtype="1" 
+#		print (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]],"-",gtype)#
+		outline='\t'.join(src_line1[:VPOT_conf.INFO_loc+1])+tab+VPOT_conf.gene_ref+tab+gtype+nl #
+#		outline='\t'.join(src_line1[:VPOT_conf.INFO_loc+1])+tab+VPOT_conf.gene_ref+nl #
 		wrkf1.write(outline) #
 #	else : #
 #		print "did not pass PF" #
@@ -320,7 +328,8 @@ def population_frequency(info_ln): #
 				if ( VPOT_conf.is_number(temp_val) ) : # numeric
 				#					print INFO1[i],INFO1[i+1],"/",PF_array[j][2] #
 #					print ("temp_val yes :",temp_val) #
-					if ( VPOT_conf.PF_array[j][2] == "LE" ) :	 # lower or each to PF limit 
+#					print (VPOT_conf.PF_array[j][3]) #
+					if ( VPOT_conf.PF_array[j][3] == "LE" ) :	 # lower or each to PF limit 
 						if ( float(temp_val) > float(VPOT_conf.PF_array[j][2]) ) :	 # when number is < 0.0001 it is expressed as e-0x 
 #					print INFO1[i],INFO1[i+1],"/",PF_array[j][2] #
 							val=1 # do not want this variant 
@@ -331,6 +340,7 @@ def population_frequency(info_ln): #
 							val=1 # do not want this variant 
 							break #
 	#
+#	print ("val :",val)
 	return val #
 #	
 ###########################################################################################################
