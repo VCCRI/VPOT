@@ -214,14 +214,14 @@ def Samples_stats(Output_file,sample,pos): #
 	lr=-1 # start with header line
 	for line in open(VPOT_conf.full_file2): 
 		lr = lr+1 #
-	Outln=Outln+"Total number of variants : "+str(lr)+VPOT_conf.nl #
+	Outln=Outln+"Total number of scoring variants : "+str(lr)+VPOT_conf.nl #
 #
 # VPOT_conf.full_file2 - contains variants for all samples is at the percentile level
 	unique_genes(VPOT_conf.full_file2) #
 	lr=0 #
 	for line in open(VPOT_conf.sort_file1): 
 		lr = lr+1 #
-	Outln=Outln+"Total number of genes : "+str(lr)+VPOT_conf.nl #
+	Outln=Outln+"Total number of genes with scoring variants : "+str(lr)+VPOT_conf.nl #
 #
 #  now list variants per gene for ones that meet the percentile criteria
 #
