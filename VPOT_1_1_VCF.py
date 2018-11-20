@@ -34,7 +34,7 @@ def parameters_p1(input_file):
 #				print this_line[2] #
 #				print VPOT_conf.Population # when filtering for QC value 
 				if any( s in this_line[2] for s in VPOT_conf.Population ) : # when filtering for QC value 
-					VPOT_conf.pop_array.append([VPOT_conf.PF,this_line[2],VPOT_conf.MAFval]) 
+					VPOT_conf.pop_array.append([VPOT_conf.PF,this_line[2],VPOT_conf.MAFval,"LE"]) 
 				else :
 					VPOT_conf.pred_array.append([VPOT_conf.PD,this_line[2],"N","","0","","1","","2"]) 
 #
