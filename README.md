@@ -51,11 +51,12 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 
  To provide population frequency threshold for selection of variants.
 
- FORMAT :    PF	&lt;population frequency annotation name in VCF>	&lt;filter Value>
+ FORMAT :    PF	&lt;population frequency annotation name in VCF>	&lt;filter Value> &lt;LE | GE>
 
  Example :   PF	ExAC_ALL	0.01 LE
 
- This will tell VPOT to use the ExAC_ALL annotation values as a variant filtering criteria. VPOT will return variants that are <= to the value given, in this case 0.01.
+ This will tell VPOT to use the ExAC_ALL annotation values as a variant filtering criteria. VPOT will return variants that are <= (LE) to the value given, in this case 0.01.
+ To look for variant greater than a certain filter Value use GE.
  Multiple PF lines can be provided if you want to filter based on a combination of population frequency datasets. Note it is a AND logical approach, so the return variant would have
  met all the PF criteria. 
 
