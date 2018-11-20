@@ -1,6 +1,6 @@
 PF	Population_filter	Value
-PF	C_AF_TOT	0.10  LE
-PF	ExAC_ALL	0.10  LE
+PF	C_AF_TOT	0.10	LE
+PF	ExAC_ALL	0.10	LE
 PF	1000g2015aug_all	0.10  LE
 PD	Predictors	Type	PD_Value	VPOT_Value	PD_Value	VPOT_Value	PD_Value	VPOT_Value
 PD	SIFT_pred	A	T	0	D	2	-999	2	
