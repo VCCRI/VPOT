@@ -65,7 +65,8 @@ def setup_default_pred_values_1(first_fn): #
 	for line in first_fn: #
 		this_line=re.split('\t|\n|\r|=|;',line) #
 #			print line 
-		for i, content in enumerate(this_line): # return the value and index number of each item in the line array 
+		try: #
+			for i, content in enumerate(this_line): # return the value and index number of each item in the line array 
 #				print "content-",content,"/",i				#
 				for j in range(len(VPOT_conf.pred_array)): #
 					if (content == VPOT_conf.pred_array[j][1]) : # when filtering for QC value 
@@ -98,6 +99,13 @@ def setup_default_pred_values_1(first_fn): #
 												break #
 										k+=1 # move to VPOT_conf.pred_array slot
 #									print VPOT_conf.pred_array[j] #
+		except: # debug messages
+			print("Error occurred at line :", line) #
+			print("pred value in line :", this_line[i+1]) #
+#			print("pred_array when error occurred :", VPOT_conf.pred_array) #
+#			print("pred_array index when error occurred :", j) #
+			print("pred_array when error occurred :", VPOT_conf.pred_array[j]) #
+			sys.exit(1) #
 #
 ###########################################################################################################
 #
