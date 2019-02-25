@@ -48,6 +48,18 @@ info_opt0_msg1=["#tools=$1 # which tool to use -   ",
 "#                     - for above case, a variant is maintain if it is found in 44-1 and not in 44-2. ",
 "#                     - Note: if there are more samples than the ones stated, then they do not influence the variant selection. ",
 "#           4 - variants in this percentile to include in gene breakdown", #
+"#           5 - Not used ", #
+"#inpt4=$5 # for tool ",
+"#           1 - Not used ",
+"#           2 - Not used ",
+"#           3 - Sample ID to apply inheritance model filter, if supplied ",
+"#           4 - Not used ", #
+"#           5 - Not used ", #
+"#inpt5=$6 # for tool ",
+"#           1 - Not used ",
+"#           2 - Not used ",
+"#           3 - Inheritance model - DN - DeNovo, AD - Autosomal Dominant, AR - Autosomal Recessive, CH - compound Hete, if sample ID supplied ",
+"#           4 - Not used ", #
 "#           5 - Not used "] #
 #
 input_type_VCF=True #
@@ -110,6 +122,11 @@ def main(): #
 	elif (VPOT_conf.VPOT_option=="samplef"): #
 #		print ("opt3") 
 		VPOT_3_sample_selection.main() #
+		if (VPOT_conf.inh_model in ["CH"]) : # for CH model we need to only return variants that are for genes that have variants in both parents
+#			print ("CH_inh_model") #
+			VPOT_conf.input_file=VPOT_conf.temp_output_file #
+			VPOT_conf.gene_list=VPOT_conf.sort_file3 #
+			VPOT_2_Gene.filter_the_variants() #
 	elif (VPOT_conf.VPOT_option=="stats"): #
 #		print ("opt4") 
 		VPOT_4_stats.main() #

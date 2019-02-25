@@ -30,6 +30,8 @@ def init(): ##
 	Population = ["ExAC","1000g"] #
 	global Exonic #
 	Exonic = ["ExonicFunc","VARIANT_TYPE"] #
+	global Inheritance_model #
+	Inheritance_model = ["DN","AR","AD","CH"] #
 	global MAFval #
 	MAFval="0.01" #
 	global PF #
@@ -116,17 +118,23 @@ def init(): ##
 	global temp_output_file #
 	global working_file1 #
 	global working_file2 #
+	global working_file3 #
+	global working_file4 #
 	global full_file1 #
 	global full_file2 #
 	global sort_file1 #
 	global sort_file2 #
+	global sort_file3 #
 	temp_output_file="" #
 	working_file1="" #
 	working_file2="" #
+	working_file3="" #
+	working_file4="" #
 	full_file1="" #
 	full_file2="" #
 	sort_file1="" #
 	sort_file2="" #
+	sort_file3="" #
 # output files
 ###########################################################################################################
 #

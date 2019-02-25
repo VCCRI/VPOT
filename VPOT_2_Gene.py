@@ -61,8 +61,9 @@ def filter_the_variants(): #
 # input file for filtering is the output from the VPOT process. This means the variant gene name is in a column named GENE_NAME.
 	global GENE_loc #
 #
-#	print "filter_the_variants(): " #
+#	print ("filter_the_variants(): ") #
 	#
+#	print (VPOT_conf.input_file,VPOT_conf.final_output_file) # 
 	with open(VPOT_conf.input_file,'r',encoding="utf-8") as variants_file, open(VPOT_conf.final_output_file,'w',encoding="utf-8") as filtered_file : # 
 		for line1 in variants_file: # work each line of new sample vcf file 
 			write_it=False # initialise score 
