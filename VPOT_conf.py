@@ -112,6 +112,8 @@ def init(): ##
 #GT_loc=-1 #
 	global header_ln #
 	global blank_variant_ln #
+	global inh_model #
+	inh_model="NONE" #
 	header_ln="" #
 	blank_variant_ln="" #
 #

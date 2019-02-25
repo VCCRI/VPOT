@@ -20,7 +20,7 @@ nl='\n' #
 #
 Sample_loc=-1 #
 #
-info_msg1_1="VPOT samplef : Invalid number of inputs, :" 
+info_msg1_1="VPOT samplef : Invalid number/type of inputs, :" 
 info_msg1_2="VPOT samplef : 1) output destination directory + prefix" #
 info_msg1_3="VPOT samplef : 2) Input file - output from VPOT prioritisation process" 
 info_msg1_4="VPOT samplef : 3) Selection Criteria list (ped format)" #
