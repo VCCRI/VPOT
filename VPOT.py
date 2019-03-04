@@ -133,8 +133,13 @@ def main(): #
 	elif (VPOT_conf.VPOT_option=="merge"): #
 #		print ("opt5") 
 		VPOT_5_merge.main() #
+	elif (VPOT_conf.VPOT_option=="help"): #
+		for j in range(len(info_opt0_msg1)): #
+			print (info_opt0_msg1[j]) #
 	else :
 		print ("VPOT : Invalid tool option specified - please check input command ")
+		for j in range(len(info_opt0_msg1)): #
+			print (info_opt0_msg1[j]) #
 #		
 	#clean up working file
 	clean_up() #

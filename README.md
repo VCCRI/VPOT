@@ -22,14 +22,16 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 * all done!
 
 ### Usage 
-                                                                                                                      
-* **priority**  - priority tool
+
+* **help**  -   will return a help screen                        
+        
+ * **priority**  - priority tool
     this option performs the variant proritisation process on the input samples VCF files. It will score each variant found for the supplied samples based on the weighting affixed to the annotations supplied in the Prioritisation Parameter File, PPF.
     
     Inputs :
     * location for output file+prefix
-    * file of input VCF files
-    * PPF
+    * file of input VCF files and sample IDs
+    * Prioritisation Parameter File (PPF)
     
     Output :
     * VPOT Priority Output List (VPOL)
@@ -39,7 +41,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
     
     Inputs :
     * location for output file+prefix
-    * VPOT prioritiy output
+    * VPOT Priority Output List (VPOL)
     * gene list
     
     Output :
@@ -50,10 +52,10 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
     
     Inputs :
     * location for output file+prefix
-    * VPOT prioritiy output
+    * VPOT Priority Output List (VPOL)
     * sample selection file (ped format)
     * proband sample ID (for inheritance model filtering)
-    * inheritance model (DN/AD/AR/CH for inheritance model filterng)
+    * inheritance model (DN/AD/AR/CH for inheritance model filtering)
     
     Output :
     * sample filtered VPOT Priority Output List (VPOL) 
@@ -63,18 +65,18 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
     
     Inputs :
     * location for output file+prefix
-    * VPOT prioritiy output
+    * VPOT Priority Output List (VPOL)
     * a percentile value [1-99] for quick summary statistic
     
     Output :
     * statistic VPOT Priority Output List (VPOL) 
 
-* **merge**     - merge multiple VPOT priority output files into a single VPOT priority output file
+* **merge**     - merge multiple VPOT priority output list files into a single VPOT priority output list file
        this option provide the ability to merge various VPOLs into one single VPOL. This function allows large cohorts to be split into small groups to speed up proritisation processing and then output to be re-consolidated back into one single large cohort VPOL for downstream analysis or filtering.     
        
     Inputs :
     * location for output file+prefix
-    * file containing a list of input VPOT prioritiy output files
+    * file containing a list of VPOT Priority Output List (VPOL)
         
     Output :
     * merged VPOT Priority Output List (VPOL) 
