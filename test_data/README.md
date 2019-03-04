@@ -44,17 +44,28 @@ In our CHD study we have post-annotated pathogenicity scores that lacks a value 
 
 ## 1. Priority Option
 **priority**  - prioritisation tool
-this option performs the variant proritisation process on the input samples VCF files. It will score each variant found for the supplied samples based on the weighting affixed to the annotations supplied in the Prioritisation Parameter File, PPF.
-     
+this option performs the variant proritisation process on the input samples VCF files. It will score each variant found for the supplied samples based on the weighting affixed to the annotations supplied in the Prioritisation Parameter File, PPF. 
+It can also be used to create a template PPF by extracting the range of annotation values from the first sample of the supplied input VCF files.
+
+ **For variant prioritisation :**      
   **Command line** : python3 VPOT.py priority <location for output file+prefix> < file of input VCF files> < parameter file> 
 
  Test example  :     
  - change to test_data directory
-  - python3 ../VPOT.py priority testout_ test_VCF_sample_list.txt default_0.0001_variants_parameters_PPF.txt  
+  - python3 ../VPOT.py priority testout_priority_ test_VCF_sample_list.txt default_0.001_variants_parameters_PPF.txt  
 
  result :    
- - testout_VPOL_final_output_file_XXXXXXXXXX.txt  
+ - testout_priority_VPOL_final_output_file_XXXXXXXXXX.txt  
      
+ **For creation of template Prioritisation Parameter File PPF :**      
+  **Command line** : python3 VPOT.py priority <location for output file+prefix> < file of input VCF files> 
+  
+ Test example  :     
+ - change to test_data directory
+  - python3 ../VPOT.py priority testout_ test_VCF_sample_list.txt 
+  
+ result :    
+ - testout_priority_default_prioritisation_parameters.txt  
  
 ## 2. Gene Filtering  Option   
 **genef**     - gene filter
