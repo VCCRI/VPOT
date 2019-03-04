@@ -21,10 +21,10 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 * Test that VPOT is working using the test_data and README.MD/tutorial provided.
 * all done!
 
-### Usage 
+### Usage - VPOT.py  < option >
 
-* **help**  -   will return a help screen                        
-        
+* **help**  -   will return a help screen                                                                                 
+                                                                           
  * **priority**  - priority tool
     this option performs the variant proritisation process on the input samples VCF files. It will score each variant found for the supplied samples based on the weighting affixed to the annotations supplied in the Prioritisation Parameter File, PPF.
     
