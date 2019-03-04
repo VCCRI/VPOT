@@ -108,6 +108,11 @@ this option returns a summary statistic file for the VPOL supplied. It provide a
 
    **Command line** : python3 VPOT.py stats <location for output file+prefix> <VPOT prioritiy output> <a percentile value [1-99] for quick summary statistic>    
  
+  for the input percentile value the summary provide a gene breakdown of variants that meet the percentile criteria for each sample
+- to find the highest priority variant/gene use a high value eg 90 for 90th percentile             
+- to list all variants/genes for the sample use 1 for 1st percentile                             
+- if no specific input value is given then a default value of 50 is used                             
+
 Test example  :     
    - change to test_data directory
  - python3 ../VPOT.py stats testout_ merge_t3.txt 50   
