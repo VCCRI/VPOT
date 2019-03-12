@@ -71,7 +71,7 @@ def setup_samples(): #
 		for line1 in select_input: # work each line of ped file 
 			this_line=re.split('\t|\n|\r',line1,7) # split into sample id and status (1/0)
 			this_line[6]=0 # 
-#			print (this_line) #
+			print (this_line) #
 			this_line[5]=str(int(this_line[5])-1) # set on else leave as 2
 #			print (this_line[5]) #
 			VPOT_conf.Sample_ids.append(this_line) 
@@ -188,7 +188,7 @@ def filter_the_variants(): #
 #			print "line part 0 : ",line_parts[0] #
 			if ("#CHROM" != line_parts[2]): #
 #				print src_line1 #
-				write_it=filter_variants_by_Seg(line_parts) # check get priority score
+				write_it=filter_variants_by_Seg(line_parts) # check get sample values
 				#
 			else : # save the header line	
 				write_it=True # initialise score 
@@ -217,7 +217,9 @@ def filter_variants_by_Seg(INFO_details): #
 			if ( working_value=="2" and VPOT_conf.inh_model != "AR" ) : # if homozygous and this is not AR, then set it as hete 
 				working_value="1" #
 #			if ( VPOT_conf.Sample_ids[j][5] != INFO_details[VPOT_conf.Sample_ids[j][6]] ) : # yes - check the sample's value 
-			if ( VPOT_conf.Sample_ids[j][5] != working_value ) : # yes - check the sample's value 
+#			if ( VPOT_conf.Sample_ids[j][5] != working_value ) : # yes - check the sample's value 
+			print (working_value)
+			if (( VPOT_conf.Sample_ids[j][5] != working_value ) and ( working_value != "9" )) : # yes - check the sample's value - test
 				val=False # not what is needed 
 				break # then get out and move to next variant
 #

@@ -42,6 +42,10 @@ def init(): ##
 	VT="VT" #
 	global GN #
 	GN="GN" #
+	global QC #
+	QC="QC" #
+	global QC_PASS #
+	QC_PASS=False #
 	global startlen #
 	startlen=0 #
 	global PD_type #
@@ -56,12 +60,14 @@ def init(): ##
 	Maxval=28 # allow for max of 28 characters values for an alpha predictor.
 	global CV #
 	CV="CV" #
-	global Maxcoverage # read coverage of sample must be equal or greater then this to included 
-	Maxcoverage=0 # read coverage of sample must be equal or greater then this to included 
-	#Maxcoverage=10 # read coverage of sample must be equal or greater then this to included 
 	global Non_alt_GT_types #
 	Non_alt_GT_types = ["0","."] #
 	#
+	global Maxcoverage # read coverage of sample must be equal or greater then this to included 
+	Maxcoverage=0 # read coverage of sample must be equal or greater then this to included 
+	#Maxcoverage=10 # read coverage of sample must be equal or greater then this to included 
+	global Hete_Balance # Allele balance for heteozygous call, must be equal or greater then this to accept as hete, else is homozygous ref 
+	Hete_Balance=0 # Allele balance for heteozygous call, must be equal or greater then this to accept as hete, else is homozygous ref 
 	global sample_coverage # VCF format codes to look out for 
 	global sample_coverage_loc # location of VCF format codes for sample 
 	sample_coverage = ["GT","NR","NV","DP"] # VCF format codes to look out for 
