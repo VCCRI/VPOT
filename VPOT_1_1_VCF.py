@@ -372,7 +372,7 @@ def check_this_variant(src_line, wrkf1):  #
 		find_gene_ref(src_line1[VPOT_conf.INFO_loc])    # check if variant found != means yes 
 #
 		if (not VPOT_conf.QC_PASS) : # sample did not pass QC  
-			gtype="9" #
+			gtype="." #
 		elif (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] == "1/1") : # a homozygous alt genotype 
 			gtype="2" #
 		else : #
