@@ -71,7 +71,7 @@ def setup_samples(): #
 		for line1 in select_input: # work each line of ped file 
 			this_line=re.split('\t|\n|\r',line1,7) # split into sample id and status (1/0)
 			this_line[6]=0 # 
-#			print (this_line) #
+			print (this_line) #
 			this_line[5]=str(int(this_line[5])-1) # set on else leave as 2
 #			print (this_line[5]) #
 			VPOT_conf.Sample_ids.append(this_line) 
@@ -149,7 +149,7 @@ def CH_inh_model(): #
 	VPOT_conf.sort_file1=VPOT_conf.output_dir+"sort_file1_"+suffix+"_tmp.txt" # 
 	VPOT_conf.final_output_file=VPOT_conf.working_file3 # 
 	VPOT_conf.selection_list=VPOT_conf.working_file1 #
-	extract_the_variants() #
+	extract_the_variants() # for CH only pick heteozygous variants
 	COMMAND="cut -f 11 "+VPOT_conf.working_file3+" | sort -u > "+VPOT_conf.sort_file1 #  
 	subprocess.call(COMMAND, shell=True) # do it in shell
 	# now the other
@@ -157,7 +157,7 @@ def CH_inh_model(): #
 	VPOT_conf.sort_file2=VPOT_conf.output_dir+"sort_file2_"+suffix+"_tmp.txt" # 
 	VPOT_conf.final_output_file=VPOT_conf.working_file4 # 
 	VPOT_conf.selection_list=VPOT_conf.working_file2 #
-	extract_the_variants() #
+	extract_the_variants() # for CH only pick heteozygous variants
 	COMMAND="cut -f 11 "+VPOT_conf.working_file4+" | sort -u > "+VPOT_conf.sort_file2 #  
 	subprocess.call(COMMAND, shell=True) # do it in shell
 	# merge the output together
@@ -188,7 +188,7 @@ def filter_the_variants(): #
 #			print "line part 0 : ",line_parts[0] #
 			if ("#CHROM" != line_parts[2]): #
 #				print src_line1 #
-				write_it=filter_variants_by_Seg(line_parts) # check get priority score
+				write_it=filter_variants_by_Seg(line_parts) # check get sample values
 				#
 			else : # save the header line	
 				write_it=True # initialise score 
@@ -214,10 +214,20 @@ def filter_variants_by_Seg(INFO_details): #
 	for j in range(len(VPOT_conf.Sample_ids)): #
 		if ( VPOT_conf.Sample_ids[j][6] != 0 ) : # check if this samples is in the input file 
 			working_value=INFO_details[VPOT_conf.Sample_ids[j][6]] # copy the sample's genotype value for the variant
-			if ( working_value=="2" and VPOT_conf.inh_model != "AR" ) : # if homozygous and this is not AR, then set it as hete 
+# match it with QC failed values
+#			if ( working_value=="2" and VPOT_conf.inh_model != "AR" ) : # if homozygous and this is not AR, then set the sample's variant value as hete to match the sample's ped value
+			if ( working_value=="2" and VPOT_conf.inh_model != "AR" and VPOT_conf.inh_model != "CH" ) : # if homozygous and this is not AR/CH, then set the sample's variant value as hete to match the sample's ped value
 				working_value="1" #
 #			if ( VPOT_conf.Sample_ids[j][5] != INFO_details[VPOT_conf.Sample_ids[j][6]] ) : # yes - check the sample's value 
-			if ( VPOT_conf.Sample_ids[j][5] != working_value ) : # yes - check the sample's value 
+#			if ( VPOT_conf.Sample_ids[j][5] != working_value ) : # yes - check the sample's value 
+#			QC_working_value=working_value # setup QC
+#			if ( QC_working_value=="9" ) : # if homozygous and this is not AR, then set it as hete 
+#				working_value="2" #
+#			elif ( QC_working_value=="8" ) : # if homozygous and this is not AR, then set it as hete 
+#				QC_working_value="1" #
+#			print (VPOT_conf.Sample_ids[j][5],"/",INFO_details[VPOT_conf.Sample_ids[j][6]],"/",working_value,"/",QC_working_value)
+#			if (( VPOT_conf.Sample_ids[j][5] != working_value ) and ( VPOT_conf.Sample_ids[j][5] != QC_working_value )) : # yes - check the sample's ped value against the sample's VPLOL value  - test
+			if ( VPOT_conf.Sample_ids[j][5] != working_value ) : # yes - check the sample's ped value against the sample's VPLOL value  - test
 				val=False # not what is needed 
 				break # then get out and move to next variant
 #

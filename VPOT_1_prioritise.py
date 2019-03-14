@@ -89,6 +89,9 @@ def create_annotation_parameter(first_inputfn): #
 	annotation_header3=VPOT_conf.VT+tab+"Variant_annotation"+tab+"Exception_variant_types"+tab+"Value"+nl # 
 	annotation_header4=VPOT_conf.GN+tab+"Gene Symbol"+nl # 
 	annotation_header4_1=VPOT_conf.GN+tab+"Gene.refGene"+nl # 
+	annotation_header5=VPOT_conf.QC+tab+"Quality Control"+tab+"Value"+nl # 
+	annotation_header5_1=VPOT_conf.QC+tab+"Coverage"+tab+"0"+nl # 
+	annotation_header5_2=VPOT_conf.QC+tab+"Hete_Balance"+tab+"0"+nl # 
 ##
 	#
 #	print "1st file of input: ",first_inputfn #
@@ -136,6 +139,9 @@ def create_annotation_parameter(first_inputfn): #
 	#
 	param_file.write(annotation_header4) #
 	param_file.write(annotation_header4_1) #
+	param_file.write(annotation_header5) #
+	param_file.write(annotation_header5_1) #
+	param_file.write(annotation_header5_2) #
 #
 	print (info_msg3_1) #
 	print (info_msg3_2, VPOT_conf.parameter_file) #
@@ -167,9 +173,16 @@ def read_parameter_file(): #
 				if (this_line[1] != "Variant_annotation" ): # if not the header line - then 
 						VPOT_conf.VT_array.append(this_line) 
 #
-			if (this_line[0] == VPOT_conf.GN ): # is this an Gene reference line 
+			if (this_line[0] == VPOT_conf.GN ): # is this a Gene reference line 
 				if (this_line[1] != "Gene Symbol" ): # if not the header line - then 
 						VPOT_conf.GN_value=this_line[1] # save the gene reference field 
+	#
+			if (this_line[0] == VPOT_conf.QC ): # is this a Quality Control reference line 
+				if (this_line[1] != "Quality Control" ): # if not the header line - then 
+					if (this_line[1] == "Coverage" ): # if coverage value - then 
+						VPOT_conf.Maxcoverage=int(this_line[2]) # save it 
+					if (this_line[1] == "Hete_Balance" ): # if Hete_Balance - then 
+						VPOT_conf.Hete_Balance=int(this_line[2]) # save it 
 	#
 
 ###########################################################################################################
@@ -257,6 +270,8 @@ def main(): #
 	else :
 #		print info_msg2 # parameter file supplied then use it 
 		read_parameter_file() #
+		print ("QC MaxCOverage : ",VPOT_conf.Maxcoverage) #
+		print ("QC Hete_balance : ",VPOT_conf.Hete_Balance) #
 		
 		if (input_type_VCF) : # VCF input
 			error=VPOT_1_1_VCF.read_variant_source_file() #
