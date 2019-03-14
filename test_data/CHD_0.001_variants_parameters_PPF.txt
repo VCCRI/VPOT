@@ -26,3 +26,6 @@ VT	VARIANT_TYPE	exonic_frameshift_deletion_	45
 VT	VARIANT_TYPE	exonic_synonymous_SNV_	-24
 GN	Gene Symbol
 GN	Gene.refGene
+QC	Quality Control	Value
+QC	Coverage	8
+QC	Hete_Balance	25
