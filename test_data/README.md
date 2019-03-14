@@ -150,7 +150,7 @@ Test example  :
 
 ##  2. VPOT PRIORITISATION PARAMETER FILE (PPF) FOR OPTION PRIORITY                                                                                                                                  
 
-### 1. Setting up PF population filter in PPF
+### 2.1. Setting up PF population filter in PPF
 
  To provide population frequency threshold for selection of variants.
 
@@ -164,7 +164,7 @@ Test example  :
 
 **see default_0.001_variants_parameters_PPF.txt in the test_data directory for format example.**  
 
-### 2. Setting up PD predictors in parameter file 
+### 2.2. Setting up PD predictors in parameter file 
 
  For each predictor a range of predictor scores are given along with the corresponding VPOT value. This allows the user to determine the VPOT value to be assigned to a specific score or prediction.
  VPOT allows for as many breakdown/levels of differentiation as the user wants or the predictor needs.
@@ -236,7 +236,7 @@ Test example  :
 
  **see default_0.001_variants_parameters_PPF.txt in the test_data directory for format example.**  
 
-### 3. Setting up VT annotation in parameter file 
+### 2.3. Setting up VT annotation in parameter file 
 
  To provide a point value to certain variant types that might not be well covered by predictors, eg STOPGAIN/SPLICING. 
  This allow highlighting of vertain variant types.
@@ -251,7 +251,7 @@ Test example  :
 **see default_0.001_variants_parameters_PPF.txt in the test_data directory for format example.**  
 
 
-### 4. Setting up GN gene symbol in parameter file 
+### 2.4. Setting up GN gene symbol in parameter file 
 
 
  To provide the annotation field that contains the gene the variant is located in. 
@@ -264,7 +264,7 @@ Test example  :
 
 **see default_0.001_variants_parameters_PPF.txt in the test_data directory for format example.**  
 
-### 5. Setting up QC threshold values in parameter file 
+### 2.5. Setting up QC threshold values in parameter file 
 
 
  To provide the Quality Control threshold for sample's genotype. 
@@ -278,17 +278,17 @@ Test example  :
 
 **see default_0.001_variants_parameters_PPF.txt in the test_data directory for format example.**  
 
-##  3. GENE SELECTION FILE FOR OPTION GENEF                              
+##  3. GENE SELECTION FILE FOR OPTION GENEF                                                                                                                                
                                             
  The gene selection is based on a text file with a single gene name each line.
   
- **FORMAT :**  (one gene per line):                        
+ **FORMAT :**  (one gene per line):                                                                                                         
  
  eg: ACTC1            
 
-**see test_gene.txt in the test_data directory for format example.**                                      
+**see test_gene.txt in the test_data directory for format example.**                                                                                                          
                                                                          
-##  4. SAMPLE SELECTION PED FILE FOR OPTION SAMPLEF                                          
+##  4. SAMPLE SELECTION PED FILE FOR OPTION SAMPLEF                                                                                                                                
                                             
  The sample selection is based on the pedigree ped file format, where the affected column is used to determine the selection of a variant.                                        
                                             
