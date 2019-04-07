@@ -32,4 +32,3 @@ QC	Coverage	8
 QC	Hete_Balance	25
 VS	Variant Score Threshold	Value
 VS	Score	14
-#VS	Percentage	10
