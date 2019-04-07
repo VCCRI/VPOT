@@ -94,7 +94,7 @@ def create_annotation_parameter(first_inputfn): #
 	annotation_header5_2=VPOT_conf.QC+tab+"Hete_Balance"+tab+"0"+nl # 
 	annotation_header6=VPOT_conf.VS+tab+"Variant Score Threshold"+tab+"Value"+nl # 
 	annotation_header6_1=VPOT_conf.VS+tab+"Score"+tab+"0"+nl # 
-	annotation_header6_2=VPOT_conf.VS+tab+"Percentage"+tab+"0"+nl # 
+#	annotation_header6_2=VPOT_conf.VS+tab+"Percentage"+tab+"0"+nl # 
 ##
 	#
 #	print "1st file of input: ",first_inputfn #
@@ -147,7 +147,7 @@ def create_annotation_parameter(first_inputfn): #
 	param_file.write(annotation_header5_2) #
 	param_file.write(annotation_header6) #
 	param_file.write(annotation_header6_1) #
-	param_file.write(annotation_header6_2) #
+#	param_file.write(annotation_header6_2) #
 #
 	print (info_msg3_1) #
 	print (info_msg3_2, VPOT_conf.parameter_file) #
@@ -288,7 +288,7 @@ def main(): #
 		print ("QC MaxCOverage : ",VPOT_conf.Maxcoverage) #
 		print ("QC Hete_balance : ",VPOT_conf.Hete_Balance) #
 		print ("VS Score Threshold : ",VPOT_conf.VariantScoreThreshold) #
-		print ("VS Percentage Threshold : ",VPOT_conf.VariantPercentageThreshold) #
+#		print ("VS Percentage Threshold : ",VPOT_conf.VariantPercentageThreshold) #
 		
 		if (input_type_VCF) : # VCF input
 			error=VPOT_1_1_VCF.read_variant_source_file() #
