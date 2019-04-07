@@ -92,6 +92,9 @@ def create_annotation_parameter(first_inputfn): #
 	annotation_header5=VPOT_conf.QC+tab+"Quality Control"+tab+"Value"+nl # 
 	annotation_header5_1=VPOT_conf.QC+tab+"Coverage"+tab+"0"+nl # 
 	annotation_header5_2=VPOT_conf.QC+tab+"Hete_Balance"+tab+"0"+nl # 
+	annotation_header6=VPOT_conf.VS+tab+"Variant Score Threshold"+tab+"Value"+nl # 
+	annotation_header6_1=VPOT_conf.VS+tab+"Score"+tab+"0"+nl # 
+	annotation_header6_2=VPOT_conf.VS+tab+"Percentage"+tab+"0"+nl # 
 ##
 	#
 #	print "1st file of input: ",first_inputfn #
@@ -142,6 +145,9 @@ def create_annotation_parameter(first_inputfn): #
 	param_file.write(annotation_header5) #
 	param_file.write(annotation_header5_1) #
 	param_file.write(annotation_header5_2) #
+	param_file.write(annotation_header6) #
+	param_file.write(annotation_header6_1) #
+	param_file.write(annotation_header6_2) #
 #
 	print (info_msg3_1) #
 	print (info_msg3_2, VPOT_conf.parameter_file) #
@@ -184,6 +190,13 @@ def read_parameter_file(): #
 					if (this_line[1] == "Hete_Balance" ): # if Hete_Balance - then 
 						VPOT_conf.Hete_Balance=int(this_line[2]) # save it 
 	#
+			if (this_line[0] == VPOT_conf.VS ): # is this a Variant Score Threshold reference line 
+				if (this_line[1] != "Variant Score Threshold" ): # if not the header line - then 
+					if (this_line[1] == "Score" ): # if threshold value - then 
+						VPOT_conf.VariantScoreThreshold=int(this_line[2]) # save it 
+					if (this_line[1] == "Percentage" ): # if threshold value - then 
+						VPOT_conf.VariantPercentageThreshold=int(this_line[2]) # save it 
+	#
 
 ###########################################################################################################
 #
@@ -218,7 +231,9 @@ def create_final_output_file(): #
 			else : # have a priority to work with
 				score=float(line_parts[0])/float(priority_score) #
 			chgln=str(round(score,2))+tab+line1 #
-			score_file.write(chgln) #
+#
+			if ( int(score*100) >= int(VPOT_conf.VariantPercentageThreshold) ) : # check priority score,is it larger than threshold
+				score_file.write(chgln) #
 #
 #
 #	COMMAND="sed -i 's/\\\\x3b/,/g' "+VPOT_conf.final_output_file #  
@@ -272,6 +287,8 @@ def main(): #
 		read_parameter_file() #
 		print ("QC MaxCOverage : ",VPOT_conf.Maxcoverage) #
 		print ("QC Hete_balance : ",VPOT_conf.Hete_Balance) #
+		print ("VS Score Threshold : ",VPOT_conf.VariantScoreThreshold) #
+		print ("VS Percentage Threshold : ",VPOT_conf.VariantPercentageThreshold) #
 		
 		if (input_type_VCF) : # VCF input
 			error=VPOT_1_1_VCF.read_variant_source_file() #

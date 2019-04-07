@@ -470,12 +470,15 @@ def score_the_variants(): #
 				#
 				if ( float(priority_score) <= 0 ) : # check priority score
 					priority_score=0 #
-				outline=str(priority_score)+tab+line1 #
+				#
+				if ( int(priority_score) >= int(VPOT_conf.VariantScoreThreshold) ) : # check priority score,is it larger than threshold
+					outline=str(priority_score)+tab+line1 # yes - then output it
+					score_file.write(outline) #
 #				print outline #
 #				score_file.write(outline) #
 			else : # save the header line	
 				outline = "Priority_score"+tab+line1 #
-			score_file.write(outline) #
+				score_file.write(outline) #
 #
 ###########################################################################################################
 #
