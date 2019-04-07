@@ -2,6 +2,7 @@ PF	Population_filter	Value
 PF	C_AF_TOT	0.001	LE
 PF	ExAC_ALL	0.001	LE
 PF	1000g2015aug_all	0.001	LE
+PF	VC_freq	0.1	LE
 PD	Predictors	Type	Low	Value	Mid	Value	High	Value
 PD	Polyphen2_HDIV_pred	A	B	0	P	2	D	4	-999	1
 PD	Polyphen2_HVAR_pred	A	B	0	P	2	D	4	-999	1
@@ -31,3 +32,4 @@ QC	Coverage	8
 QC	Hete_Balance	25
 VS	Variant Score Threshold	Value
 VS	Score	14
+#VS	Percentage	10

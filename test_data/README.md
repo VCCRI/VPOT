@@ -37,11 +37,11 @@ In order to use the default PPF it is required that these databases be included 
 | GERP++ | Conservation Score |
 | PhyloP20way_mammalian | Conservation Score |
 | SiPhy_29way | Conservation Score |
-      
+ 
 ## 3. Dealing with missing annotation/pathogenicity predictors values
 
 In our CHD study we have post-annotated pathogenicity scores that lacks a value with a -999 value in the input VCFs. We then score these -999 values like any other pathogenicity score, as a middle ground between non-pathogenic and pathogenic.  This allows us to still highlight the variant above benign variants but do not eclipse true deleterious variants. 
-          
+     
 # Tutorial on the use of VPOT 
 
 ## 1. Priority Option
@@ -102,7 +102,7 @@ this option performs the variant proritisation process on the input samples VCF 
    - python3 ../VPOT.py samplef testout_samplef_ testout_final_output_file_XXXXXXXXXX.txt test_sample_set.ped  PATIENT1 AR 
 
  result  :  
-  - testout_samplef_variant_filtered_output_file_PATIENT1_AR_XXXXXXXX.txt       
+  - testout_samplef_variant_filtered_output_file_PATIENT1_AR_XXXXXXXX.txt  
 
 ## 4. Statistic Report Option    
  **stats**     - general statistics on the VPOT priority output file
@@ -111,9 +111,9 @@ this option returns a summary statistic file for the VPOL supplied. It provide a
    **Command line** : python3 VPOT.py stats <location for output file+prefix> <VPOT prioritiy output> <a percentile value [1-99] for quick summary statistic>    
  
   for the input percentile value the summary provide a gene breakdown of variants that meet the percentile criteria for each sample
-- to find the highest priority variant/gene use a high value eg 90 for 90th percentile             
-- to list all variants/genes for the sample use 1 for 1st percentile                             
-- if no specific input value is given then a default value of 50 is used                             
+- to find the highest priority variant/gene use a high value eg 90 for 90th percentile   
+- to list all variants/genes for the sample use 1 for 1st percentile    
+- if no specific input value is given then a default value of 50 is used    
 
 Test example  :     
    - change to test_data directory
@@ -142,13 +142,13 @@ Test example  :
 ##  1. SAMPLES INPUT FILE
 
 
- FORMAT : (one sample per line):         
+ FORMAT : (one sample per line):    
  
- location of VCF file/text file< tab >sample id                                                                                        
+ location of VCF file/text file< tab >sample id   
  
 **see test_VCF_sample_list.txt in the test_data directory for format example.**
 
-##  2. VPOT PRIORITISATION PARAMETER FILE (PPF) FOR OPTION PRIORITY                                                                                                                                  
+##  2. VPOT PRIORITISATION PARAMETER FILE (PPF) FOR OPTION PRIORITY     
 
 ### 2.1. Setting up PF population filter in PPF
 
@@ -222,10 +222,10 @@ Test example  :
  
  where S = the predictor score
  
-       V = VPOT value
-       
-      Sn = Sn+1   
-      
+  V = VPOT value
+  
+ Sn = Sn+1   
+ 
  | Predictor Value | VPOT Value |
  |:---------------:|:----------:|
   x < S1 | V1
@@ -274,57 +274,70 @@ Test example  :
  Example :   QC  Coverage   8
 
  For Coverage it is minumum number of reads that is acceptable.
- For Hete_Balance it is the minumum percentage acceptable between alternate allele reads against total number of reads.
+ For Hete_Balance it is the minumum percentage acceptable between alternate 
+ allele reads against total number of reads.
 
 **see default_0.001_variants_parameters_PPF.txt in the test_data directory for format example.**  
 
-##  3. GENE SELECTION FILE FOR OPTION GENEF                                                                                                                                
-                                            
+### 2.6. Setting up VS threshold value in parameter file 
+
+ To provide the Variant Score Threshold for the variants to output into the VPOL. 
+
+ **FORMAT :**    VS	 Score < threhold value>
+
+ Example :   VS Score   14
+
+ This threshold value determine whether a variant will be included in the VPOL. It can be used to reduced the number of variants returned if the user want to set a minimum score. A variant is included in the VPOL if its Variant score is >= to this threshold.
+
+**see default_0.001_variants_parameters_PPF.txt in the test_data directory for format example.**  
+
+##  3. GENE SELECTION FILE FOR OPTION GENEF   
+    
  The gene selection is based on a text file with a single gene name each line.
   
- **FORMAT :**  (one gene per line):                                                                                                         
+ **FORMAT :**  (one gene per line):     
  
- eg: ACTC1            
+ eg: ACTC1  
 
-**see test_gene.txt in the test_data directory for format example.**                                                                                                          
-                                                                         
-##  4. SAMPLE SELECTION PED FILE FOR OPTION SAMPLEF                                                                                                                                
-                                            
- The sample selection is based on the pedigree ped file format, where the affected column is used to determine the selection of a variant.                                        
-                                            
+**see test_gene.txt in the test_data directory for format example.** 
+   
+##  4. SAMPLE SELECTION PED FILE FOR OPTION SAMPLEF   
+    
+ The sample selection is based on the pedigree ped file format, where the affected column is used to determine the selection of a variant.     
+    
  If you are selecting variants based on one sample, eg all variants for a sample from a multi-sample VCF, then you can just specify that single sample in the 
  sample slection file, eg only want all sample PATIENT1 variants :
  
- |FID  |SAMPLE_ID |PAT      |MAT      |SEX |PHENOTYPE|
+ |FID  |SAMPLE_ID |PAT |MAT |SEX |PHENOTYPE|
  |:---:|:--------:|:-------:|:-------:|:--:|:-------:|
- FAM_1|PATIENT1	|PATIENT2|PATIENT3|1|2       
-                                            
+ FAM_1|PATIENT1	|PATIENT2|PATIENT3|1|2  
+    
  If you want variants that appear in PATIENT1 but not PATIENT2, a segregation request, then you will need a line for each sample 
  
- |FID  |SAMPLE_ID |PAT      |MAT      |SEX |PHENOTYPE|
+ |FID  |SAMPLE_ID |PAT |MAT |SEX |PHENOTYPE|
  |:---:|:--------:|:-------:|:-------:|:--:|:-------:|
  FAM_1|PATIENT1	|PATIENT2|PATIENT3|1|2
  FAM_1|PATIENT2|ND1|ND2|1|1
-             
-                     -  PATIENT1  2  = affected (variant IS in sample PATIENT1)
-                     
-                     -  PATIENT2  1  = unaffected (variant IS NOT in sample PATIENT2)
-                     
+   
+ -  PATIENT1  2  = affected (variant IS in sample PATIENT1)
+ 
+ -  PATIENT2  1  = unaffected (variant IS NOT in sample PATIENT2)
+ 
  so a combination of these values will determine if a variant is maintained or not. 
  For the above case a variant is maintain if it is found in PATIENT1 and not in PATIENT2. 
  
  This filtering option allows you to work with any number of samples whether they are related or not.
  
- Note: if there are more samples than the ones stated in the initial input file then they do not influence the variant selection.           
+ Note: if there are more samples than the ones stated in the initial input file then they do not influence the variant selection. 
 
 **see test_sample_set.ped in the test_data directory for format example.**
 
- ##  5. INPUT FILE FOR OPTION MERGE            
-                                            
- **FORMAT :** (one VPOL per line): require a minimum of two files         
+ ##  5. INPUT FILE FOR OPTION MERGE  
+    
+ **FORMAT :** (one VPOL per line): require a minimum of two files    
  
- location of VPOL file                                                   
+ location of VPOL file 
  
  **see test_merge_VPOL_list.txt in the test_data directory for format example.**
 
-                                                                         
+   
