@@ -313,8 +313,11 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 #						((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
 #						((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= int(VPOT_conf.Maxcoverage))))) : # DP
 					VPOT_conf.QC_PASS=False #
-					if ((Sample_coverage >= int(VPOT_conf.Maxcoverage)) and (int((Alt_reads/Sample_coverage)*100) >= int(VPOT_conf.Hete_Balance))) : # Pas QC for coverage and balance
-						VPOT_conf.QC_PASS=True # Yes
+					if (Sample_coverage >= int(VPOT_conf.Maxcoverage)) : 
+						if ( Sample_coverage == 0 ) : # can't have divide by 0
+							Sample_coverage=1 # set a dummay value
+						if (int((Alt_reads/Sample_coverage)*100) >= int(VPOT_conf.Hete_Balance)) : # Pas QC for coverage and balance
+							VPOT_conf.QC_PASS=True # Yes
 #					print ("QC_PASS",VPOT_conf.QC_PASS) #
 					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
 #				print GT_values #

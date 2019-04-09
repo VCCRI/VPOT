@@ -76,17 +76,21 @@ def init(): ##
 	VariantPercentageThreshold=0 # Variant percentage threshold - do not include variant in VPOL below or equal to this percentage value 
 	global sample_coverage # VCF format codes to look out for 
 	global sample_coverage_loc # location of VCF format codes for sample 
-	sample_coverage = ["GT","NR","NV","DP","AD"] # VCF format codes to look out for 
-	sample_coverage_loc = [-1,-1,-1,-1,-1] # location of VCF format codes for sample 
+#	sample_coverage = ["GT","NR","NV","DP","AD"] # VCF format codes to look out for 
+#	sample_coverage_loc = [-1,-1,-1,-1,-1] # location of VCF format codes for sample 
+	sample_coverage = ["GT","NR","NV","DP"] # VCF format codes to look out for 
+	sample_coverage_loc = [-1,-1,-1,-1] # location of VCF format codes for sample 
 	#
 	global GT_val #
 	global NR_val #
 	global NV_val #
 	global DP_val #
+	global AD_val #
 	GT_val=0 #
 	NR_val=1 #
 	NV_val=2 #
 	DP_val=3 #
+	AD_val=3 #
 #
 	global pop_array #
 	global pred_array #
