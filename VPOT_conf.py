@@ -213,7 +213,7 @@ def incorporate_this_src_into_full_file(): #
 #	COMMAND="sort -V -k1,5 "+working_file1+" > "+sort_file1 #  
 #	COMMAND="sort -V -u -k1,5 "+working_file1+" > "+sort_file1 #  
 #	COMMAND="sort -u -k1,2V -k3,5 "+working_file1+" > "+sort_file1 #  
-	COMMAND="sort -u -k1,1 -k2,2n -k3,5 "+working_file1+" > "+sort_file1 #  
+	COMMAND="sort -u -k1,1V -k2,2g -k4,5 "+working_file1+" > "+sort_file1 #  
 	subprocess.call(COMMAND, shell=True) #
 	copyfile(sort_file1,working_file1) # copy back
 #	sample_output_file=output_dir+"sample_"+sample_ID+"_"+suffix+".txt" #
@@ -222,7 +222,7 @@ def incorporate_this_src_into_full_file(): #
 #	COMMAND="sort -V -k1,5 "+full_file1+" | grep -v \"CHROM\" > "+sort_file2 #  
 #	COMMAND="sort -V -k1,5 "+full_file1+" > "+sort_file2 #  
 #	COMMAND="sort -k1,2V -k3,5 "+full_file1+" > "+sort_file2 #  
-	COMMAND="sort -k1,1 -k2,2n -k3,5 "+full_file1+" > "+sort_file2 #  
+	COMMAND="sort -k1,1V -k2,2g -k4,5 "+full_file1+" > "+sort_file2 #  
 	subprocess.call(COMMAND, shell=True) #
 	copyfile(sort_file2,full_file1) # copy back
 #
@@ -242,8 +242,8 @@ def incorporate_this_src_into_full_file(): #
 			new_sample_len=len(line1_array) #
 			current_sample_len=len(line2_array) #
 #
-#			print ("S1 : ",line1_array) #
-#			print ("C1 : ",line2_array) # same variant
+#			print ("new variant - S1 : ",line1_array) #
+#			print ("variant already in file C1 : ",line2_array) # same variant
 #			if (line1_array[:5] == line2_array[:5]): # same variant
 			if (line1_array[0] == line2_array[0]): # same chr
 				if (int(line1_array[1]) == int(line2_array[1])) :  # same POS (left flank)
@@ -251,9 +251,9 @@ def incorporate_this_src_into_full_file(): #
 						if (line1_array[4] == line2_array[4]): # same ALT - so the same variants
 #							outline3='\t'.join(line2_array[:-1])+tab+"1"+nl # 
 #							print ("this sample genotype : ",line1_array[new_sample_len-2])
-							outline3='\t'.join(line2_array[:-1])+tab+line1_array[new_sample_len-2]+nl # 
+							outline3='\t'.join(line2_array[:-1])+tab+line1_array[new_sample_len-2]+nl # add in the new sample to the existing variant detail
 							final_file.write(outline3) # 
-#							print ("same -",outline3) #
+#							print ("adding new sample to current variant 1 -",outline3) #
 							S1=new_sample.readline() #
 							C1=current_sample.readline() #
 						elif (line1_array[4] < line2_array[4]): # not same variant and new variant is before current variant
@@ -263,26 +263,26 @@ def incorporate_this_src_into_full_file(): #
 							outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # replace the last 0 with a 1
 #							outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
 							final_file.write(outline3) #
-#							print ("new early -",outline3) #
+#							print ("saving new variant with new sample 1 -",outline3) #
 							S1=new_sample.readline() #
 						else: # (line1_array[4] > line2_array[4]): # this variant is after current
 							outline3='\t'.join(line2_array[:-1])+tab+"0"+nl # add a 0 for current variant for sample
 							final_file.write(outline3) # 
-#							print "current -",outline3 #
+#							print ("saving current variant with a 0 sample 1 -",outline3) #
 							C1=current_sample.readline() #
 					elif (line1_array[3] < line2_array[3]): # different ref - earlier
 #						new_sample_len=len(line1_array) #
 						variant_line[:new_sample_len-2]=line1_array[:new_sample_len-2] # one less to exclude the genotype and \n 
 #						variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
 #						outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
-						outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # replace the last 0 with a 1
+						outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # add in the new sample 
 						final_file.write(outline3) #
-#						print "new -",outline3 #
+#						print ("saving new variant and new sample 2 -",outline3) #
 						S1=new_sample.readline() #
-					else: # (line1_array[3] > line2_array[3]) #
+					else: # (line1_array[3] > line2_array[3]) #  saved variant ref > 
 						outline3='\t'.join(line2_array[:-1])+tab+"0"+nl # 
 						final_file.write(outline3) # 
-#						print "current -",outline3 #
+#						print ("saving current variant already in file with 0 for new sample 2 -",outline3) #
 						C1=current_sample.readline() #
 				elif (int(line1_array[1]) < int(line2_array[1])) :  # earlier position 
 #					new_sample_len=len(line1_array) #
@@ -291,12 +291,12 @@ def incorporate_this_src_into_full_file(): #
 					outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # add the sample genotype
 #					outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
 					final_file.write(outline3) #
-#					print "new -",outline3 #
+#					print ("saving new variant and new sample 3-",outline3) #
 					S1=new_sample.readline() #
 				else: # (int(line1_array[1]) > int(line2_array[1])) :  # 
 					outline3='\t'.join(line2_array[:-1])+tab+"0"+nl # 
 					final_file.write(outline3) # 
-#					print "current -",outline3 #
+#					print ("saving current variant already in file with 0 for new sample 3 -",outline3) #
 					C1=current_sample.readline() #
 			elif (line1_array[0] < line2_array[0]): # different chromosome
 #				new_sample_len=len(line1_array) #
@@ -305,21 +305,21 @@ def incorporate_this_src_into_full_file(): #
 				outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # add the sample genotype
 #				outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
 				final_file.write(outline3) #
-#				print "new -",outline3 #
+#				print ("saving new variant and new sample 4 -",outline3) #
 				S1=new_sample.readline() #
 			else: # (line1_array[0] > line2_array[0]): #
 				outline3='\t'.join(line2_array[:-1])+tab+"0"+nl # 
 				final_file.write(outline3) # 
-#				print "current -",outline3 #
+#				print ("saving current variant already in file with 0 for new sample 5 -",outline3) #
 				C1=current_sample.readline() #
 #
 			if not S1 : # no more lines in new sample
 				new_sample_not_finished=False #
-#				print "new sample file finsihed" #
+#				print ("new sample file finished") #
 #
 			if not C1 : # no more lines in old combined
 				current_sample_not_finished=False #
-#				print "current sample file finsihed" #
+#				print ("current sample file finished") #
 		#
 		while (new_sample_not_finished): # there are still line to work
 			line1_array=re.split('\t|\n|\r',S1) # split the variant line
@@ -330,6 +330,7 @@ def incorporate_this_src_into_full_file(): #
 			outline3='\t'.join(variant_line[:-1])+tab+line1_array[new_sample_len-2]+nl # add the sample genotype
 #			outline3='\t'.join(variant_line[:-1])+tab+"1"+nl # replace the last 0 with a 1
 			final_file.write(outline3) #
+#			print ("saving new variant and new sample 6 -",outline3) #
 			S1=new_sample.readline() #
 			if not S1 : # no more lines in new sample
 				new_sample_not_finished=False #
@@ -340,6 +341,7 @@ def incorporate_this_src_into_full_file(): #
 #			print "curr file left", line2_array #
 			outline3='\t'.join(line2_array[:-1])+tab+"0"+nl # 
 			final_file.write(outline3) # 
+#			print ("saving current variant already in file with 0 for new sample 6 -",outline3) #
 			C1=current_sample.readline() #
 			if not C1 : # no more lines in new sample
 				current_sample_not_finished=False #
@@ -350,8 +352,8 @@ def incorporate_this_src_into_full_file(): #
 #	subprocess.call(COMMAND, shell=True) #
 #
 #	COMMAND="sort -V -k1,5 "+full_file2+" > "+sort_file1 #  
-	COMMAND="sort -k1,2V -k3,5 "+full_file2+" > "+sort_file1 #  
-	COMMAND="sort -k1,2V -k3,5 "+full_file2+" > "+sort_file1 #  
+#	COMMAND="sort -k1,2V -k3,5 "+full_file2+" > "+sort_file1 #  
+	COMMAND="sort -k1,1V -k2,2g -k4,5 "+full_file2+" > "+sort_file1 #  
 	subprocess.call(COMMAND, shell=True) #
 #
 	copyfile(sort_file1,full_file2) # copy back

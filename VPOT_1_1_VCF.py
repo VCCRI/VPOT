@@ -288,26 +288,30 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 #				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] )
 #				print ("NV: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] )
 #				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
-#				print (SAMPLE1) 
-					
 #
-				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./.") : # a valid genotype 
+				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./.") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "0/.") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./0") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "0/0") : # a valid alternate genotype 
 #					print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]) 
+					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no NR_val 
+						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
+					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] == ".") : # no NV_val 
+						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] = "0"  # set it as zero 
 					if (VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] != -1 ) : #this sample have a coverage depth
+						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] == ".") : # no DP_val 
+							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] = "0"  # set it as zero 
 						Sample_coverage=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) # save DP value
 						Alt_reads=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])/2 # save DP value
 #						print ("DP") #
 					if (VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] != -1 ) and (VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val] != -1 ) : #this sample have a coverage depth from NR and NV
+						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no NR_val 
+							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
+						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] == ".") : # no NV_val 
+							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] = "0"  # set it as zero 
 						Sample_coverage=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])+int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]]) # save DP value
 						Alt_reads=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]]) # save DP value
 #						print ("NR+NV") #
 #					print ("TOT: ",str(Sample_coverage)) # 
 #					print ("ALT_READ: ",str(Alt_reads)) # 
 #					print ("pass") #
-#					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] == ".") : # no DP_val 
-#						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] = "0"  # set it as zero 
-#					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no DP_val 
-#						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
 #					if (((VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] == -1) or 
 #						((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) >= int(VPOT_conf.Maxcoverage)))) and  #  NR
 #						((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
@@ -318,17 +322,17 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 							Sample_coverage=1 # set a dummay value
 						if (int((Alt_reads/Sample_coverage)*100) >= int(VPOT_conf.Hete_Balance)) : # Pas QC for coverage and balance
 							VPOT_conf.QC_PASS=True # Yes
-#					print ("QC_PASS",VPOT_conf.QC_PASS) #
+#							print ("QC_PASS",VPOT_conf.QC_PASS) #
 					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
 #				print GT_values #
 					for j in range(len(GT_values)) : #
 #					print (GT_values[j]) #
 						if ( GT_values[j] not in VPOT_conf.Non_alt_GT_types ) : # when filtering for QC value 
-#								print ("keep this variant1") #
+#							print ("keep this variant1") #
 							check_this_variant(src_line, wrkf1) #
 							break # get out of for loop (GT_values)
 #				else : #  NR
-#					print "not adding" #
+#					print ("not adding") #
 #
 #	source_vcf.close() # finish with source vcf file 
 ###########################################################################################################
