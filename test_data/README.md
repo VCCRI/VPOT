@@ -276,6 +276,10 @@ Test example  :
  For Coverage it is minumum number of reads that is acceptable.
  For Hete_Balance it is the minumum percentage acceptable between alternate 
  allele reads against total number of reads.
+ 
+ A failed QC sample will be marked with "."
+ 
+ Note: A variant will not be removed from the VPOL even if all samples fail the genotype QC threshold.
 
 **see default_0.001_variants_parameters_PPF.txt in the test_data directory for format example.**  
 
