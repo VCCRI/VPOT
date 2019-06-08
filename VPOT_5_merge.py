@@ -117,7 +117,8 @@ def merge_the_input(infile):
 #			print("comp-",str(inl1p[2:7])) #
 #			print("mst-",str(mstl1p[2:7])) #
 #
-			if (inl1p[2:7] == mstl1p[2:7]):
+#			if (inl1p[2:7] == mstl1p[2:7]):
+			if ((inl1p[2:4] == mstl1p[2:4]) and (inl1p[5:7] == mstl1p[5:7])):
 #				print("match")
 				out_file.write(mstl1+tab+inl1+nl) # write the line to final output file 
 				inl1 = input_file.readline().rstrip()
