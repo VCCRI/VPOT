@@ -32,6 +32,8 @@ def init(): ##
 	Exonic = ["ExonicFunc","VARIANT_TYPE"] #
 	global Inheritance_model #
 	Inheritance_model = ["DN","AR","AD","CH"] #
+	global chromosome_list #
+	chromosome_list = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT"] #
 	global MAFval #
 	MAFval="0.01" #
 	global PF #
@@ -242,10 +244,37 @@ def incorporate_this_src_into_full_file(): #
 			new_sample_len=len(line1_array) #
 			current_sample_len=len(line2_array) #
 #
-#			print ("new variant - S1 : ",line1_array) #
-#			print ("variant already in file C1 : ",line2_array) # same variant
+#			print ("new variant - S1 : ",line1_array[:5]) #
+#			print ("variant already in file C1 : ",line2_array[:5]) # same variant
+			if (len(line1_array[0]) > 3): # have chr prefix
+				wrk_chr=line1_array[0]
+				new_chr=wrk_chr[3:] #
+				wrk_chr=line2_array[0] #
+				existing_chr=wrk_chr[3:] #
+			else:
+				new_chr=line1_array[0] #
+				existing_chr=line2_array[0] #
+				
+			if (new_chr == "X"):
+				new_chr=23
+			elif (new_chr == "Y"):
+				new_chr=24
+			else:
+				new_chr=int(new_chr)
+#
+			if (existing_chr == "X"):
+				existing_chr=23
+			elif (existing_chr == "Y"):
+				existing_chr=24
+			else:
+				existing_chr=int(existing_chr)
+#
+#			print ("new chr - ",str(new_chr))
+#			print ("existing chr - ",str(existing_chr))
+#
 #			if (line1_array[:5] == line2_array[:5]): # same variant
-			if (line1_array[0] == line2_array[0]): # same chr
+#			if (line1_array[0] == line2_array[0]): # same chr
+			if (new_chr == existing_chr): # same chr
 				if (int(line1_array[1]) == int(line2_array[1])) :  # same POS (left flank)
 					if (line1_array[3] == line2_array[3]): # same REF
 						if (line1_array[4] == line2_array[4]): # same ALT - so the same variants
@@ -298,7 +327,9 @@ def incorporate_this_src_into_full_file(): #
 					final_file.write(outline3) # 
 #					print ("saving current variant already in file with 0 for new sample 3 -",outline3) #
 					C1=current_sample.readline() #
-			elif (line1_array[0] < line2_array[0]): # different chromosome
+#			elif (line1_array[0] < line2_array[0]): # different chromosome
+			elif (new_chr < existing_chr): # different chromosome
+#				print ("new < exist")
 #				new_sample_len=len(line1_array) #
 				variant_line[:new_sample_len-2]=line1_array[:new_sample_len-2] # one less to exclude the genotype and \n 
 #				variant_line[:new_sample_len-1]=line1_array[:new_sample_len-1] # one less to exclude the \n 
@@ -308,6 +339,7 @@ def incorporate_this_src_into_full_file(): #
 #				print ("saving new variant and new sample 4 -",outline3) #
 				S1=new_sample.readline() #
 			else: # (line1_array[0] > line2_array[0]): #
+#				print ("new > exist")
 				outline3='\t'.join(line2_array[:-1])+tab+"0"+nl # 
 				final_file.write(outline3) # 
 #				print ("saving current variant already in file with 0 for new sample 5 -",outline3) #

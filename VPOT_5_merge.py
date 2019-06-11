@@ -69,7 +69,8 @@ def setup_for_merge(file1):
 	subprocess.call(COMMAND, shell=True) # do it in shell
 	COMMAND="cut -f 1-11 "+VPOT_conf.working_file1+" >> "+VPOT_conf.sort_file1 # reducing to only the cols we need 
 	subprocess.call(COMMAND, shell=True) # do it in shell
-	COMMAND="sort -u -k3,3V -k4,4n -k6,7 "+VPOT_conf.sort_file1+" > "+VPOT_conf.sort_file2 # create a working input file - by reducing to only the cols we need 
+	COMMAND="sort -u -k3,3V -k4,4n -k5,7 "+VPOT_conf.sort_file1+" > "+VPOT_conf.sort_file2 # create a working input file - by reducing to only the cols we need 
+#	COMMAND="sort -u -k3,3V -k4,4n -k6,7 "+VPOT_conf.sort_file1+" > "+VPOT_conf.sort_file2 # create a working input file - by reducing to only the cols we need 
 	subprocess.call(COMMAND, shell=True) # do it in shell
 	copyfile(VPOT_conf.sort_file2,VPOT_conf.sort_file1) # 
 	
@@ -116,6 +117,35 @@ def merge_the_input(infile):
 		while MEOF : #do while we still have record in master
 #			print("comp-",str(inl1p[2:7])) #
 #			print("mst-",str(mstl1p[2:7])) #
+#
+#			print ("new variant - S1 : ",line1_array[:5]) #
+#			print ("variant already in file C1 : ",line2_array[:5]) # same variant
+#			if ((inl1p[2:4] == mstl1p[2:4]) and (inl1p[5:7] == mstl1p[5:7])):
+			if (len(inl1p[2]) > 3): # have chr prefix
+				wrk_chr=inl1p[2]
+				inl1p_chr=wrk_chr[3:] #
+				wrk_chr=mstl1p[2] #
+				mstl1p_chr=wrk_chr[3:] #
+			else:
+				inl1p_chr=inl1p[2] #
+				mstl1p_chr=mstl1p[2] #
+				
+			if (inl1p_chr == "X"):
+				inl1p_chr=23
+			elif (inl1p_chr == "Y"):
+				inl1p_chr=24
+			else:
+				inl1p_chr=int(inl1p_chr)
+#
+			if (mstl1p_chr == "X"):
+				mstl1p_chr=23
+			elif (mstl1p_chr == "Y"):
+				mstl1p_chr=24
+			else:
+				mstl1p_chr=int(mstl1p_chr)
+#
+#			print ("new chr - ",str(inl1p_chr))
+#			print ("existing chr - ",str(mstl1p_chr))
 #
 #			if (inl1p[2:7] == mstl1p[2:7]):
 			if ((inl1p[2:4] == mstl1p[2:4]) and (inl1p[5:7] == mstl1p[5:7])):
