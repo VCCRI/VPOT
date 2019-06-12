@@ -120,33 +120,6 @@ def merge_the_input(infile):
 #
 #			print ("new variant - S1 : ",line1_array[:5]) #
 #			print ("variant already in file C1 : ",line2_array[:5]) # same variant
-#			if ((inl1p[2:4] == mstl1p[2:4]) and (inl1p[5:7] == mstl1p[5:7])):
-			if (len(inl1p[2]) > 3): # have chr prefix
-				wrk_chr=inl1p[2]
-				inl1p_chr=wrk_chr[3:] #
-				wrk_chr=mstl1p[2] #
-				mstl1p_chr=wrk_chr[3:] #
-			else:
-				inl1p_chr=inl1p[2] #
-				mstl1p_chr=mstl1p[2] #
-				
-			if (inl1p_chr == "X"):
-				inl1p_chr=23
-			elif (inl1p_chr == "Y"):
-				inl1p_chr=24
-			else:
-				inl1p_chr=int(inl1p_chr)
-#
-			if (mstl1p_chr == "X"):
-				mstl1p_chr=23
-			elif (mstl1p_chr == "Y"):
-				mstl1p_chr=24
-			else:
-				mstl1p_chr=int(mstl1p_chr)
-#
-#			print ("new chr - ",str(inl1p_chr))
-#			print ("existing chr - ",str(mstl1p_chr))
-#
 #			if (inl1p[2:7] == mstl1p[2:7]):
 			if ((inl1p[2:4] == mstl1p[2:4]) and (inl1p[5:7] == mstl1p[5:7])):
 #				print("match")
