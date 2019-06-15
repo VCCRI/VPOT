@@ -65,12 +65,13 @@ def initial_setup():
 def setup_for_merge(file1):
 #
 #
+#	print ("adding input file to full master : ",file1) #
 	COMMAND="tail -n+2 "+file1+" > "+VPOT_conf.working_file1 # create a working input file for file1- 
 	subprocess.call(COMMAND, shell=True) # do it in shell
 	COMMAND="cut -f 1-11 "+VPOT_conf.working_file1+" >> "+VPOT_conf.sort_file1 # reducing to only the cols we need 
 	subprocess.call(COMMAND, shell=True) # do it in shell
-	COMMAND="sort -u -k3,3V -k4,4n -k5,7 "+VPOT_conf.sort_file1+" > "+VPOT_conf.sort_file2 # create a working input file - by reducing to only the cols we need 
-#	COMMAND="sort -u -k3,3V -k4,4n -k6,7 "+VPOT_conf.sort_file1+" > "+VPOT_conf.sort_file2 # create a working input file - by reducing to only the cols we need 
+#	COMMAND="sort -u -k3,3V -k4,4n -k5,7 "+VPOT_conf.sort_file1+" > "+VPOT_conf.sort_file2 # create a working input file - by reducing to only the cols we need 
+	COMMAND="sort -u -k3,3V -k4,4n -k6,7 "+VPOT_conf.sort_file1+" > "+VPOT_conf.sort_file2 # create a working input file - by reducing to only the cols we need 
 	subprocess.call(COMMAND, shell=True) # do it in shell
 	copyfile(VPOT_conf.sort_file2,VPOT_conf.sort_file1) # 
 	
@@ -118,8 +119,6 @@ def merge_the_input(infile):
 #			print("comp-",str(inl1p[2:7])) #
 #			print("mst-",str(mstl1p[2:7])) #
 #
-#			print ("new variant - S1 : ",line1_array[:5]) #
-#			print ("variant already in file C1 : ",line2_array[:5]) # same variant
 #			if (inl1p[2:7] == mstl1p[2:7]):
 			if ((inl1p[2:4] == mstl1p[2:4]) and (inl1p[5:7] == mstl1p[5:7])):
 #				print("match")
