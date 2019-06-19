@@ -39,7 +39,7 @@ def initial_setup():
 	#
 	print ("initial_setup():") #
 	print (suffix) #
-#	print sys.argv #
+#	print (sys.argv) #
 	supplied_args=len(sys.argv) #
 	print (supplied_args) #
 #
@@ -50,12 +50,14 @@ def initial_setup():
 		VPOT_conf.output_dir=sys.argv[2] #
 		VPOT_conf.input_file=sys.argv[3] #
 		VPOT_conf.selection_list=sys.argv[4] #
-		VPOT_conf.final_output_file=VPOT_conf.output_dir+"variant_filtered_output_file_"+suffix+".txt" #
+#		VPOT_conf.final_output_file=VPOT_conf.output_dir+"variant_filtered_output_file_"+suffix+".txt" #
 		VPOT_conf.inh_model="NONE" #
 		if (supplied_args == 7 ):
 			VPOT_conf.inh_sample=sys.argv[5] #
 			VPOT_conf.inh_model=sys.argv[6] #
-			VPOT_conf.final_output_file=VPOT_conf.output_dir+"variant_filtered_output_file_"+VPOT_conf.inh_sample+"_"+VPOT_conf.inh_model+"_"+suffix+".txt" #
+			VPOT_conf.output_dir=sys.argv[2]+VPOT_conf.inh_sample+"_"+VPOT_conf.inh_model+"_" #
+#			VPOT_conf.final_output_file=VPOT_conf.output_dir+"variant_filtered_output_file_"+VPOT_conf.inh_sample+"_"+VPOT_conf.inh_model+"_"+suffix+".txt" #
+		VPOT_conf.final_output_file=VPOT_conf.output_dir+"variant_filtered_output_file_"+suffix+".txt" #
 		print ("output : ",VPOT_conf.final_output_file) #
 	
 	return 0 #
