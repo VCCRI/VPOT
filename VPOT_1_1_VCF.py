@@ -245,7 +245,8 @@ def setup_for_this_src_file(file_line): #
 	VPOT_conf.sample_ID=""
 	VPOT_conf.INFO_loc=-1 #
 	VPOT_conf.FORMAT_loc=-1 #
-	VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1] # location of VCF format codes for sample 
+#	VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1] # location of VCF format codes for sample 
+	VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1,-1] # location of VCF format codes for sample 
 	#
 #	with open(file_line[0],'r', encoding="utf-8") as source_vcf : #
 ##
@@ -271,7 +272,8 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 #	print working_file1 #
 		for src_line in source_vcf: # work each line of source vcf file 
 			src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
-			if ("#" not in src_line1[0]): # skip the header lines
+#			if ("#" not in src_line1[0]): # skip the header lines
+			if (("#" not in src_line1[0]) and ("_" not in src_line1[0])): # skip the header lines and any alternate chromosome alignments variants
 #				print (src_line1) #
 #				print src_line1[VPOT_conf.sample_loc] #
 # variants lines 
@@ -288,7 +290,7 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 #				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] )
 #				print ("NV: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] )
 #				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
-#
+# check to see if we want this variant line for this sample
 				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./.") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "0/.") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./0") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "0/0") : # a valid alternate genotype 
 #					print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]) 
 					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no NR_val 
@@ -301,6 +303,13 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 						Sample_coverage=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) # save DP value
 						Alt_reads=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])/2 # save DP value
 #						print ("DP") #
+					if (VPOT_conf.sample_coverage_loc[VPOT_conf.AD_val] != -1 ) : #this sample have an allele depth
+						AD_values=re.split(',',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.AD_val]]) # get the alleles depth
+						if (len(AD_values) > 1 ) : #  
+							Alt_reads=int(AD_values[1]) # save alternate read count
+						else : # this AD only has alternate count
+							Alt_reads=int(AD_values[0]) # save alternate read count
+#						print ("AD") #
 					if (VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] != -1 ) and (VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val] != -1 ) : #this sample have a coverage depth from NR and NV
 						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no NR_val 
 							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 

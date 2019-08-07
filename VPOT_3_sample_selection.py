@@ -262,6 +262,10 @@ def main(): #
 			else : # for DN,AR,AD 
 				VPOT_conf.selection_list=VPOT_conf.working_file1 # setup the temp ped file
 				extract_the_variants() #
+	elif (VPOT_conf.inh_model=="SELECT") : # subset selected samples from VPOL input
+#		print (" select samples found") 
+		if not setup_working_ped() :  #
+			print ("Sample ID or Parent IDs not in ped file") #
 	else :
 		print (format_msg) #
 #

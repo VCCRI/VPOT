@@ -33,7 +33,7 @@ def init(): ##
 	global Inheritance_model #
 	Inheritance_model = ["DN","AR","AD","CH"] #
 	global chromosome_list #
-	chromosome_list = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT"] #
+	chromosome_list = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","M","MT"] #
 	global MAFval #
 	MAFval="0.01" #
 	global PF #
@@ -78,10 +78,10 @@ def init(): ##
 	VariantPercentageThreshold=0 # Variant percentage threshold - do not include variant in VPOL below or equal to this percentage value 
 	global sample_coverage # VCF format codes to look out for 
 	global sample_coverage_loc # location of VCF format codes for sample 
-#	sample_coverage = ["GT","NR","NV","DP","AD"] # VCF format codes to look out for 
-#	sample_coverage_loc = [-1,-1,-1,-1,-1] # location of VCF format codes for sample 
-	sample_coverage = ["GT","NR","NV","DP"] # VCF format codes to look out for 
-	sample_coverage_loc = [-1,-1,-1,-1] # location of VCF format codes for sample 
+	sample_coverage = ["GT","NR","NV","DP","AD"] # VCF format codes to look out for 
+	sample_coverage_loc = [-1,-1,-1,-1,-1] # location of VCF format codes for sample 
+#	sample_coverage = ["GT","NR","NV","DP"] # VCF format codes to look out for 
+#	sample_coverage_loc = [-1,-1,-1,-1] # location of VCF format codes for sample 
 	#
 	global GT_val #
 	global NR_val #
@@ -92,7 +92,7 @@ def init(): ##
 	NR_val=1 #
 	NV_val=2 #
 	DP_val=3 #
-	AD_val=3 #
+	AD_val=4 #
 #
 	global pop_array #
 	global pred_array #
@@ -259,6 +259,8 @@ def incorporate_this_src_into_full_file(): #
 				new_chr=23
 			elif (new_chr == "Y"):
 				new_chr=24
+			elif ((new_chr == "M") or (new_chr == "MT")):
+				new_chr=25
 			else:
 				new_chr=int(new_chr)
 #
@@ -266,6 +268,8 @@ def incorporate_this_src_into_full_file(): #
 				existing_chr=23
 			elif (existing_chr == "Y"):
 				existing_chr=24
+			elif ((existing_chr == "M") or (existing_chr == "MT")):
+				existing_chr=25
 			else:
 				existing_chr=int(existing_chr)
 #
