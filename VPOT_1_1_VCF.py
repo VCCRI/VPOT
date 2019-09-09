@@ -72,7 +72,7 @@ def setup_default_pred_values_1(first_fn): #
 					if (content == VPOT_conf.pred_array[j][1]) : # when filtering for QC value 
 #						print VPOT_conf.pred_array[j][1], content, this_line[i+1] #
 						#if ((this_line[i+1] != ".") and (this_line[i+1] != "-999")): 
-						if ((this_line[i+1] != ".") and (this_line[i+1] != "-999")): # numeric		
+						if ((this_line[i+1] != ".") and (this_line[i+1] != "-") and (this_line[i+1] != "-999")): # numeric		
 							if (VPOT_conf.is_number(this_line[i+1])): # numeric
 								if ((VPOT_conf.pred_array[j][VPOT_conf.PD_low] == "") or (float(VPOT_conf.pred_array[j][VPOT_conf.PD_low]) > float(this_line[i+1]))): 
 									VPOT_conf.pred_array[j][VPOT_conf.PD_low] = this_line[i+1] 
