@@ -238,7 +238,8 @@ def work_this_src_file(file_line): #
 						Alt_reads=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])/2 # save DP value
 #						print ("DP") #
 					if (VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] != -1 ) and (VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val] != -1 ) : #this sample have a coverage depth from NR and NV
-						Sample_coverage=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])+int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]]) # save DP value
+#						Sample_coverage=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])+int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]]) # save DP value
+						Sample_coverage=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) # save DP value
 						Alt_reads=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]]) # save DP value
 #						print ("NR+NV") #
 #					print ("TOT: ",str(Sample_coverage)) # 

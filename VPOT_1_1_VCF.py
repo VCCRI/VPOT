@@ -324,8 +324,9 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
 						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] == ".") : # no NV_val 
 							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] = "0"  # set it as zero 
-						Sample_coverage=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])+int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]]) # save DP value
-						Alt_reads=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]]) # save DP value
+#						Sample_coverage=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]])+int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]]) # save DP value
+						Sample_coverage=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]]) # save DP value
+						Alt_reads=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]]) # save alt reads value
 #						print ("NR+NV") #
 #					print ("TOT: ",str(Sample_coverage)) # 
 #					print ("ALT_READ: ",str(Alt_reads)) # 
