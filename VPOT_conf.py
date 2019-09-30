@@ -72,27 +72,31 @@ def init(): ##
 	#Maxcoverage=10 # read coverage of sample must be equal or greater then this to included 
 	global Hete_Balance # Allele balance for heteozygous call, must be equal or greater then this to accept as hete, else is homozygous ref 
 	Hete_Balance=0 # Allele balance for heteozygous call, must be equal or greater then this to accept as hete, else is homozygous ref 
+	global Genotype_Quality # Genotype quality score must be equal or greater then this to include 
+	Genotype_Quality=0 #  Genotype quality score must be equal or greater then this to include 
 	global VariantScoreThreshold # Variant score threshold - do not include variant in VPOL less than or equal to this value
 	VariantScoreThreshold=0 # Variant score threshold - do not include variant in VPOL less than or equal to this value 
 	global VariantPercentageThreshold # Variant percentage threshold - do not include variant in VPOL below or equal to this percentage value
 	VariantPercentageThreshold=0 # Variant percentage threshold - do not include variant in VPOL below or equal to this percentage value 
 	global sample_coverage # VCF format codes to look out for 
 	global sample_coverage_loc # location of VCF format codes for sample 
-	sample_coverage = ["GT","NR","NV","DP","AD"] # VCF format codes to look out for 
-	sample_coverage_loc = [-1,-1,-1,-1,-1] # location of VCF format codes for sample 
-#	sample_coverage = ["GT","NR","NV","DP"] # VCF format codes to look out for 
-#	sample_coverage_loc = [-1,-1,-1,-1] # location of VCF format codes for sample 
+	sample_coverage = ["GT","NR","NV","DP","AD","GQ"] # VCF format codes to look out for 
+	sample_coverage_loc = [-1,-1,-1,-1,-1,-1] # location of VCF format codes for sample 
+#	sample_coverage = ["GT","NR","NV","DP","AD"] # VCF format codes to look out for 
+#	sample_coverage_loc = [-1,-1,-1,-1,-1] # location of VCF format codes for sample 
 	#
 	global GT_val #
 	global NR_val #
 	global NV_val #
 	global DP_val #
 	global AD_val #
+	global GQ_val #
 	GT_val=0 #
 	NR_val=1 #
 	NV_val=2 #
 	DP_val=3 #
 	AD_val=4 #
+	GQ_val=5 #
 #
 	global pop_array #
 	global pred_array #

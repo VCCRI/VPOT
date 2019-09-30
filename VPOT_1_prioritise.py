@@ -92,6 +92,7 @@ def create_annotation_parameter(first_inputfn): #
 	annotation_header5=VPOT_conf.QC+tab+"Quality Control"+tab+"Value"+nl # 
 	annotation_header5_1=VPOT_conf.QC+tab+"Coverage"+tab+"0"+nl # 
 	annotation_header5_2=VPOT_conf.QC+tab+"Hete_Balance"+tab+"0"+nl # 
+	annotation_header5_3=VPOT_conf.QC+tab+"Genotype_Quality"+tab+"0"+nl # 
 	annotation_header6=VPOT_conf.VS+tab+"Variant Score Threshold"+tab+"Value"+nl # 
 	annotation_header6_1=VPOT_conf.VS+tab+"Score"+tab+"0"+nl # 
 #	annotation_header6_2=VPOT_conf.VS+tab+"Percentage"+tab+"0"+nl # 
@@ -145,6 +146,7 @@ def create_annotation_parameter(first_inputfn): #
 	param_file.write(annotation_header5) #
 	param_file.write(annotation_header5_1) #
 	param_file.write(annotation_header5_2) #
+	param_file.write(annotation_header5_3) #
 	param_file.write(annotation_header6) #
 	param_file.write(annotation_header6_1) #
 #	param_file.write(annotation_header6_2) #
@@ -189,6 +191,8 @@ def read_parameter_file(): #
 						VPOT_conf.Maxcoverage=int(this_line[2]) # save it 
 					if (this_line[1] == "Hete_Balance" ): # if Hete_Balance - then 
 						VPOT_conf.Hete_Balance=int(this_line[2]) # save it 
+					if (this_line[1] == "Genotype_Quality" ): # if Genotype_Quality - then 
+						VPOT_conf.Genotype_Quality=int(this_line[2]) # save it 
 	#
 			if (this_line[0] == VPOT_conf.VS ): # is this a Variant Score Threshold reference line 
 				if (this_line[1] != "Variant Score Threshold" ): # if not the header line - then 
@@ -287,6 +291,7 @@ def main(): #
 		read_parameter_file() #
 		print ("QC MaxCOverage : ",VPOT_conf.Maxcoverage) #
 		print ("QC Hete_balance : ",VPOT_conf.Hete_Balance) #
+		print ("QC Genotype_Quality : ",VPOT_conf.Genotype_Quality) #
 		print ("VS Score Threshold : ",VPOT_conf.VariantScoreThreshold) #
 #		print ("VS Percentage Threshold : ",VPOT_conf.VariantPercentageThreshold) #
 		

@@ -213,15 +213,15 @@ def setup_for_this_src_file_1(source_vcf,file_line): #
 #						VPOT_conf.blank_variant_ln='\t'.join(src_line1[:VPOT_conf.INFO_loc+1]) #
 			else : # variants lines 
 				FORMAT1=re.split(':',src_line1[VPOT_conf.FORMAT_loc]) # split into file location and sample id
-#					print "format : ",FORMAT1 #
+#				print ("format : ",FORMAT1) #
 				for i, content in enumerate(FORMAT1): # return the value and index number of each item in the line array 
-#						print ("content-",content,"/",i)				#
+#					print ("content-",content,"/",i)				#
 					for j in range(len(VPOT_conf.sample_coverage)): #
-#							print (VPOT_conf.sample_coverage[j],"/",content) #
+#						print (VPOT_conf.sample_coverage[j],"/",content) #
 						if (content == VPOT_conf.sample_coverage[j]) : 	# look for FORMAT field 
 							VPOT_conf.sample_coverage_loc[j]=i 			# save sample location	
 							break #
-#					print ("coverage : ",VPOT_conf.sample_coverage_loc) #
+#					print ("coverage : ",VPOT_conf.sample_coverage_loc,i) #
 				source_vcf.close() # finish with source vcf file 
 				return 0 # have setup all location values - ok to go back
 #							print INFO1 #
@@ -245,8 +245,8 @@ def setup_for_this_src_file(file_line): #
 	VPOT_conf.sample_ID=""
 	VPOT_conf.INFO_loc=-1 #
 	VPOT_conf.FORMAT_loc=-1 #
-#	VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1] # location of VCF format codes for sample 
-	VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1,-1] # location of VCF format codes for sample 
+#	VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1,-1] # location of VCF format codes for sample 
+#	VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1,-1,-1] # location of VCF format codes for sample 
 	#
 #	with open(file_line[0],'r', encoding="utf-8") as source_vcf : #
 ##
@@ -278,12 +278,14 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 #				print src_line1[VPOT_conf.sample_loc] #
 # variants lines 
 				Sample_coverage=0 # initial sample coverage total 
+				Sample_GQ=0 # initial sample genotype quality score 
 				SAMPLE1=re.split(':',src_line1[VPOT_conf.sample_loc]) # split the sample's FORMAT fields 
 #				print sample_coverage_loc[1],"/", sample_coverage_loc[2] #
 #				print SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]],"/", SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] #
 # have a coverage check on the sample 
 #				print ("MaxCOverage : ",VPOT_conf.Maxcoverage) #
 #				print ("Hete_balance : ",VPOT_conf.Hete_Balance) #
+#				print ("Genotype Quality : ",VPOT_conf.Genotype_Quality) #
 #				print "coverage_loc : ",VPOT_conf.sample_coverage_loc #
 #				print (SAMPLE1) 
 #				print ("GT: ",VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val],":",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) 
@@ -293,6 +295,7 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 # check to see if we want this variant line for this sample
 				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./.") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "0/.") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./0") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "0/0") : # a valid alternate genotype 
 #					print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]) 
+#    				check coverage depth
 					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no NR_val 
 						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
 					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] == ".") : # no NV_val 
@@ -304,12 +307,18 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 						Alt_reads=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])/2 # save DP value
 #						print ("DP") #
 					if (VPOT_conf.sample_coverage_loc[VPOT_conf.AD_val] != -1 ) : #this sample have an allele depth
-						AD_values=re.split(',',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.AD_val]]) # get the alleles depth
-						if (len(AD_values) > 1 ) : #  
-							Alt_reads=int(AD_values[1]) # save alternate read count
-						else : # this AD only has alternate count
-							Alt_reads=int(AD_values[0]) # save alternate read count
+						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.AD_val]] != ".") : # has AD_val 
+							AD_values=re.split(',',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.AD_val]]) # get the alleles depth
+							if (len(AD_values) > 1 ) : #  
+								Alt_reads=int(AD_values[1]) # save alternate read count
+							else : # this AD only has alternate count
+								Alt_reads=int(AD_values[0]) # save alternate read count
 #						print ("AD") #
+					if (VPOT_conf.sample_coverage_loc[VPOT_conf.GQ_val] != -1 ) : #this sample have a genotype quality score
+						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GQ_val]] == ".") : # no GQ_val 
+							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GQ_val]] = "0"  # set it as zero 
+						Sample_GQ=int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GQ_val]]) # save GQ value
+#						print ("GQ") #
 					if (VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] != -1 ) and (VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val] != -1 ) : #this sample have a coverage depth from NR and NV
 						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no NR_val 
 							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
@@ -326,7 +335,9 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 #						((VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] == -1) or 
 #						((VPOT_conf.is_number(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]])) and (int(SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) >= int(VPOT_conf.Maxcoverage))))) : # DP
 					VPOT_conf.QC_PASS=False #
-					if (Sample_coverage >= int(VPOT_conf.Maxcoverage)) : 
+#	QC checks
+#					if (Sample_coverage >= int(VPOT_conf.Maxcoverage)) : 
+					if ((Sample_coverage >= int(VPOT_conf.Maxcoverage)) and (Sample_GQ >= int(VPOT_conf.Genotype_Quality))) : 
 						if ( Sample_coverage == 0 ) : # can't have divide by 0
 							Sample_coverage=1 # set a dummay value
 						if (int((Alt_reads/Sample_coverage)*100) >= int(VPOT_conf.Hete_Balance)) : # Pas QC for coverage and balance
