@@ -62,11 +62,11 @@ this option performs the variant proritisation process on the input samples VCF 
 **genef**     - gene filter
    this option performs variant filtering of the VPOL based on genes supplied as input.
 
-   **Command line** : python3 VPOT.py genef <location for output file+prefix> < VPOT prioritiy output> < gene list>    
+   **Command line** : python3 VPOT.py genef <location for output file+prefix> < VPOT priority output> < gene list>    
   
   Test example  :     
  - change to test_data directory
- - python3 ../VPOT.py samplef testout_ testout_final_output_file_XXXXXXXXXX.txt test_gene.txt   
+ - python3 ../VPOT.py genef testout_ testout_final_output_file_XXXXXXXXXX.txt test_gene.txt   
  
  result :    
  - testout_gene_filtered_output_file_XXXXXXXXXX.txt  
