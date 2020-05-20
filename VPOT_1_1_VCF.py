@@ -18,11 +18,13 @@ def parameters_p1(input_file):
 #	global pop_array 
 #	global pred_array 
 #
+#		print ("parameters_p1") 
 		predictors=False #
 		while True:
 			line=input_file.readline() # go thru the INFO annotation section of the VCF header
 #		print line 
 			this_line=re.split('\t|\n|\r|=|,',line) #
+#			print (this_line) 
 			if (this_line[0] =="#CHROM") : 
 				break #
 			elif (this_line[2] =="ANNOVAR_DATE") : #
@@ -271,14 +273,25 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 #	print "work_this_src_file(file_line): " #
 #	print working_file1 #
 		for src_line in source_vcf: # work each line of source vcf file 
+#			print (src_line) #
 			src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 #			if ("#" not in src_line1[0]): # skip the header lines
 			if (("#" not in src_line1[0]) and ("_" not in src_line1[0])): # skip the header lines and any alternate chromosome alignments variants
 #				print (src_line1) #
-#				print src_line1[VPOT_conf.sample_loc] #
+#				print (src_line1[VPOT_conf.FORMAT_loc]) #
+#				print (src_line1[VPOT_conf.sample_loc]) #
 # variants lines 
 				Sample_coverage=0 # initial sample coverage total 
 				Sample_GQ=0 # initial sample genotype quality score 
+				SAMPLE1_F=re.split(':',src_line1[VPOT_conf.FORMAT_loc]) # split the sample's FORMAT fields 
+				VPOT_conf.sample_coverage_loc = [-1,-1,-1,-1,-1,-1]
+				for j in range(len(SAMPLE1_F)) : #
+#						print (SAMPLE1_F[j]) #
+						for k in range(len(VPOT_conf.sample_coverage)) : #
+							if (SAMPLE1_F[j] == VPOT_conf.sample_coverage[k]): # VCF format codes to look out for 
+#								print (SAMPLE1_F[j], "/", VPOT_conf.sample_coverage[k], "/", j) #
+								VPOT_conf.sample_coverage_loc[k]=j 
+								break #
 				SAMPLE1=re.split(':',src_line1[VPOT_conf.sample_loc]) # split the sample's FORMAT fields 
 #				print sample_coverage_loc[1],"/", sample_coverage_loc[2] #
 #				print SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]],"/", SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] #
@@ -287,19 +300,25 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 #				print ("Hete_balance : ",VPOT_conf.Hete_Balance) #
 #				print ("Genotype Quality : ",VPOT_conf.Genotype_Quality) #
 #				print "coverage_loc : ",VPOT_conf.sample_coverage_loc #
+#				print (SAMPLE1_F) 
 #				print (SAMPLE1) 
+#				print ("GT: ",VPOT_conf.GT_val,"/ NR: ",VPOT_conf.NR_val,"/ NV: ",VPOT_conf.NV_val,"/ DP: ",VPOT_conf.DP_val,"/ AD: ",VPOT_conf.AD_val,"/ GQ: ",VPOT_conf.GQ_val) 
 #				print ("GT: ",VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val],":",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) 
 #				print ("NR: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] )
 #				print ("NV: ",VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] )
 #				print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]]) 
+#				print ("AD: ",VPOT_conf.sample_coverage_loc[VPOT_conf.AD_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.AD_val]]) 
+#				print ("GQ: ",VPOT_conf.sample_coverage_loc[VPOT_conf.GQ_val],"/",SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GQ_val]]) 
 # check to see if we want this variant line for this sample
 				if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./.") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "0/.") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "./0") and (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] != "0/0") : # a valid alternate genotype 
 #					print ("DP: ",VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]) 
 #    				check coverage depth
-					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no NR_val 
-						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
-					if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] == ".") : # no NV_val 
-						SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] = "0"  # set it as zero 
+					if (VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val] != -1 ) : #this sample have a NR_value
+						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] == ".") : # no NR_val 
+							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NR_val]] = "0"  # set it as zero 
+					if (VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val] != -1 ) : #this sample have a NV_value
+						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] == ".") : # no NV_val 
+							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.NV_val]] = "0"  # set it as zero 
 					if (VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val] != -1 ) : #this sample have a coverage depth
 						if (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] == ".") : # no DP_val 
 							SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.DP_val]] = "0"  # set it as zero 
