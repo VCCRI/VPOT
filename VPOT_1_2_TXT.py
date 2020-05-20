@@ -29,7 +29,7 @@ def parameters(input_file):
 		len_line=len(this_line) #
 		for j in range(len(this_line)): #
 #			print this_line[j] #
-			if (this_line[j] =="Alt") : # Alt column is #4
+			if (this_line[j] =="ALT") : # Alt column is #4
 				predictors=True #
 				VPOT_conf.txt_start=j+1 #
 			elif (this_line[j] == "FORMAT") : # ok to stop checking for predictors 
@@ -122,11 +122,11 @@ def read_variant_source_file(): #
 			this_line=re.split('\t|\n|\r',line) # split into file location and sample id
 #			print this_line #
 			if ( setup_for_this_src_file(this_line) != 0 ): # check the input file 
-				print ("Issue with input file 1: ", line) # 
+				print ("Issue with input file 1-: ", line) # 
 				return 1 # error return
 			else : #
-				print ("processing input file : ", this_line) # 
-#				print VPOT_conf.sample_loc,VPOT_conf.FORMAT_loc,VPOT_conf.sample_coverage_loc[0] #
+				print ("processing input file- : ", this_line) # 
+#				print ("checking values: ",VPOT_conf.sample_loc,VPOT_conf.FORMAT_loc,VPOT_conf.sample_coverage_loc[0]) #
 				if ((VPOT_conf.sample_loc >=0) and (VPOT_conf.FORMAT_loc >=0) and (VPOT_conf.sample_coverage_loc[0] >=0)): #
 #					print "OK" #
 					VPOT_conf.header_ln = VPOT_conf.header_ln+tab+VPOT_conf.sample_ID # add sample ID to header line
@@ -147,7 +147,7 @@ def read_variant_source_file(): #
 					
 					
 				else : #
-					print ("Issue with input file 2: ", line) #
+					print ("Issue with input file 2-: ", line) #
 					return 1 # error return 
 ###########################################################################################################
 #
@@ -271,7 +271,8 @@ def work_this_src_file(file_line): #
 	wrkf1.close() # finish with the output file 
 #
 #	print "sort unique" #
-	COMMAND="sort -V -u -k1,5 "+VPOT_conf.working_file1+" > "+VPOT_conf.sort_file1 #  
+##	COMMAND="sort -V -u -k1,5 "+VPOT_conf.working_file1+" > "+VPOT_conf.sort_file1 #  
+	COMMAND="sort -V -u "+VPOT_conf.working_file1+" > "+VPOT_conf.sort_file1 #  
 	subprocess.call(COMMAND, shell=True) #
 	copyfile(VPOT_conf.sort_file1,VPOT_conf.working_file1) # copy back
 

@@ -279,7 +279,7 @@ def main(): #
 		fn_len=len(filename) #
 		#
 		print (filename[fn_len-1]) #
-		if (filename[fn_len-1] == "txt") : #
+		if ((filename[fn_len-1] == "txt") or (filename[fn_len-1] == "tsv")) : #
 			input_type_VCF=False #
 	#
 	input.close() #
