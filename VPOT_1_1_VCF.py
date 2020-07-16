@@ -411,8 +411,10 @@ def check_this_variant(src_line, wrkf1):  #
 #
 	src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 	SAMPLE1=re.split(':',src_line1[VPOT_conf.sample_loc]) # split the sample's FORMAT fields 
+	GENOTYPE1=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # split the sample's GENOTYPE fields 
 #	print (src_line1) #
 #	print (SAMPLE1) #
+	print (GENOTYPE1) #
 	if (population_frequency(src_line1[VPOT_conf.INFO_loc]) == 0 ): # check if variant with in filter
 #		print ("saving this variant1") #
 		VPOT_conf.gene_ref="NONE" #
@@ -420,7 +422,8 @@ def check_this_variant(src_line, wrkf1):  #
 #
 		if (not VPOT_conf.QC_PASS) : # sample did not pass QC  
 			gtype="." #
-		elif (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] == "1/1") : # a homozygous alt genotype 
+#		elif (SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]] == "1/1") : # a homozygous alt genotype 
+		elif (GENOTYPE1[0] == GENOTYPE1[1]) : # a homozygous alt genotype 
 			gtype="2" #
 		else : #
 			gtype="1" 
