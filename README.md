@@ -83,7 +83,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
                                                                                                                                   
 ## see README.MD in the test_data directory for more details on each function.
 
-# Citation 
+## Citation 
 Eddie Ip, Gavin Chapman, David Winlaw, Sally L. Dunwoodie, Eleni Giannoulatou,
 VPOT: A Customizable Variant Prioritization Ordering Tool for Annotated Variants,
 Genomics, Proteomics & Bioinformatics,
