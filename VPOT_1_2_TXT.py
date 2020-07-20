@@ -62,37 +62,48 @@ def setup_default_pred_values(file1): #
 #			print this_line #
 #			if (this_line[0] !="Chr") : # skip header line
 			if (this_line[0] !="#CHROM") : # skip header line
-				for j in range(VPOT_conf.txt_start,VPOT_conf.txt_end): # keep values - start with after Alt column and ends with FORMAT
-					pred_array_pos=j-VPOT_conf.txt_start     # current VPOT_conf.pred_array position for value 
+				try: #
+					for j in range(VPOT_conf.txt_start,VPOT_conf.txt_end): # keep values - start with after Alt column and ends with FORMAT 
+						pred_array_pos=j-VPOT_conf.txt_start     # current VPOT_conf.pred_array position for value 
 #					print "VPOT_conf.pred_array_pos :",VPOT_conf.pred_array_pos     # current VPOT_conf.pred_array position for value 
 #					print "this line :",this_line[j]     # current VPOT_conf.pred_array position for value 
-					if ((this_line[j] != ".") and (this_line[j] != "-999")): 
-						if (VPOT_conf.is_number(this_line[j])): # numeric
-							if ((VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low] == "") or (float(VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low]) > float(this_line[j]))): 
-								VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low] = this_line[j] 
-							if ((VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high] == "") or (float(VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high]) < float(this_line[j]))): 
-								VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high] = this_line[j] 
-						else : # if not a value that can be expressed as a floating point then is alpha
+						if ((this_line[j] != ".") and (this_line[j] != "-") and (this_line[j] != "-999")): 
+#						if (VPOT_conf.is_number(this_line[j])): # numeric
+							if (VPOT_conf.is_number(this_line[j]) and (VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_type] != "A" )): # numeric
+								this_numeric=True
+								if ((VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low] == "") or (float(VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low]) > float(this_line[j]))): 
+									VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low] = this_line[j] 
+								if ((VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high] == "") or (float(VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high]) < float(this_line[j]))): 
+									VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high] = this_line[j] 
+							else : # if not a value that can be expressed as a floating point then is alpha
 #							print "except", this_line[i] 
-							if ((VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low] == "") or (VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low] > this_line[j])): 
-								VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low] = this_line[j] 
-							if ((VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high] == "") or (VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high] < this_line[j])): 
-								VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high] = this_line[j] 
-							VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_type] = "A" 
-							aa=len(VPOT_conf.pred_array[pred_array_pos]) 
+								this_numeric=False
+								if ((VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low] == "") or (VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low] > this_line[j])): 
+									VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_low] = this_line[j] 
+								if ((VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high] == "") or (VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high] < this_line[j])): 
+									VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_high] = this_line[j] 
+								VPOT_conf.pred_array[pred_array_pos][VPOT_conf.PD_type] = "A" 
+								aa=len(VPOT_conf.pred_array[pred_array_pos]) 
 #							print aa #
-							if (aa < VPOT_conf.Maxval): #still can add some more alpha options
-								k=VPOT_conf.startlen # point to 1st option slot 
+								if (aa < VPOT_conf.Maxval): #still can add some more alpha options
+									k=VPOT_conf.startlen # point to 1st option slot 
 #								print k, aa #
-								while (k <= aa) :
-									if (k == aa): # completed search and not found	
-										VPOT_conf.pred_array[pred_array_pos].append(this_line[j]) # then add it
+									while (k <= aa) :
+										if (k == aa): # completed search and not found	
+											VPOT_conf.pred_array[pred_array_pos].append(this_line[j]) # then add it
 #										print "add- ",this_line[i+1],"/",this_line[i] 
-									else : # keep searching
-										if (VPOT_conf.pred_array[pred_array_pos][k] == this_line[j] ) : # current value already added 
-											break #
-									k+=1 # move to pred_array slot
+										else : # keep searching
+											if (VPOT_conf.pred_array[pred_array_pos][k] == this_line[j] ) : # current value already added 
+												break #
+										k+=1 # move to pred_array slot
 #								print pred_array[pred_array_pos] #
+				except: # debug messages
+					print("Error occurred at line :", line) #
+					print("pred value in line :", this_line[j],":", this_numeric) #
+#				print("pred_array when error occurred :", VPOT_conf.pred_array) #
+#				print("pred_array index when error occurred :", j) #
+					print("pred_array when error occurred :", VPOT_conf.pred_array[pred_array_pos]) #
+					sys.exit(1) #
 #
 #	print pred_array #
 	#

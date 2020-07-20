@@ -75,13 +75,16 @@ def setup_default_pred_values_1(first_fn): #
 #						print VPOT_conf.pred_array[j][1], content, this_line[i+1] #
 						#if ((this_line[i+1] != ".") and (this_line[i+1] != "-999")): 
 						if ((this_line[i+1] != ".") and (this_line[i+1] != "-") and (this_line[i+1] != "-999")): # numeric		
-							if (VPOT_conf.is_number(this_line[i+1])): # numeric
+#							if (VPOT_conf.is_number(this_line[i+1])): # numeric
+							if (VPOT_conf.is_number(this_line[i+1]) and (VPOT_conf.pred_array[j][VPOT_conf.PD_type] != "A" )): # numeric
+								this_numeric=True
 								if ((VPOT_conf.pred_array[j][VPOT_conf.PD_low] == "") or (float(VPOT_conf.pred_array[j][VPOT_conf.PD_low]) > float(this_line[i+1]))): 
 									VPOT_conf.pred_array[j][VPOT_conf.PD_low] = this_line[i+1] 
 								if ((VPOT_conf.pred_array[j][VPOT_conf.PD_high] == "") or (float(VPOT_conf.pred_array[j][VPOT_conf.PD_high]) < float(this_line[i+1]))): 
 									VPOT_conf.pred_array[j][VPOT_conf.PD_high] = this_line[i+1] 
-							else : # if not a value that can be expressed as a floating point then is alpha
+							else : # if not a value that can be expressed as a floating point then is alpha or field is alpha
 #								print "except", this_line[i] 
+								this_numeric=False
 								if ((VPOT_conf.pred_array[j][VPOT_conf.PD_low] == "") or (VPOT_conf.pred_array[j][VPOT_conf.PD_low] > this_line[i+1])): 
 									VPOT_conf.pred_array[j][VPOT_conf.PD_low] = this_line[i+1] 
 								if ((VPOT_conf.pred_array[j][VPOT_conf.PD_high] == "") or (VPOT_conf.pred_array[j][VPOT_conf.PD_high] < this_line[i+1])): 
@@ -103,7 +106,7 @@ def setup_default_pred_values_1(first_fn): #
 #									print VPOT_conf.pred_array[j] #
 		except: # debug messages
 			print("Error occurred at line :", line) #
-			print("pred value in line :", this_line[i+1]) #
+			print("pred value in line :", this_line[i+1],":", this_numeric) #
 #			print("pred_array when error occurred :", VPOT_conf.pred_array) #
 #			print("pred_array index when error occurred :", j) #
 			print("pred_array when error occurred :", VPOT_conf.pred_array[j]) #
@@ -119,9 +122,11 @@ def setup_default_pred_values(file1): #
 	print ("VPOT_VCF.setup_default_pred_values: ") #
 ##
 	if file1.endswith('.gz'):
+		print ("using input file: ", file1input_file) #
 		with gzip.open(file1input_file,'rt') as first_fn : #
 			setup_default_pred_values_1(first_fn) #
 	else:
+		print ("using input file: ", file1) #
 		with open(file1,'r',encoding="utf-8") as first_fn : #
 			setup_default_pred_values_1(first_fn) #
 #
