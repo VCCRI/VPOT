@@ -22,7 +22,8 @@ Maxval=28 # allow for max of 28 characters values for an alpha predictor.
 Maxcoverage=0 # read coverage of sample must be equal or greater then this to included 
 Non_alt_GT_types = ["0","."] #
 # for main VPOT prioritisation option 1
-info_opt0_msg1=["#tools=$1 # which tool to use -   ",
+info_opt0_msg1=["#VPOT version 1 - 26/08/2020 ",
+"#tools=$1 # which tool to use -   ",
 "#           1: priority - priority tool     ",
 "#           2: genef - gene filter       ",
 "#           3: samplef - variant filtering ",
