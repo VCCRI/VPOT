@@ -17,6 +17,7 @@ PD	MetaSVM_pred	A	T	0	D	2	-999	1
 PD	GERP++_RS	N	-998	1	4	0	6	1	6	2
 PD	phyloP20way_mammalian	N	-998	1	0.9	0	1	1	1	2
 PD	SiPhy_29way_logOdds	N	-998	1	12	0	16	1	16	2
+PD	VEP_LoFtool	N	0	0	0.5	0	1	1	1	49
 VT	Variant_annotation	Exception_variant_types	Value
 VT	ExonicFunc.refGene	splicing	35
 VT	ExonicFunc.refGene	stopgain	50
@@ -26,10 +27,15 @@ VT	ExonicFunc.refGene	frameshift_deletion	45
 VT	ExonicFunc.refGene	synonymous_SNV	-28
 VT	VARIANT_TYPE	exonic_nonframeshift_deletion_	100
 VT	VARIANT_TYPE	exonic_stopgain_	200
+VT	VEP_Consequence	stop_gained	500
+VT	VEP_Consequence	frameshift_deletion	375
+VT	VEP_Consequence	frameshift_insertion	275
+VT	VEP_Consequence	non_coding_transcript_variant	-28
+VT	VEP_Consequence	intron_variant	-28
 GN	Gene Symbol
 GN	Gene.refGene
-QC	Quality Control	Value
-QC	Coverage	8
-QC	Hete_Balance	25
-VS	Variant Score Threshold	Value
-VS	Score	14
+#QC	Quality Control	Value
+#QC	Coverage	8
+#QC	Hete_Balance	25
+#VS	Variant Score Threshold	Value
+#VS	Score	14

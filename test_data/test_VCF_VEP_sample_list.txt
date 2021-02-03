@@ -1,0 +1,3 @@
+test-vpot-vep.vcf	19F00715
+test-vpot-vep.vcf	19W001098
+test-vpot-vep.vcf	19W001291

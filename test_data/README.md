@@ -62,11 +62,11 @@ this option performs the variant proritisation process on the input samples VCF 
 **genef**     - gene filter
    this option performs variant filtering of the VPOL based on genes supplied as input.
 
-   **Command line** : python3 VPOT.py genef <location for output file+prefix> < VPOT priority output> < gene list>    
+   **Command line** : python3 VPOT.py genef <location for output file+prefix> < VPOT prioritiy output> < gene list>    
   
   Test example  :     
  - change to test_data directory
- - python3 ../VPOT.py genef testout_ testout_final_output_file_XXXXXXXXXX.txt test_gene.txt   
+ - python3 ../VPOT.py samplef testout_ testout_final_output_file_XXXXXXXXXX.txt test_gene.txt   
  
  result :    
  - testout_gene_filtered_output_file_XXXXXXXXXX.txt  
@@ -209,7 +209,7 @@ Test example  :
  * CADD between 10 and 20 - median value for all possible canonical splice site changes and non-synonymous variants, as stated by CADD 
  * CADD > 20 has been recommend by some papers as a good pathogenicity threshold
  
- Example :   PD	CADD_phred	N	10	0	10 1 20	2
+ Example :   PD	CADD_phred	N	10	0	20	1	20	2
  
  | Predictor Value | VPOT Value |
  |:---------------:|:----------:|

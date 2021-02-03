@@ -1,8 +1,8 @@
 ###########################################################################################################
-# 
+# #
 ###########################################################################################################
 #
-import sys, re, glob, os, subprocess, time #
+import logging, sys, re, glob, os, subprocess, time #
 import numpy as np #
 import VPOT_conf #
 import gzip #
@@ -10,6 +10,8 @@ from shutil import copyfile #
 #from __main__ import *
 tab='\t' # 
 nl='\n' #
+#logging.basicConfig(stream=sys.stderr, level=logging.DEBUG) # to show debug message remove '#' at the beginning of line
+#
 ###########################################################################################################
 #
 ###########################################################################################################
@@ -419,7 +421,7 @@ def check_this_variant(src_line, wrkf1):  #
 	GENOTYPE1=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # split the sample's GENOTYPE fields 
 #	print (src_line1) #
 #	print (SAMPLE1) #
-	print (GENOTYPE1) #
+#	print (GENOTYPE1) #
 	if (population_frequency(src_line1[VPOT_conf.INFO_loc]) == 0 ): # check if variant with in filter
 #		print ("saving this variant1") #
 		VPOT_conf.gene_ref="NONE" #
@@ -514,14 +516,15 @@ def score_the_variants(): #
 			line_parts=re.split('\t|\n|\r',line1) # split the variant up
 #			print "line part 0 : ",line_parts[0] #
 			if ("#CHROM" != line_parts[0]): #
-#				print src_line1 #
+				logging.debug('variant line : %s', str(line1))
+				#print ("variant line : ",line1) #
 #				
 				if (len(VPOT_conf.PD_array) > 0 ) : #  
-					priority_score=prioritise_variants_by_predictors(line_parts[VPOT_conf.INFO_loc]) # get priority score
+					priority_score=prioritise_variants_by_predictors(line_parts[VPOT_conf.INFO_loc]) # get priority score for the PDs in variant
 				#
 				if (len(VPOT_conf.VT_array) > 0 ) : #   
 #				print "check VT" #
-					priority_score=priority_score+prioritise_variants_by_VT_types(line_parts[VPOT_conf.INFO_loc]) # 
+					priority_score=priority_score+prioritise_variants_by_VT_types(line_parts[VPOT_conf.INFO_loc]) # get priority score for the VT in the variant
 				#
 				if ( float(priority_score) <= 0 ) : # check priority score
 					priority_score=0 #
@@ -547,48 +550,82 @@ def prioritise_variants_by_predictors(INFO_details): #
 	type=2 #
 	a_value=a_score=0 #
 #
-	val=0 #
+	val=wrkval=pdval=0 # this is the predictor priority score
 	INFO1=re.split(';|=',INFO_details) # split into file location and sample id
-#	print INFO1 #
+#	print ("INFO1 - ",INFO1) #
 	for j in range(len(VPOT_conf.PD_array)): #
-#		print VT_array[j][1] # move to pred_array slot
 		for i, content in enumerate(INFO1): # return the value and index number of each item in the line array 
-#			print "content-",content,"/",i				#
+#			print ("content-",content,"/",i)				#
 			if (content == VPOT_conf.PD_array[j][1]) : # the predictor annotation we want? 
 				limit=len(VPOT_conf.PD_array[j]) # 
-#				print "PD_array: ", limit, VPOT_conf.PD_array[j] #
-#				print a_score, "/", a_value #
+#				print ("PD_array: ", limit, VPOT_conf.PD_array[j]) #
+#				print ("PD_array: ", limit, VPOT_conf.PD_array[j]) #
+				logging.debug('PD INFO1 : %s / %s', INFO1[i], INFO1[i+1])
+#				print ("PD INFO1: ", INFO1[i], INFO1[i+1]) #
 				a_value=type+1 #
 				a_score=a_value+1 #
-				if (VPOT_conf.PD_array[j][type] == "A") : # character field 
-					while (a_value < len(VPOT_conf.PD_array[j])-1) : # loop thru the options for predictor scores 
-						if ( INFO1[i+1] == VPOT_conf.PD_array[j][a_value] ) :		# is this the variant type we are looking for   
-							val=val+int(VPOT_conf.PD_array[j][a_score])	 		# yes - return the score for the variant 
-							break 										# finish 
-						a_value+=2	 # bump to next value option   
-						a_score+=2	 #   
-				else : # numeric field 
-#					if ( INFO1[i+1] != ".") :	 # if annotation then continue   
-					if ( VPOT_conf.is_number(INFO1[i+1]) ) : # numeric
-#						print INFO1[i+1] #
-						while (a_value < len(VPOT_conf.PD_array[j])-1) : # loop thru the options for predictor scores 
-#							print VPOT_conf.PD_array[j][a_value] #
-#							print "INFO1:", INFO1[i+1] #
-							if ( float(INFO1[i+1]) < float(VPOT_conf.PD_array[j][a_value])) :	 # is this the variant type we are looking for   
-								val=val+int(VPOT_conf.PD_array[j][a_score])	 		# yes - return the score for the variant 
+				pdval=0 #
+				predval=re.split('\||&',INFO1[i+1]) # split into individual values using delimiter | and & 
+#				print ("predval : ",predval) #
+#
+				for k in range(len(predval)): #
+					b_value=a_value #
+					b_score=a_score #
+					wrkval=0 #
+#
+					if (VPOT_conf.PD_array[j][type] == "A") : # character field 
+						while (b_value < len(VPOT_conf.PD_array[j])-1) : # loop thru the options for predictor scores 
+#							print ("compare A-PD : vcf annotation - ", predval[k], "PPF val - ",VPOT_conf.PD_array[j][b_value]) #
+							if ( predval[k] == VPOT_conf.PD_array[j][b_value] ) :		# is this the variant type we are looking for   
+								wrkval=int(VPOT_conf.PD_array[j][b_score])	 		# yes - return the score for the variant 
 								break 										# finish 
-#							work1=a_value+2 # end of this PD limits  
-#							print "work1:", work1 # end of this PD limits  
-#							if (work1 >= len(VPOT_conf.PD_array[j])-1) : # end of this PD limits  
-							if ( a_value+2 >= len(VPOT_conf.PD_array[j])-1) : # end of this PD limits  
-#								print ("checking last value") #
-								if ( float(INFO1[i+1]) > float(VPOT_conf.PD_array[j][a_value])) :	 # check the last value, which is a greater then check   
-									val=val+int(VPOT_conf.PD_array[j][a_score])	 		# yes - return the score for the variant 
-							a_value+=2	 # bump to next value option   
-							a_score+=2	 # 
-							
-#						print "a_score:", a_score #
-#						print "len:", len(VPOT_conf.PD_array[j]) #
+							b_value+=2	 # bump to next value option   
+							b_score+=2	 #   
+						if (wrkval > pdval ) : #check for higher predictor score
+							pdval=wrkval	
+#						while (a_value < len(VPOT_conf.PD_array[j])-1) : # loop thru the options for predictor scores 
+#							if ( INFO1[i+1] == VPOT_conf.PD_array[j][a_value] ) :		# is this the variant type we are looking for   
+#								val=val+int(VPOT_conf.PD_array[j][a_score])	 		# yes - return the score for the variant 
+#								break 										# finish 
+#							a_value+=2	 # bump to next value option   
+#							a_score+=2	 #   
+					else : # numeric field 
+#						if ( INFO1[i+1] != ".") :	 # if annotation then continue   
+						if ( VPOT_conf.is_number(predval[k]) ) : # numeric
+							while (b_value < len(VPOT_conf.PD_array[j])-1) : # loop thru the options for predictor scores 
+#								print ("compare N-PD : vcf annotation - ", predval[k], "PPF val - ",VPOT_conf.PD_array[j][b_value]) #
+								if ( float(predval[k]) < float(VPOT_conf.PD_array[j][b_value])) :	 # is this the variant type we are looking for   
+									wrkval=int(VPOT_conf.PD_array[j][b_score])	 		# yes - return the score for the variant 
+									break 										# finish 
+								if ( b_value+2 >= len(VPOT_conf.PD_array[j])-1) : # end of this PD limits  
+#									print ("checking last PD:") #
+									if ( float(predval[k]) > float(VPOT_conf.PD_array[j][b_value])) :	 # check the last value, which is a greater then check   
+										wrkval=int(VPOT_conf.PD_array[j][b_score])	 		# yes - return the score for the variant 
+								b_value+=2	 # bump to next value option   
+								b_score+=2	 # 
+							if (wrkval > pdval ) : #check for higher predictor score
+								pdval=wrkval	
+#						if ( VPOT_conf.is_number(INFO1[i+1]) ) : # numeric
+#							print INFO1[i+1] #
+#							while (a_value < len(VPOT_conf.PD_array[j])-1) : # loop thru the options for predictor scores 
+#								print VPOT_conf.PD_array[j][a_value] #
+	#							print "INFO1:", INFO1[i+1] #
+#								if ( float(INFO1[i+1]) < float(VPOT_conf.PD_array[j][a_value])) :	 # is this the variant type we are looking for   
+#									val=val+int(VPOT_conf.PD_array[j][a_score])	 		# yes - return the score for the variant 
+#									break 										# finish 
+	#							work1=a_value+2 # end of this PD limits  
+#								print "work1:", work1 # end of this PD limits  
+#								if ( a_value+2 >= len(VPOT_conf.PD_array[j])-1) : # end of this PD limits  
+#									print ("checking last value") #
+#									if ( float(INFO1[i+1]) > float(VPOT_conf.PD_array[j][a_value])) :	 # check the last value, which is a greater then check   
+#										val=val+int(VPOT_conf.PD_array[j][a_score])	 		# yes - return the score for the variant 
+#								a_value+=2	 # bump to next value option   
+#								a_score+=2	 # 
+#							
+	#						print "a_score:", a_score #
+#							print "len:", len(VPOT_conf.PD_array[j]) #
+#				print ("variant's PD score : ",pdval) #
+				val=val+pdval	 		# add to overall variant score 
 				break # done for this predictor annotation 
 #
 	return val #
@@ -601,20 +638,108 @@ def prioritise_variants_by_predictors(INFO_details): #
 def prioritise_variants_by_VT_types(INFO_details): #
 #
 #	global VT_array 
+	variant_INFO_array=[]
+	variant_INFO_val_array=[]
 #
 #	print "prioritise_variants_by_VT_types(INFO_details): " #
 #	print VT_array #
-	val=0 #
-	INFO1=re.split(';|=',INFO_details) # split into file location and sample id
-#	print INFO1 #
-	for j in range(len(VPOT_conf.VT_array)): #
-#		print VT_array[j][1] # move to pred_array slot
-		for i, content in enumerate(INFO1): # return the value and index number of each item in the line array 
-#			print "content-",content,"/",i				#
-			if (content == VPOT_conf.VT_array[j][1]) : # the variant functional annotation we want? 
-				if ( INFO1[i+1] == VPOT_conf.VT_array[j][2]) :	 # is this the variant type we are looking for   
-					val=val+int(VPOT_conf.VT_array[j][3])	 # yes - return the score for the variant 
+	val=wrkval=pdval=-999 # this is the predictor priority score
+	VT_already_stored=False# 
+	VT_found_for_variant=False #
+	VT_k_found=False #
+	VT_k_has_annotation=False #
+	VT_has_annotation_value_in_variant=False #
+	INFO1=re.split(';|=',INFO_details) # split into field name and values
+#	print ("Variant INFO1 :",INFO1) #
+	VT_array_size=len(VPOT_conf.VT_array)
+#	print ("number of VT lines in PPF :",VT_array_size) #
 #
+#   loop thru the PPF VT lines
+	for j in range(len(VPOT_conf.VT_array)): # move thru the VT lines in PPF
+#		print ("VT array :", VPOT_conf.VT_array[j]) # move to pred_array slot
+#
+# 		loop thru the variant's INFO details, working one VT PPF line at a time
+		for i, content in enumerate(INFO1): # return the value and index number of each item in the line array 
+#			print ("content-",content,"/",i)				#
+			if (content == VPOT_conf.VT_array[j][1]) : # the variant functional annotation we want? then save the annotation details for later use
+				VT_already_stored=False# 
+				if (len(variant_INFO_array) > 0) : # have I saved something already- yes
+					for v in range(len(variant_INFO_array)): # move thru the saved VT INFO fields
+						if (INFO1[i] == variant_INFO_array[v]) : # my current VT INFO is already saved? - yes, no need to save it again
+							VT_already_stored=True# 
+							break #
+				if (not VT_already_stored) : # if not already saved - then save the INFO field name and values
+						variant_INFO_array.append(INFO1[i])
+						variant_INFO_val_array.append(INFO1[i+1])
+	if (len(variant_INFO_array) < 1) : # NO VT INFO fields found
+#		print ("no VT INFO field to match the VT PPF lines") #
+		val=0	# then set a 0 score,
+		return val # no further processing
+######
+	logging.debug('VT WORK array : %s / %s', str(variant_INFO_array), str(variant_INFO_val_array))
+#	print ("VT WORK array :",variant_INFO_array, variant_INFO_val_array,"\n") #
+#####
+# now work these INFO fields
+	for v in range(len(variant_INFO_array)): # move thru the saved VT INFO fields
+#		print ("VT array :", VPOT_conf.VT_array[j]) # move to pred_array slot
+#		print ("content-",variant_INFO_array[v])				#
+#		print ("INFO_details : ",variant_INFO_val_array[v]) #
+		predval=re.split('\||&',variant_INFO_val_array[v]) # split into individual values using delimiter | and & 
+#
+		for k in range(len(predval)): # for the variant info fields
+			VT_k_has_annotation=False # initalise for this set of VT annotaion
+			VT_k_found=False # initalise for this set of VT annotaion
+#
+			for j in range(len(VPOT_conf.VT_array)): # move thru the VT lines in PPF
+				if (variant_INFO_array[v] == VPOT_conf.VT_array[j][1]) : # the variant functional annotation we want? 
+#					print ("compare VT : vcf annotation - ",predval[k],"/ PPF VT- ",VPOT_conf.VT_array[j])  #
+					if (predval[k] != ".") : # an annotated value
+						VT_k_has_annotation=True #
+						if ( predval[k] == VPOT_conf.VT_array[j][2]) :	 # is this the specific variant type we are looking for   
+							VT_k_found=True # found a match
+#							print ("vtfound") #
+							wrkval=int(VPOT_conf.VT_array[j][3])	 # yes - return the score for the variant
+							if (wrkval > val ) : #check for higher predictor score
+#								print ("new variant's VT score : ",wrkval) #
+								val=wrkval	
+							break # stop loop as this one has found a match
+					else : # there is no annotation for this INFO field
+						break
+				# end of for loop
+				#
+#			print ("setting the inds - found -", VT_k_found, "anno -", VT_k_has_annotation,"\n") # This annotation was found in PPF and scored
+			if (VT_k_found and VT_k_has_annotation) : # This annotation was found in PPF and scored
+				VT_found_for_variant=True
+			elif (VT_k_has_annotation) : # only had a valid annotation but not in PPF
+				VT_has_annotation_value_in_variant=True
+#
+# have finished checking all the VT lines in the PPF against variant
+# now determine what is the prority score to pass back for the variant.
+#
+#	print ("variant's before correction VT score : ",val) # this is the score based on matches to the PPF VT lines
+#
+	logging.debug('final inds - VT_found: %s / ANNO exit in variant - %s', VT_found_for_variant, VT_has_annotation_value_in_variant)
+#	print ("final inds - VT_found -", VT_found_for_variant, "ANNO exit in variant -", VT_has_annotation_value_in_variant,"\n") # This annotation was found in PPF and scored
+	if (not VT_found_for_variant and VT_has_annotation_value_in_variant and (val == -999 )) : # variant's annotations were not in any of the VT PPF 
+#		print ("no VT annotations matched in the PPF VT lines for the variant") #
+		val=0	# then set a 0 score,
+	elif (not VT_found_for_variant and not VT_has_annotation_value_in_variant ) : # no annotation found in the variant 
+#		print ("no VT annotations exist in the variant") #
+		val=0	# then set a 0 score,
+	elif (VT_found_for_variant and (val < 0 )) : # there was a match but only for low score
+#		print ("there was a match but only for low score") #
+		if (VT_has_annotation_value_in_variant) : # if there were other annotated values in the variant
+#			print ("but there were other VT annotation for variants not in PPF") #
+			val=0	# then set a 0 score,
+#			return val	# then OK
+#		else : # no other annotated field, so return the low value	
+#			print ("so return matched low value VT fields") #
+#			return val	# then OK
+#	elif (VT_found_for_variant and (val > 0 )) : # there was a match VT value from the PPF to the variant, and with a positive score 
+#		print ("matched VT fields") #
+#		return val	# then OK
+#	print ("variant's final VT score : ",val) #
+##
 	return val #
 ##
 #
