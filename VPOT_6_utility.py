@@ -4,7 +4,7 @@
 #
 import sys, re, glob, os, subprocess, time #
 import numpy as np #
-import VPOT_conf, VPOT_utility_convertVEP #
+import VPOT_conf, VPOT_6_1_convertVEP #
 from shutil import copyfile #
 #
 tab='\t' # 
@@ -78,7 +78,7 @@ def main(): #
 	if (VPOT_conf.ufunction=="convertVEP"): #
 #		print ("opt1") 
 		print ("VPOT : utility option - ", VPOT_conf.ufunction,"- selected.")
-		VPOT_utility_convertVEP.main()  #
+		VPOT_6_1_convertVEP.main()  #
 	else :
 		print ("VPOT : utility option - ", VPOT_conf.ufunction,"- not found ")
 #		
