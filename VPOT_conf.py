@@ -22,6 +22,8 @@ def init(): ##
 	output_dir="" #
 	global final_output_file #
 	final_output_file="" #
+	global ufunction #
+	ufunction="" #
 	global parameter_file #
 	parameter_file="" #
 	global gene_list #

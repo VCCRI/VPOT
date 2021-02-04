@@ -1,12 +1,13 @@
 ###########################################################################################################
 # VPOT - version 2 - 07/01/2021
-#                  - added code to handle multiple values in PD and VT fields in TXT file input, when transcript level preditor values are available
+#                  - added code to handle multiple values in PD and VT fields in TXT file input, when transcript level predictor values are available
+#                  - added code for a utility to convert VEP annotated VCF into standard format VCF which can be used by VPOT
 # VPOT - version 1 - 26/08/2020
 ###########################################################################################################
 #
 import sys, re, glob, os, subprocess, time #
 import numpy as np #
-import VPOT_conf, VPOT_1_prioritise, VPOT_2_Gene, VPOT_3_sample_selection, VPOT_4_stats, VPOT_5_merge #
+import VPOT_conf, VPOT_1_prioritise, VPOT_2_Gene, VPOT_3_sample_selection, VPOT_4_stats, VPOT_5_merge, VPOT_6_utility #
 from shutil import copyfile #
 #
 #
@@ -31,9 +32,12 @@ info_opt0_msg1=["#VPOT version 2 - 07/01/2021 ",
 "#           3: samplef - variant filtering ",
 "#           4: stats - variant statistics ",
 "#           5: merge - merge multiple VPOL output files into one consolidated VPOL file ",
+"#           6: utility - VPOT utilities ",
 "#inpt1=$2 # for tool ",
 "#           1+2+3+4+5 - location for output file+prefix ",
 "#              format -  /short/a32/exi569/WGS_model/variant_prioritisation_tool/output/B1",
+"#           6 - name of utility function ",
+"#              format -  convertVEP -  a utility function to convert VEP annotated VCF into a standard format VCF which can be used by VPOT ",
 "#inpt2=$3 # for tool ",
 "#           1 - file of input VCF files (1 VCF per line with tab delimiter to sample ID) ",
 "#               format -  /short/a32/exi569/WGS_model/variant_prioritisation_tool/test_inputs/B0_CVM8_split.hg19_multianno.nonintergenic.nonintronic.vcf<tab>SKDP-32.3 ",
@@ -41,6 +45,9 @@ info_opt0_msg1=["#VPOT version 2 - 07/01/2021 ",
 "#               format -  /short/a32/exi569/WGS_model/variant_prioritisation_tool/output/final_pV1.txt ",
 "#           5 - location of VPOL input file for merge" ,
 "#               format -  /short/a32/exi569/WGS_model/variant_prioritisation_tool/output/final_pV1.txt ",
+"#           6 - depends on utility" ,
+"#             - convertVEP - location of VEP annotated VCF" ,
+"#               format -  /short/a32/exi569/WGS_model/variant_prioritisation_tool/output/VEP_original.vcf ",
 "#inpt3=$4 # for tool ",
 "#           1 - prioritisation parameters file ",
 "#           2 - file of genes for filter/selection - format -  ACTC1 ",
@@ -52,18 +59,25 @@ info_opt0_msg1=["#VPOT version 2 - 07/01/2021 ",
 "#                     - Note: if there are more samples than the ones stated, then they do not influence the variant selection. ",
 "#           4 - variants in this percentile to include in gene breakdown", #
 "#           5 - Not used ", #
+"#           6 - depends on utility", #
+"#             - convertVEP - name of converted VEP annotated VCF", #
+"#               format -  /short/a32/exi569/WGS_model/variant_prioritisation_tool/output/VEP_original_converted.vcf ",
 "#inpt4=$5 # for tool ",
 "#           1 - Not used ",
 "#           2 - Not used ",
 "#           3 - Sample ID to apply inheritance model filter, if supplied ",
 "#           4 - Not used ", #
 "#           5 - Not used ", #
+"#           6 - depends on utility", #
+"#             - convertVEP - not used", #
 "#inpt5=$6 # for tool ",
 "#           1 - Not used ",
 "#           2 - Not used ",
 "#           3 - Inheritance model - DN - DeNovo, AD - Autosomal Dominant, AR - Autosomal Recessive, CH - compound Hete, if sample ID supplied ",
 "#           4 - Not used ", #
-"#           5 - Not used "] #
+"#           5 - Not used ", #
+"#           6 - depends on utility", #
+"#             - convertVEP - not used"] #
 #
 input_type_VCF=True #
 sample_loc=-1 #
@@ -136,6 +150,9 @@ def main(): #
 	elif (VPOT_conf.VPOT_option=="merge"): #
 #		print ("opt5") 
 		VPOT_5_merge.main() #
+	elif (VPOT_conf.VPOT_option=="utility"): #
+#		print ("opt6") 
+		VPOT_6_utility.main() #
 	elif (VPOT_conf.VPOT_option=="help"): #
 		for j in range(len(info_opt0_msg1)): #
 			print (info_opt0_msg1[j]) #
