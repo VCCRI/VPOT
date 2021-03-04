@@ -136,6 +136,17 @@ Test example  :
  result  :  
   - a VPOL output file will be created containing all the variants and samples from the VPOLs inside the test_merge_VPOL_list.txt.  
 
+## 6. Utility Option    
+**utility**     - general VPOT utilties
+ 
+this option provide the ability to use different utilities available in the VPOT program suite.
+
+ | Utility name | Description  | command string |
+|--|--|--|
+|convertVEP  | convert a VEP annotated VCF to standard format VCF  | python3 VPOT.py utility convertVEP < location of input VEP annotated VCF file> < location of output standard VCF file>|
+
+More details regarding each utility can be found in the input files setup section for "utility" option below.
+
 
 # INPUT FILES SETUP
 
@@ -344,4 +355,17 @@ Test example  :
  
  **see test_merge_VPOL_list.txt in the test_data directory for format example.**
 
-   
+   ##  6. INPUT PARAMETERS FOR OPTION UTILITIES
+   ### 6.1. convertVEP  
+
+ This utility convert a VEP annotated VCF, which contain INFO annotation that are in a specific VEP format for multiple transcripts into a standard format VCF.  
+ 
+   **Command line** : python3 VPOT.py utility convertVEP <location of input VEP annotated VCF file> < location of output standard VCF file>    
+
+Test example  :     
+   - change to test_data directory
+ - python3 ../VPOT.py utility convertVEP merge test_vep_original.vcf test_vep_converted.vcf   
+
+ result  :  
+  - a VCF that follows the VCF format standard, which can be used as input to VPOT.  
+ 
