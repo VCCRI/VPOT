@@ -3,7 +3,7 @@
 ###########################################################################################################
 #
 import sys, re, glob, os, subprocess, time #
-import numpy as np #
+import numpy as np ##
 import VPOT_conf, VPOT_1_1_VCF, VPOT_1_2_TXT #
 from shutil import copyfile #
 #
@@ -29,7 +29,7 @@ info_msg1_4="VPOT: 3) prioritisation parameters file"
 info_msg2="VPOT: Parameter file supplied" #
 info_msg3_1="VPOT: A parameter file was created for these inputs files, please review and update :" #
 info_msg3_2="VPOT: File is located at : " #
-info_msg4="VPOT: At least one predictor or Exonic_annotation must be supplied in the parameter file. " #
+info_msg4="VPOT ERROR: At least one predictor or Exonic_annotation must be supplied in the parameter file. " #
 #
 input_type_VCF=True #
 #txt_start=-1 #
@@ -309,9 +309,10 @@ def main(): #
 					VPOT_1_1_VCF.score_the_variants() #
 				else : # txt input
 					VPOT_1_2_TXT.score_the_variants() #
+				create_final_output_file() #V2
 			else : #
 				print (info_msg4) #
 	#
-			create_final_output_file() #
+##V2			create_final_output_file() #
 #
 ###########################################################################################################

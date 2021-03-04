@@ -1,0 +1,36 @@
+PF	Population_filter	Value
+PF	C_AF_TOT	1.001	LE
+PF	ExAC_ALL	1.001	LE
+PF	1000g2015aug_all	1.001	LE
+PF	VC_freq	1.1	LE
+PD	Predictors	Type	Low	Value	Mid	Value	High	Value
+PD	Polyphen2_HDIV_pred	A	B	0	P	2	D	4	-999	1
+PD	Polyphen2_HVAR_pred	A	B	0	P	2	D	4	-999	1
+PD	CADD_phred	N	-998	1	10	0	20	2	20	4
+PD	MCAP	N	0	0	0.025	0	0.025	4
+PD	SIFT_pred	A	T	0	D	2	-999	1
+PD	LRT_pred	A	N	0	U	0	D	2	-999	1
+PD	MutationAssessor_pred	A	N	0	L	0	M	1	H	2	-999	1
+PD	MutationTaster_pred	A	N	0	L	0	A	2	D	2
+PD	FATHMM_pred	A	T	0	D	2	-999	1
+PD	PROVEAN_pred	A	N	0	D	2	-999	1
+PD	MetaSVM_pred	A	T	0	D	2	-999	1
+PD	GERP++_RS	N	-998	1	4	0	6	1	6	2
+PD	phyloP20way_mammalian	N	-998	1	0.9	0	1	1	1	2
+PD	SiPhy_29way_logOdds	N	-998	1	12	0	16	1	16	2
+PD	CLINVAR20210110_CLNSIG	A	Pathogenic	2
+VT	Variant_annotation	Exception_variant_types	Value
+VT	ExonicFunc.refGene	splicing	35
+VT	ExonicFunc.refGene	stopgain	50
+VT	ExonicFunc.refGene	stoploss	50
+VT	ExonicFunc.refGene	frameshift_insertion	45
+VT	ExonicFunc.refGene	frameshift_deletion	45
+VT	ExonicFunc.refGene	synonymous_SNV	-28
+VT	VEP_Consequence	stop_gained	60
+GN	Gene Symbol
+GN	Gene.refGene
+#QC	Quality Control	Value
+#QC	Coverage	8
+#QC	Hete_Balance	25
+#VS	Variant Score Threshold	Value
+#VS	Score	0

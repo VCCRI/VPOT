@@ -1,0 +1,8 @@
+test_vep_original_converted.vcf	19W001100
+test_vep_original_converted.vcf	20W000663
+test_vep_original_converted.vcf	20W000664
+test_vep_original_converted.vcf	20W000763
+test_vep_original_converted.vcf	20W000815
+test_vep_original_converted.vcf	20W001464
+test_vep_original_converted.vcf	20W001465
+test_vep_original_converted.vcf	20W001466

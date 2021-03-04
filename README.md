@@ -7,6 +7,7 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
 * samplef   - samples and inheritance model filtering
 * stats     - general statistics on the VPOT priority output file
 * merge     - merge multiple VPOT priority output files into a single VPOT priority output file
+* utility     - VPOT utilities 
 
 ### Requirements
 * Python 3.6.+ and NumPy
@@ -80,14 +81,23 @@ VPOT is a Python tool written to allow prioritisation of variants in ANNOVAR ann
         
     Output :
     * merged VPOT Priority Output List (VPOL) 
+    
+ * **utilities**     - VPOT utilities.     
+       
+		    Utility 1 : convertVEP - this utility convert VEP annotated VCF into the standard VCF format.
+				    Inputs :
+					* full pathname of input VEP annotated VCF file
+				    * full pathname of output VCF file, including directory path 
+        
+				    Output :
+					 * standard VCF 
                                                                                                                                   
 ## see README.MD in the test_data directory for more details on each function.
 
-## Citation 
-Eddie Ip, Gavin Chapman, David Winlaw, Sally L. Dunwoodie, Eleni Giannoulatou
-
-VPOT: A Customizable Variant Prioritization Ordering Tool for Annotated Variants
-
+## 
+Citation 
+Eddie Ip, Gavin Chapman, David Winlaw, Sally L. Dunwoodie, Eleni Giannoulatou,
+VPOT: A Customizable Variant Prioritization Ordering Tool for Annotated Variants,
 Genomics, Proteomics & Bioinformatics,
 Volume 17, Issue 5,
 2019,

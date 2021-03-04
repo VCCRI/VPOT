@@ -1,7 +1,7 @@
 PF	Population_filter	Value
-PF	C_AF_TOT	0.001	LE
-PF	ExAC_ALL	0.001	LE
-PF	1000g2015aug_all	0.001	LE
+#PF	C_AF_TOT	0.001	LE
+PF	ExAC_ALL	1.001	LE
+#PF	1000g2015aug_all	0.001	LE
 PD	Predictors	Type	Low	Value	Mid	Value	High	Value
 PD	Polyphen2_HDIV_pred	A	B	0	P	2	D	4	-999	1
 PD	Polyphen2_HVAR_pred	A	B	0	P	2	D	4	-999	1
@@ -10,7 +10,7 @@ PD	MCAP	N	0	0	0.025	0	0.025	4
 PD	SIFT_pred	A	T	0	D	2	-999	1
 PD	LRT_pred	A	N	0	U	0	D	2	-999	1
 PD	MutationAssessor_pred	A	N	0	L	0	M	1	H	2	-999	1
-PD	MutationTaster_pred	A	N	0	L	0	A	2	D	2
+PD	MutationTaster_pred	A	N	0	L	0	A	2	D	3	P	2
 PD	FATHMM_pred	A	T	0	D	2	-999	1
 PD	PROVEAN_pred	A	N	0	D	2	-999	1
 PD	MetaSVM_pred	A	T	0	D	2	-999	1
@@ -24,10 +24,12 @@ VT	ExonicFunc.refGene	stoploss	50
 VT	ExonicFunc.refGene	frameshift_insertion	45
 VT	ExonicFunc.refGene	frameshift_deletion	45
 VT	ExonicFunc.refGene	synonymous_SNV	-28
+VT	VARIANT_TYPE	exonic_nonframeshift_deletion_	100
+VT	VARIANT_TYPE	exonic_stopgain_	200
 GN	Gene Symbol
 GN	Gene.refGene
-QC	Quality Control	Value
-QC	Coverage	8
-QC	Hete_Balance	25
-VS	Variant Score Threshold	Value
-VS	Score	14
+#QC	Quality Control	Value
+#QC	Coverage	8
+#QC	Hete_Balance	25
+#VS	Variant Score Threshold	Value
+#VS	Score	14
