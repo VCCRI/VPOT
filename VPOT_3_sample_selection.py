@@ -116,6 +116,9 @@ def setup_working_ped(): # create a ped file suitable for the inheritance model 
 				elif (VPOT_conf.inh_model == "AR" ):  # for recessive?
 					this_line[5]="2" # set as affected
 					temp_ped_file1.write("\t".join(this_line)+nl) # write the line to final output file 
+				elif (VPOT_conf.inh_model == "DN" ):  # for denovo, make sure parent is unaffected
+					this_line[5]="1" # set as unaffected
+					temp_ped_file1.write("\t".join(this_line)+nl) # write the line to final output file 
 				else : # any other model
 					temp_ped_file1.write(line1) # write the line to final output file 
 			if (this_line[1] == p2_id ):  # is this a parental id?
@@ -127,6 +130,9 @@ def setup_working_ped(): # create a ped file suitable for the inheritance model 
 					temp_ped_file1.write("\t".join(this_line)+nl) # write the line to final output file 
 				elif (VPOT_conf.inh_model == "AR" ):  # for recessive?
 					this_line[5]="2" # set as affected
+					temp_ped_file1.write("\t".join(this_line)+nl) # write the line to final output file 
+				elif (VPOT_conf.inh_model == "DN" ):  # for denovo, make sure parent is unaffected
+					this_line[5]="1" # set as unaffected
 					temp_ped_file1.write("\t".join(this_line)+nl) # write the line to final output file 
 				else : # any other model
 					temp_ped_file1.write(line1) # write the line to final output file 
@@ -250,6 +256,7 @@ def main(): #
 		return #
 	#
 # Now filter the input file by gene list 
+	print ("Sample filtering model used :", VPOT_conf.inh_model) #
 	if (VPOT_conf.inh_model=="NONE"): #
 		extract_the_variants() #
 	elif (VPOT_conf.inh_model in VPOT_conf.Inheritance_model) : # check inheritance model
