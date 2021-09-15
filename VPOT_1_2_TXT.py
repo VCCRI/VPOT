@@ -275,7 +275,9 @@ def work_this_src_file(file_line): #
 						VPOT_conf.QC_PASS=True # Yes
 #					print ("QC_PASS",VPOT_conf.QC_PASS) #
 #						print ("add") #
-					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
+#						print ("add") #
+#					Allow for phased genotypes like 0|1
+					GT_values=re.split('[|/]',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
 # 	 				print GT_values #
 					for j in range(len(GT_values)) : #
 #					print GT_values[j] #
@@ -303,7 +305,8 @@ def check_this_variant(src_line, wrkf1):  #
 #
 	src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 	SAMPLE1=re.split(':',src_line1[VPOT_conf.sample_loc]) # split the sample's FORMAT fields 
-	GENOTYPE1=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # split the sample's GENOTYPE fields 
+#	Allow for phased genotypes - e.g. 0|1
+	GENOTYPE1=re.split('[|/]',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # split the sample's GENOTYPE fields 
 	header1=re.split('\t|\n|\r',VPOT_conf.header_ln) # split into file location and sample id
 #	print "header : ",VPOT_conf.header_ln #
 #	print (src_line1) #

@@ -370,7 +370,9 @@ def work_this_src_file_1(source_vcf, wrkf1): #
 						if (int((Alt_reads/Sample_coverage)*100) >= int(VPOT_conf.Hete_Balance)) : # Pas QC for coverage and balance
 							VPOT_conf.QC_PASS=True # Yes
 #							print ("QC_PASS",VPOT_conf.QC_PASS) #
-					GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
+#					allow for normal 0/1 vs phased 0|1 genotypes
+					GT_values=re.split('[|/]',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
+					#GT_values=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # get the genotype fields
 #				print GT_values #
 					for j in range(len(GT_values)) : #
 #					print (GT_values[j]) #
@@ -418,7 +420,9 @@ def check_this_variant(src_line, wrkf1):  #
 #
 	src_line1=re.split('\t|\n|\r',src_line) # split into file location and sample id
 	SAMPLE1=re.split(':',src_line1[VPOT_conf.sample_loc]) # split the sample's FORMAT fields 
-	GENOTYPE1=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # split the sample's GENOTYPE fields 
+	# allow for normal 0/1 vs phased 0|1 genotypes
+	GENOTYPE1=re.split('[|/]',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # split the sample's GENOTYPE fields 
+	#GENOTYPE1=re.split('/',SAMPLE1[VPOT_conf.sample_coverage_loc[VPOT_conf.GT_val]]) # split the sample's GENOTYPE fields 
 #	print (src_line1) #
 #	print (SAMPLE1) #
 #	print (GENOTYPE1) #
