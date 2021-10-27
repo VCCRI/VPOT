@@ -1,5 +1,5 @@
 ###########################################################################################################
-# VPOT - version 3 - 07/09/2021
+# VPOT - version 3 - 15/09/2021
 #                  - added code to handle phased genotypes
 # VPOT - version 2 - 07/01/2021
 #                  - added code to handle multiple values in PD and VT fields in TXT file input, when transcript level predictor values are available
