@@ -1,4 +1,6 @@
 ###########################################################################################################
+# VPOT - version 3 - 07/09/2021
+#                  - added code to handle phased genotypes
 # VPOT - version 2 - 07/01/2021
 #                  - added code to handle multiple values in PD and VT fields in TXT file input, when transcript level predictor values are available
 #                  - added code for a utility to convert VEP annotated VCF into standard format VCF which can be used by VPOT
@@ -25,7 +27,7 @@ Maxval=28 # allow for max of 28 characters values for an alpha predictor.
 Maxcoverage=0 # read coverage of sample must be equal or greater then this to included 
 Non_alt_GT_types = ["0","."] #
 # for main VPOT prioritisation option 1
-info_opt0_msg1=["#VPOT version 2 - 07/01/2021 ",
+info_opt0_msg1=["#VPOT version 3 - 07/09/2021 ",
 "#tools=$1 # which tool to use -   ",
 "#           1: priority - priority tool     ",
 "#           2: genef - gene filter       ",
